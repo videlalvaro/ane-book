@@ -49,9 +49,10 @@ def check_residency(mlmodelc_path: Path, shard_type: str, verbose: bool = False)
     try:
         from coremltools.models._model import MLComputePlan  # type: ignore
     except ImportError:
-        # Fall back to loading the model and checking compute units via description
+        # Fall back: load the .mlpackage (mlmodelc is a compiled binary with no Manifest.json)
         print("  MLComputePlan not available — using compute_units=ALL heuristic")
-        model = ct.models.MLModel(str(mlmodelc_path))
+        pkg_path = mlmodelc_path.with_suffix(".mlpackage")
+        model = ct.models.MLModel(str(pkg_path))
         print(f"  Model loaded OK. Spec: {model.get_spec().WhichOneof('Type')}")
         return True
 
@@ -106,7 +107,10 @@ def run_inference_check(mlmodelc_path: Path, shard_type: str) -> bool:
     except ImportError:
         raise SystemExit("coremltools not found")
 
-    model = ct.models.MLModel(str(mlmodelc_path), compute_units=ct.ComputeUnit.ALL)
+    model = ct.models.MLModel(
+        str(mlmodelc_path.with_suffix(".mlpackage")),
+        compute_units=ct.ComputeUnit.ALL,
+    )
 
     H = HIDDEN_SIZE
     L = CONV_L_CACHE

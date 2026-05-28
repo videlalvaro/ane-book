@@ -408,11 +408,17 @@ def load_weights_for_layer(st, layer_idx: int, verbose: bool = False):
 
 
 def load_global_weights(st) -> dict:
-    """Load embedding, final norm, lm_head weights."""
+    """Load embedding, final norm, lm_head weights.
+
+    lm_head.weight is NOT a separate key in the checkpoint: it is tied to
+    model.embed_tokens.weight (tie_word_embeddings=True in config.json).
+    The HF serializer omits the duplicate; we reuse the same tensor.
+    """
+    embed = st.get_tensor("model.embed_tokens.weight").to(torch.float32)
     return {
-        "embed_tokens": st.get_tensor("model.embed_tokens.weight").to(torch.float32),
+        "embed_tokens": embed,
         "embedding_norm": st.get_tensor("model.embedding_norm.weight").to(torch.float32),
-        "lm_head": st.get_tensor("lm_head.weight").to(torch.float32),  # tied = embed_tokens
+        "lm_head": embed,  # tied — same tensor, no separate checkpoint key
     }
 
 
@@ -484,17 +490,19 @@ def populate_dense_layer_shard(module: ANEDenseLayerShard, w: dict, layer_idx: i
 
 
 def populate_moe_half(module: ANEMoEHalf, w: dict, expert_start: int):
-    """Fill ANEMoEHalf with weights for experts [expert_start, expert_start+16)."""
-    gate_up_all = w["feed_forward.experts.gate_up_proj"]   # [32, 2*1792, 2048]
-    down_all    = w["feed_forward.experts.down_proj"]       # [32, 2048, 1792]
+    """Fill ANEMoEHalf with per-expert weights for experts [expert_start, expert_start+N).
 
-    D = MOE_INTERMEDIATE   # 1792
+    Checkpoint stores weights per-expert as separate tensors:
+      feed_forward.experts.{E}.w1.weight  [D, H]  gate projection (SiLU input)
+      feed_forward.experts.{E}.w3.weight  [D, H]  up projection   (elementwise mul)
+      feed_forward.experts.{E}.w2.weight  [H, D]  down projection
+    Naming follows SwiGLU convention: output = down(silu(w1(x)) * w3(x)).
+    """
     for i in range(module.N):
-        expert_idx = expert_start + i
-        gu = gate_up_all[expert_idx]          # [2*D, H]
-        gate_w = gu[:D]                        # [D, H]
-        up_w   = gu[D:]                        # [D, H]
-        down_w = down_all[expert_idx]          # [H, D]
+        e = expert_start + i
+        gate_w = w[f"feed_forward.experts.{e}.w1.weight"]  # [D, H]
+        up_w   = w[f"feed_forward.experts.{e}.w3.weight"]  # [D, H]
+        down_w = w[f"feed_forward.experts.{e}.w2.weight"]  # [H, D]
 
         getattr(module, f"gate_proj_{i}").weight.data = gate_w.unsqueeze(-1).unsqueeze(-1)
         getattr(module, f"up_proj_{i}").weight.data   = up_w.unsqueeze(-1).unsqueeze(-1)
@@ -512,7 +520,7 @@ def _quantize_int8(mlmodel):
         from coremltools.optimize.coreml import (
             OptimizationConfig,
             OpLinearQuantizerConfig,
-            linearly_quantize_weights,
+            linear_quantize_weights,
         )
     except ImportError:
         raise SystemExit("coremltools not found — run with Xcode python3")
@@ -523,7 +531,7 @@ def _quantize_int8(mlmodel):
         weight_threshold=1024,
     )
     config = OptimizationConfig(global_config=op_cfg)
-    return linearly_quantize_weights(mlmodel, config)
+    return linear_quantize_weights(mlmodel, config)
 
 
 def convert_module(
