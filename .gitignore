@@ -1,0 +1,29 @@
+# .gitignore for ane-models
+
+# Model weights (large binary files — download separately)
+models/**/*.gguf
+models/**/*.safetensors
+models/**/*.bin
+models/**/model-*.safetensors
+
+# CoreML compiled artifacts (rebuilt locally)
+**/*.mlmodelc/
+**/*.mlpackage/
+
+# Python envs
+.venv/
+.venv313/
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Xcode / CoreML temp
+*.mlmodel
+cml_tmp/
+
+# Build outputs
+target/
+build/
