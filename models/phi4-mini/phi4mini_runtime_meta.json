@@ -1,0 +1,69 @@
+{
+  "artifacts_version": 1,
+  "model_family": "Phi 4 Mini Instruct",
+  "gguf": "models/Phi-4-mini-instruct.Q8_0.gguf",
+  "d_model": 3072,
+  "n_heads": 24,
+  "n_kv_heads": 8,
+  "d_head": 128,
+  "rope_dim": 96,
+  "d_ff": 8192,
+  "vocab_size": 200064,
+  "n_layers": 32,
+  "max_seq_len": 2048,
+  "rms_norm_eps": 9.999999747378752e-06,
+  "rope_freq_base": 10000.0,
+  "eos_token_id": 200020,
+  "bos_token_id": 199999,
+  "tie_word_embeddings": true,
+  "quant_bits": 8,
+  "embed_bin": "phi4mini_token_embd_fp16.bin",
+  "layers": [
+    {
+      "start": 0,
+      "end": 20,
+      "path": "phi4mini_layer0_20_q8.mlmodelc"
+    },
+    {
+      "start": 20,
+      "end": 24,
+      "path": "phi4mini_layer20_24_q8.mlmodelc"
+    },
+    {
+      "start": 24,
+      "end": 30,
+      "path": "phi4mini_layer24_30_q8.mlmodelc"
+    },
+    {
+      "start": 30,
+      "end": 32,
+      "path": "phi4mini_layer30_32_q8.mlmodelc"
+    }
+  ],
+  "lm_head_shards": [
+    {
+      "shard_idx": 0,
+      "vocab_start": 0,
+      "vocab_end": 50016,
+      "mlmodelc": "lm_head_shards/Phi4MiniLMHead_s0_q8.mlmodelc"
+    },
+    {
+      "shard_idx": 1,
+      "vocab_start": 50016,
+      "vocab_end": 100032,
+      "mlmodelc": "lm_head_shards/Phi4MiniLMHead_s1_q8.mlmodelc"
+    },
+    {
+      "shard_idx": 2,
+      "vocab_start": 100032,
+      "vocab_end": 150048,
+      "mlmodelc": "lm_head_shards/Phi4MiniLMHead_s2_q8.mlmodelc"
+    },
+    {
+      "shard_idx": 3,
+      "vocab_start": 150048,
+      "vocab_end": 200064,
+      "mlmodelc": "lm_head_shards/Phi4MiniLMHead_s3_q8.mlmodelc"
+    }
+  ]
+}
