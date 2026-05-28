@@ -119,6 +119,7 @@ USE_EXPERT_BIAS      = True
 ROUTED_SCALING       = 1.0
 
 MOE_EXPERTS_PER_HALF = NUM_EXPERTS // 2   # 16 experts per shard
+MAX_SEQ             = 2048              # pre-allocated KV cache depth for attention shards
 
 # ---------------------------------------------------------------------------
 # ANE-compatible PyTorch modules
@@ -350,6 +351,136 @@ class ANEAttnOperatorShard(nn.Module):
         return updated_hidden, new_k, new_v, ffn_normed, routing_weights
 
 
+class ANEAttnDecodeFixed(nn.Module):
+    """GQA decode shard with fixed-size KV cache (all shapes static → ANE-only).
+
+    KV cache is pre-allocated to MAX_SEQ tokens and updated via one-hot write_mask
+    scatter (elementwise only — no dynamic reshape). GQA is unrolled over n_kv_heads=8
+    at trace time → 8 static matmul chains, zero branches in the MIL program.
+
+    Inputs:
+      hidden      [1, H,      1,       1]
+      k_cache     [1, KV_DIM, MAX_SEQ, 1]  pre-allocated, all zeros at step 0
+      v_cache     [1, KV_DIM, MAX_SEQ, 1]
+      write_mask  [1, 1,      MAX_SEQ, 1]  one-hot: 1.0 at current position
+      attn_mask   [1, 1,      1,       MAX_SEQ]  0=attend, -1e4=future/padding
+      cos         [1, HEAD_DIM, 1,     1]  RoPE cosines for current position
+      sin         [1, HEAD_DIM, 1,     1]  RoPE sines for current position
+
+    Outputs: updated_hidden, new_k, new_v, ffn_normed, routing_weights
+
+    Book refs:
+      [Dragon Book §9.2] GQA loop unrolled at trace time: 8 kv-head chains
+        compiled into a single branch-free MIL program (same principle as MoE).
+      [Knuth Vol 3 §5.2] Fixed-size pre-allocated cache with one-hot scatter
+        = Knuth's address-calculation insertion into a static table.
+    """
+    def __init__(
+        self,
+        hidden_size:  int,
+        n_heads:      int,
+        n_kv_heads:   int,
+        head_dim:     int,
+        n_experts:    int,
+        max_seq:      int,
+    ):
+        super().__init__()
+        H      = hidden_size
+        Q_DIM  = n_heads   * head_dim   # 2048
+        KV_DIM = n_kv_heads * head_dim  # 512
+        self.n_heads     = n_heads      # 32
+        self.n_kv_heads  = n_kv_heads   # 8
+        self.head_dim    = head_dim     # 64
+        self.n_kv_groups = n_heads // n_kv_heads  # 4
+        self.max_seq     = max_seq
+
+        self.operator_norm = ANERMSNorm(H)
+        self.q_proj        = nn.Conv2d(H,      Q_DIM,     1, bias=False)
+        self.k_proj        = nn.Conv2d(H,      KV_DIM,    1, bias=False)
+        self.v_proj        = nn.Conv2d(H,      KV_DIM,    1, bias=False)
+        self.q_layernorm   = ANERMSNorm(head_dim)
+        self.k_layernorm   = ANERMSNorm(head_dim)
+        self.out_proj      = nn.Conv2d(Q_DIM,  H,         1, bias=False)
+        self.ffn_norm      = ANERMSNorm(H)
+        self.router        = nn.Conv2d(H,      n_experts, 1, bias=False)
+
+    def forward(
+        self,
+        hidden:     torch.Tensor,   # [1, H,       1,       1]
+        k_cache:    torch.Tensor,   # [1, KV_DIM,  MAX_SEQ, 1]
+        v_cache:    torch.Tensor,   # [1, KV_DIM,  MAX_SEQ, 1]
+        write_mask: torch.Tensor,   # [1, 1,       MAX_SEQ, 1]  one-hot
+        attn_mask:  torch.Tensor,   # [1, 1,       1,       MAX_SEQ]
+        cos:        torch.Tensor,   # [1, head_dim, 1,      1]
+        sin:        torch.Tensor,   # [1, head_dim, 1,      1]
+    ):
+        H      = self.n_heads    * self.head_dim   # 2048
+        KV_DIM = self.n_kv_heads * self.head_dim   # 512
+        dh     = self.head_dim                      # 64
+        dh2    = dh // 2                            # 32
+
+        normed = self.operator_norm(hidden)    # [1, H, 1, 1]
+
+        # QKV projections
+        q = self.q_proj(normed)   # [1, H,      1, 1]
+        k = self.k_proj(normed)   # [1, KV_DIM, 1, 1]
+        v = self.v_proj(normed)   # [1, KV_DIM, 1, 1]
+
+        # Per-head QK-norm (LFM2 applies RMSNorm per head before RoPE)
+        q_h = q.reshape(1, dh, self.n_heads,    1)   # [1, 64, 32, 1]
+        k_h = k.reshape(1, dh, self.n_kv_heads, 1)   # [1, 64,  8, 1]
+        q_h = self.q_layernorm(q_h)
+        k_h = self.k_layernorm(k_h)
+
+        # RoPE — standard rotate_half; cos/sin [1, head_dim, 1, 1] broadcast over heads
+        q1, q2 = q_h[:, :dh2, :, :], q_h[:, dh2:, :, :]
+        k1, k2 = k_h[:, :dh2, :, :], k_h[:, dh2:, :, :]
+        q_rot = q_h * cos + torch.cat([-q2, q1], dim=1) * sin   # [1, 64, 32, 1]
+        k_rot = k_h * cos + torch.cat([-k2, k1], dim=1) * sin   # [1, 64,  8, 1]
+        q_rot = q_rot.reshape(1, H,      1, 1)                   # [1, 2048, 1, 1]
+        k_rot = k_rot.reshape(1, KV_DIM, 1, 1)                   # [1,  512, 1, 1]
+
+        # KV cache scatter-write: one-hot write_mask broadcasts over KV_DIM
+        # All shapes fixed → no RangeDim needed, purely static ANE graph
+        new_k = k_cache * (1 - write_mask) + k_rot * write_mask  # [1, KV_DIM, MAX_SEQ, 1]
+        new_v = v_cache * (1 - write_mask) + v     * write_mask  # [1, KV_DIM, MAX_SEQ, 1]
+
+        # GQA decode attention — loop unrolled over n_kv_heads=8 at trace time
+        # Each iteration: 1 key head × n_kv_groups=4 query heads  [Dragon Book §9.2]
+        scale = dh ** -0.5
+        attn_chunks = []
+        for kv_i in range(self.n_kv_heads):
+            q_s = kv_i * self.n_kv_groups * dh
+            k_s = kv_i * dh
+            k_e = k_s + dh
+
+            # q group: [1, n_kv_groups, 1, dh]
+            q_g = q_rot[:, q_s : q_s + self.n_kv_groups * dh, :, :]
+            q_g = q_g.reshape(1, self.n_kv_groups, 1, dh)       # [1, 4, 1, 64]
+
+            # k/v slice for this head: [1, dh, MAX_SEQ, 1]
+            k_hi = new_k[:, k_s:k_e, :, :].reshape(1, 1, dh, self.max_seq)  # [1, 1, 64, S]
+            v_hi = new_v[:, k_s:k_e, :, :].permute(0, 3, 2, 1)             # [1, 1, S, 64]
+
+            # Attention scores: [1,4,1,64] × [1,1,64,S] → [1,4,1,S]
+            scores  = torch.matmul(q_g, k_hi) * scale
+            scores  = scores + attn_mask                    # causal mask broadcast
+            weights = F.softmax(scores, dim=-1)             # [1, 4, 1, S]
+
+            # Weighted value: [1,4,1,S] × [1,1,S,64] → [1,4,1,64]
+            out_i = torch.matmul(weights, v_hi)
+            out_i = out_i.reshape(1, self.n_kv_groups * dh, 1, 1)
+            attn_chunks.append(out_i)
+
+        attn_out = torch.cat(attn_chunks, dim=1)   # [1, H, 1, 1]
+        attn_result    = self.out_proj(attn_out)
+        updated_hidden = hidden + attn_result
+
+        ffn_normed      = self.ffn_norm(updated_hidden)
+        routing_weights = torch.sigmoid(self.router(ffn_normed))  # [1, 32, 1, 1]
+        return updated_hidden, new_k, new_v, ffn_normed, routing_weights
+
+
 class ANEDenseLayerShard(nn.Module):
     """Layers 0, 1: conv operator + dense MLP (no MoE). All-in-one shard."""
     def __init__(self, hidden_size: int, intermediate_size: int, L_cache: int):
@@ -487,6 +618,25 @@ def populate_dense_layer_shard(module: ANEDenseLayerShard, w: dict, layer_idx: i
     ffn.w1.weight.data = w["feed_forward.w1.weight"].unsqueeze(-1).unsqueeze(-1)
     ffn.w3.weight.data = w["feed_forward.w3.weight"].unsqueeze(-1).unsqueeze(-1)
     ffn.w2.weight.data = w["feed_forward.w2.weight"].unsqueeze(-1).unsqueeze(-1)
+
+
+def populate_attn_decode_fixed(module: ANEAttnDecodeFixed, w: dict):
+    """Fill ANEAttnDecodeFixed with weights from the layer weight dict.
+
+    Same key names as populate_attn_operator_shard — the two classes share
+    the same checkpoint key layout.
+    """
+    module.operator_norm.weight.data = w["operator_norm.weight"].view(HIDDEN_SIZE)
+    module.ffn_norm.weight.data       = w["ffn_norm.weight"].view(HIDDEN_SIZE)
+
+    module.q_proj.weight.data   = w["self_attn.q_proj.weight"].unsqueeze(-1).unsqueeze(-1)
+    module.k_proj.weight.data   = w["self_attn.k_proj.weight"].unsqueeze(-1).unsqueeze(-1)
+    module.v_proj.weight.data   = w["self_attn.v_proj.weight"].unsqueeze(-1).unsqueeze(-1)
+    module.out_proj.weight.data = w["self_attn.out_proj.weight"].unsqueeze(-1).unsqueeze(-1)
+
+    module.q_layernorm.weight.data = w["self_attn.q_layernorm.weight"].view(HEAD_DIM)
+    module.k_layernorm.weight.data = w["self_attn.k_layernorm.weight"].view(HEAD_DIM)
+    module.router.weight.data      = w["feed_forward.gate.weight"].unsqueeze(-1).unsqueeze(-1)
 
 
 def populate_moe_half(module: ANEMoEHalf, w: dict, expert_start: int):
@@ -644,6 +794,65 @@ def convert_conv_operator_shard(layer_idx: int, w: dict, out_dir: Path, compile:
         compile_mlpackage(pkg, out_dir)
 
 
+def convert_attn_operator_shard(
+    layer_idx: int,
+    w: dict,
+    out_dir: Path,
+    compile: bool = True,
+):
+    """Convert one full_attention operator shard (GQA decode, fixed MAX_SEQ cache).
+
+    Shard budget: ~20 MB INT8 (projections: q=4MB, k=1MB, v=1MB, o=4MB; norms/router small)
+    — well under 250 MB ANE ceiling.
+    Shard inputs:  hidden, k_cache[MAX_SEQ], v_cache[MAX_SEQ], write_mask, attn_mask, cos, sin
+    Shard outputs: updated_hidden, new_k, new_v, ffn_normed, routing_weights
+    """
+    print(f"[Layer {layer_idx}] attention operator shard (GQA decode, MAX_SEQ={MAX_SEQ})")
+    KV_DIM = NUM_KV_HEADS * HEAD_DIM   # 512
+
+    module = ANEAttnDecodeFixed(
+        HIDDEN_SIZE, NUM_ATTN_HEADS, NUM_KV_HEADS, HEAD_DIM, NUM_EXPERTS, MAX_SEQ
+    )
+    populate_attn_decode_fixed(module, w)
+
+    # Example inputs for tracing — first decode step: empty cache, write to pos 0
+    example_hidden     = torch.randn(1, HIDDEN_SIZE, 1, 1)
+    example_k_cache    = torch.zeros(1, KV_DIM, MAX_SEQ, 1)
+    example_v_cache    = torch.zeros(1, KV_DIM, MAX_SEQ, 1)
+    example_write_mask = torch.zeros(1, 1, MAX_SEQ, 1)
+    example_write_mask[0, 0, 0, 0] = 1.0              # write to position 0
+    example_attn_mask  = torch.full((1, 1, 1, MAX_SEQ), -1e4)
+    example_attn_mask[0, 0, 0, 0]  = 0.0              # attend to position 0
+    example_cos = torch.ones( 1, HEAD_DIM, 1, 1)
+    example_sin = torch.zeros(1, HEAD_DIM, 1, 1)
+
+    try:
+        import coremltools as ct
+    except ImportError:
+        raise SystemExit("coremltools not found")
+
+    pkg = convert_module(
+        module,
+        (
+            example_hidden, example_k_cache, example_v_cache,
+            example_write_mask, example_attn_mask, example_cos, example_sin,
+        ),
+        [
+            ct.TensorType(name="hidden",      shape=example_hidden.shape),
+            ct.TensorType(name="k_cache",     shape=example_k_cache.shape),
+            ct.TensorType(name="v_cache",     shape=example_v_cache.shape),
+            ct.TensorType(name="write_mask",  shape=example_write_mask.shape),
+            ct.TensorType(name="attn_mask",   shape=example_attn_mask.shape),
+            ct.TensorType(name="cos",         shape=example_cos.shape),
+            ct.TensorType(name="sin",         shape=example_sin.shape),
+        ],
+        ["updated_hidden", "new_k", "new_v", "ffn_normed", "routing_weights"],
+        out_dir / f"lfm25_attn_layer{layer_idx}",
+    )
+    if compile:
+        compile_mlpackage(pkg, out_dir)
+
+
 def convert_moe_half_shard(
     layer_idx: int,
     w: dict,
@@ -775,8 +984,7 @@ def main() -> int:
                 convert_moe_half_shard(layer_idx, w, half=1, out_dir=args.out_dir, compile=compile)
             else:
                 # Attention operator shard + 2 MoE half-shards
-                # (Attention shard conversion skipped here — same as phi4_mini pattern)
-                print(f"  [skip] attention shard — use phi4_mini_export_runtime.py pattern for attn")
+                convert_attn_operator_shard(layer_idx, w, args.out_dir, compile=compile)
                 convert_moe_half_shard(layer_idx, w, half=0, out_dir=args.out_dir, compile=compile)
                 convert_moe_half_shard(layer_idx, w, half=1, out_dir=args.out_dir, compile=compile)
 

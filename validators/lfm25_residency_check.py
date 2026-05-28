@@ -33,10 +33,13 @@ import argparse
 import sys
 from pathlib import Path
 
-HIDDEN_SIZE   = 2048
-MOE_INT       = 1792
-CONV_L_CACHE  = 3
+HIDDEN_SIZE    = 2048
+MOE_INT        = 1792
+CONV_L_CACHE   = 3
 N_EXPERTS_HALF = 16
+KV_DIM         = 8 * 64   # n_kv_heads * head_dim = 512
+HEAD_DIM       = 64
+MAX_SEQ        = 2048
 
 
 def check_residency(mlmodelc_path: Path, shard_type: str, verbose: bool = False) -> bool:
@@ -139,6 +142,21 @@ def run_inference_check(mlmodelc_path: Path, shard_type: str) -> bool:
             "hidden": np.random.randn(1, H, 1, 1).astype(np.float32),
         }
         expected_keys = {"logits_half0"}  # or half1
+    elif shard_type == "attn":
+        write_mask = np.zeros((1, 1, MAX_SEQ, 1), dtype=np.float32)
+        write_mask[0, 0, 0, 0] = 1.0
+        attn_mask = np.full((1, 1, 1, MAX_SEQ), -1e4, dtype=np.float32)
+        attn_mask[0, 0, 0, 0] = 0.0
+        inputs = {
+            "hidden":     np.random.randn(1, H, 1, 1).astype(np.float32),
+            "k_cache":    np.zeros((1, KV_DIM, MAX_SEQ, 1), dtype=np.float32),
+            "v_cache":    np.zeros((1, KV_DIM, MAX_SEQ, 1), dtype=np.float32),
+            "write_mask": write_mask,
+            "attn_mask":  attn_mask,
+            "cos":        np.ones( (1, HEAD_DIM, 1, 1), dtype=np.float32),
+            "sin":        np.zeros((1, HEAD_DIM, 1, 1), dtype=np.float32),
+        }
+        expected_keys = {"updated_hidden", "new_k", "new_v", "ffn_normed", "routing_weights"}
     else:
         print(f"  Unknown shard type: {shard_type}")
         return False
@@ -160,7 +178,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="LFM2.5 ANE residency check")
     parser.add_argument("--shard", type=Path, required=True,
                         help="Path to .mlmodelc shard to check")
-    parser.add_argument("--shard-type", choices=["dense", "conv-operator", "moe-half", "lm-head"],
+    parser.add_argument("--shard-type", choices=["dense", "conv-operator", "moe-half", "lm-head", "attn"],
                         default="conv-operator",
                         help="Shard type for inference test")
     parser.add_argument("--verbose", action="store_true",
