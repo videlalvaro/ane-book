@@ -49,6 +49,8 @@ private struct LFM25Config {
     static let numKVHeads         = 8
     static let headDim            = 64
     static let numAttentionLayers = 6   // at indices 2, 6, 10, 14, 18, 21
+    static let kvDim              = 512  // n_kv_heads * head_dim = 8 * 64
+    static let maxSeq             = 2048 // pre-allocated KV cache depth
     
     // Layer type: true = full_attention, false = conv
     static let isAttentionLayer: [Bool] = [
@@ -73,8 +75,11 @@ final class LFM25ANE {
     // Dense layers 0, 1
     private var denseLayers: [MLModel] = []
     
-    // Operator shards (conv or attn), for MoE layers only
+    // Operator shards (conv), for non-attention MoE layers
     private var opShards: [Int: MLModel] = [:]
+    
+    // Attention operator shards: [layer_idx] → MLModel
+    private var attnShards: [Int: MLModel] = [:]
     
     // MoE expert-half shards: [layer_idx: (moe0, moe1)]
     private var moeShards: [Int: (MLModel, MLModel)] = [:]
@@ -104,7 +109,10 @@ final class LFM25ANE {
         
         // Operator + MoE shards for layers 2-23
         for i in LFM25Config.numDenseLayers..<LFM25Config.numLayers {
-            if !LFM25Config.isAttentionLayer[i] {
+            if LFM25Config.isAttentionLayer[i] {
+                let attnURL = modelDir.appendingPathComponent("lfm25_attn_layer\(i).mlmodelc")
+                attnShards[i] = try MLModel(contentsOf: attnURL, configuration: cfg)
+            } else {
                 let opURL = modelDir.appendingPathComponent("lfm25_op_layer\(i).mlmodelc")
                 opShards[i] = try MLModel(contentsOf: opURL, configuration: cfg)
             }
@@ -153,8 +161,9 @@ final class LFM25ANE {
         // ShortConv states: [layer_idx] → [1, H, L, 1]
         var convStates: [Int: MLMultiArray]
         
-        // KV cache for attention layers: [layer_idx] → (k, v)
-        // k, v shape: [1, n_kv_heads * head_dim, T, 1]
+        // KV caches for attention layers: [layer_idx] → (k_cache, v_cache)
+        // Both pre-allocated to [1, KV_DIM, MAX_SEQ, 1] and zero-filled.
+        // Updated each step via one-hot write_mask scatter inside the ANE shard.
         var kvCaches: [Int: (MLMultiArray, MLMultiArray)]
         
         // Current decode position
@@ -173,8 +182,19 @@ final class LFM25ANE {
                 convStates[i] = state
             }
             
+            var kvCaches: [Int: (MLMultiArray, MLMultiArray)] = [:]
+            let KV  = LFM25Config.kvDim
+            let SEQ = LFM25Config.maxSeq
+            for i in 0..<numLayers where LFM25Config.isAttentionLayer[i] {
+                let k = try MLMultiArray(shape: [1, KV, SEQ, 1] as [NSNumber], dataType: .float32)
+                let v = try MLMultiArray(shape: [1, KV, SEQ, 1] as [NSNumber], dataType: .float32)
+                // Zero-fill (empty cache at start of sequence)
+                for j in 0..<k.count { k[j] = 0.0; v[j] = 0.0 }
+                kvCaches[i] = (k, v)
+            }
+            
             // KV caches start empty — grow as tokens are generated
-            return DecodeState(convStates: convStates, kvCaches: [:], position: 0)
+            return DecodeState(convStates: convStates, kvCaches: kvCaches, position: 0)
         }
     }
     
@@ -202,12 +222,10 @@ final class LFM25ANE {
     /// Returns the argmax next token ID.
     func step(tokenId: Int, state: inout DecodeState) throws -> Int {
         var hidden = try embed(tokenId: tokenId)
-        let H = LFM25Config.hiddenSize
         
         for layerIdx in 0..<LFM25Config.numLayers {
             let isDense = layerIdx < LFM25Config.numDenseLayers
             let isAttn  = LFM25Config.isAttentionLayer[layerIdx]
-            let hasMoE  = LFM25Config.hasMoE[layerIdx]
             
             if isDense {
                 // ── Dense layer (0, 1): single shard ─────────────────────
@@ -282,7 +300,6 @@ final class LFM25ANE {
         moe0: MLModel,
         moe1: MLModel
     ) throws -> MLMultiArray {
-        let H = LFM25Config.hiddenSize
         let N = LFM25Config.expertsPerHalf
         
         // Split routing_weights [1, 32, 1, 1] into two halves [1, 16, 1, 1]
@@ -308,7 +325,7 @@ final class LFM25ANE {
     }
     
     // -----------------------------------------------------------------------
-    // MARK: Attention helper (pending stateful GQA implementation)
+    // MARK: Attention helper (fixed MAX_SEQ=2048 KV cache, ANE shard)
     // -----------------------------------------------------------------------
     
     private func runAttentionLayer(
@@ -316,7 +333,62 @@ final class LFM25ANE {
         hidden: MLMultiArray,
         state: inout DecodeState
     ) throws -> (MLMultiArray, MLMultiArray, MLMultiArray, MLMultiArray, MLMultiArray) {
-        throw LFM25Error.attentionShardNotImplemented(layerIdx)
+        let model = attnShards[layerIdx]!
+        let (kCache, vCache) = state.kvCaches[layerIdx]!
+        let pos = state.position
+        let SEQ = LFM25Config.maxSeq
+        let dh  = LFM25Config.headDim
+        
+        // write_mask: one-hot at current decode position [1, 1, MAX_SEQ, 1]
+        let writeMask = try MLMultiArray(shape: [1, 1, SEQ, 1] as [NSNumber], dataType: .float32)
+        for j in 0..<SEQ { writeMask[j] = 0.0 }
+        writeMask[min(pos, SEQ - 1)] = 1.0
+        
+        // attn_mask: 0 for positions 0..pos, -1e4 for future positions [1, 1, 1, MAX_SEQ]
+        let attnMask = try MLMultiArray(shape: [1, 1, 1, SEQ] as [NSNumber], dataType: .float32)
+        for j in 0..<SEQ {
+            attnMask[j] = NSNumber(value: j <= pos ? Float(0) : Float(-1e4))
+        }
+        
+        // RoPE cos/sin for current position [1, head_dim, 1, 1]
+        // theta = 5_000_000.0 (LFM2.5 rope_theta)
+        let cos = try MLMultiArray(shape: [1, dh, 1, 1] as [NSNumber], dataType: .float32)
+        let sin = try MLMultiArray(shape: [1, dh, 1, 1] as [NSNumber], dataType: .float32)
+        let ropeTheta = Float(5_000_000.0)
+        let halfDh = dh / 2
+        for i in 0..<halfDh {
+            let freq = 1.0 / pow(ropeTheta, Float(2 * i) / Float(dh))
+            let angle = Float(pos) * freq
+            let c = Foundation.cos(angle)
+            let s = Foundation.sin(angle)
+            // rotate_half layout: first half = cos, second half = cos (same for both)
+            cos[i]          = NSNumber(value: c)
+            cos[halfDh + i] = NSNumber(value: c)
+            sin[i]          = NSNumber(value: s)
+            sin[halfDh + i] = NSNumber(value: s)
+        }
+        
+        let inputs = try MLDictionaryFeatureProvider(dictionary: [
+            "hidden":     hidden,
+            "k_cache":    kCache,
+            "v_cache":    vCache,
+            "write_mask": writeMask,
+            "attn_mask":  attnMask,
+            "cos":        cos,
+            "sin":        sin,
+        ])
+        let out = try model.prediction(from: inputs)
+        
+        let updatedHidden  = out.featureValue(for: "updated_hidden")!.multiArrayValue!
+        let newK           = out.featureValue(for: "new_k")!.multiArrayValue!
+        let newV           = out.featureValue(for: "new_v")!.multiArrayValue!
+        let ffnNormed      = out.featureValue(for: "ffn_normed")!.multiArrayValue!
+        let routingWeights = out.featureValue(for: "routing_weights")!.multiArrayValue!
+        
+        // Update KV cache in state (shard returns full updated cache)
+        state.kvCaches[layerIdx] = (newK, newV)
+        
+        return (updatedHidden, newK, newV, ffnNormed, routingWeights)
     }
     
     // -----------------------------------------------------------------------
@@ -425,7 +497,6 @@ enum LFM25Error: Error, LocalizedError {
     case embeddingShapeMismatch(Int, Int)
     case invalidTokenId(Int)
     case shardNotFound(String)
-    case attentionShardNotImplemented(Int)
     
     var errorDescription: String? {
         switch self {
@@ -435,8 +506,6 @@ enum LFM25Error: Error, LocalizedError {
             return "Token ID \(id) out of range (vocab_size=\(LFM25Config.vocabSize))"
         case .shardNotFound(let name):
             return "Shard not found: \(name)"
-        case .attentionShardNotImplemented(let layerIdx):
-            return "Attention layer \(layerIdx) is not implemented yet; add the GQA MLState shard before full decoding"
         }
     }
 }
