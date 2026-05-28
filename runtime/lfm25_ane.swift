@@ -190,7 +190,7 @@ final class LFM25ANE {
         let H = LFM25Config.hiddenSize
         let arr = try MLMultiArray(shape: [1, H, 1, 1] as [NSNumber], dataType: .float32)
         let emb = embeddings[tokenId]
-        for i in 0..<H { arr[i + 1] = NSNumber(value: emb[i]) }
+        for i in 0..<H { arr[i] = NSNumber(value: emb[i]) }
         return arr
     }
     
@@ -225,7 +225,7 @@ final class LFM25ANE {
                 // ── Attention layer: GQA with KV cache ───────────────────
                 // (KV cache management in real deployment uses MLState;
                 //  shown here as explicit input/output for clarity)
-                let (updatedHidden, newK, newV, ffnNormed, routingWeights) =
+                let (updatedHidden, _, _, ffnNormed, routingWeights) =
                     try runAttentionLayer(layerIdx: layerIdx, hidden: hidden, state: &state)
                 
                 hidden = updatedHidden
@@ -308,7 +308,7 @@ final class LFM25ANE {
     }
     
     // -----------------------------------------------------------------------
-    // MARK: Attention helper (stub — replace with full stateful impl)
+    // MARK: Attention helper (pending stateful GQA implementation)
     // -----------------------------------------------------------------------
     
     private func runAttentionLayer(
@@ -316,24 +316,7 @@ final class LFM25ANE {
         hidden: MLMultiArray,
         state: inout DecodeState
     ) throws -> (MLMultiArray, MLMultiArray, MLMultiArray, MLMultiArray, MLMultiArray) {
-        // Placeholder: attention shard loading follows phi4_mini_export_runtime pattern.
-        // Full implementation uses MLState for KV cache (same as book/05-stateful-kv-cache.md).
-        // The attn op shard (loaded in opShards[layerIdx]) takes:
-        //   hidden [1,H,1,1], k_cache [1,KV_DIM,T,1], v_cache [1,KV_DIM,T,1], cos, sin
-        // and returns:
-        //   updated_hidden, new_k, new_v, ffn_normed, routing_weights
-        //
-        // For now, return identity (no-op stub) — produces valid output shapes
-        let identity = hidden
-        let ffnNormed = hidden  // TODO: apply ffn_norm
-        let rw = try MLMultiArray(
-            shape: [1, NSNumber(value: LFM25Config.numExperts), 1, 1],
-            dataType: .float32
-        )
-        for i in 0..<rw.count { rw[i] = NSNumber(value: 1.0 / Float(LFM25Config.numExperts)) }
-        let fakeK = try MLMultiArray(shape: [1, NSNumber(value: LFM25Config.numKVHeads * LFM25Config.headDim), 1, 1], dataType: .float32)
-        let fakeV = try MLMultiArray(shape: [1, NSNumber(value: LFM25Config.numKVHeads * LFM25Config.headDim), 1, 1], dataType: .float32)
-        return (identity, fakeK, fakeV, ffnNormed, rw)
+        throw LFM25Error.attentionShardNotImplemented(layerIdx)
     }
     
     // -----------------------------------------------------------------------
@@ -374,7 +357,7 @@ final class LFM25ANE {
         let H = LFM25Config.hiddenSize
         let result = try MLMultiArray(shape: [1, H, 1, 1] as [NSNumber], dataType: .float32)
         for i in 0..<H {
-            result[i + 1] = NSNumber(value: a[i + 1].floatValue + b[i + 1].floatValue)
+            result[i] = NSNumber(value: a[i].floatValue + b[i].floatValue)
         }
         return result
     }
@@ -384,13 +367,13 @@ final class LFM25ANE {
         let H = LFM25Config.hiddenSize
         // Compute variance, rsqrt, scale
         var sumSq: Float = 0
-        for i in 0..<H { let v = hidden[i + 1].floatValue; sumSq += v * v }
+        for i in 0..<H { let v = hidden[i].floatValue; sumSq += v * v }
         let scale = 1.0 / sqrt(sumSq / Float(H) + 1e-5)
         let result = try MLMultiArray(shape: [1, H, 1, 1] as [NSNumber], dataType: .float32)
         for i in 0..<H {
-            let normed = hidden[i + 1].floatValue * scale
+            let normed = hidden[i].floatValue * scale
             let w = embNormWeight.isEmpty ? 1.0 : embNormWeight[i]
-            result[i + 1] = NSNumber(value: normed * w)
+            result[i] = NSNumber(value: normed * w)
         }
         return result
     }
@@ -401,8 +384,6 @@ final class LFM25ANE {
     ) throws -> MLMultiArray {
         let out = try MLMultiArray(shape: [1, NSNumber(value: count), 1, 1], dataType: .float32)
         for i in 0..<count {
-            // rw layout: [1, 32, 1, 1] — index in channel dim
-            let srcIdx = 1 * LFM25Config.numExperts * 1 * 1   // stride calculation
             out[i] = rw[start + i]
         }
         return out
@@ -444,6 +425,7 @@ enum LFM25Error: Error, LocalizedError {
     case embeddingShapeMismatch(Int, Int)
     case invalidTokenId(Int)
     case shardNotFound(String)
+    case attentionShardNotImplemented(Int)
     
     var errorDescription: String? {
         switch self {
@@ -453,6 +435,8 @@ enum LFM25Error: Error, LocalizedError {
             return "Token ID \(id) out of range (vocab_size=\(LFM25Config.vocabSize))"
         case .shardNotFound(let name):
             return "Shard not found: \(name)"
+        case .attentionShardNotImplemented(let layerIdx):
+            return "Attention layer \(layerIdx) is not implemented yet; add the GQA MLState shard before full decoding"
         }
     }
 }
