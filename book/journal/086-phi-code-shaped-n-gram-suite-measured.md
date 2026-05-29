@@ -15,7 +15,7 @@ title: "Journal 086 - Phi Code-Shaped N-Gram Suite Measured"
 
 **Surprise / hurdle**: Acceptance is high enough to be interesting, but this still does not reduce latency until a verifier can validate and commit multiple proposed tokens while keeping KV state correct.
 
-**Lesson**: Prompt-lookup speculation has real signal on code-shaped token streams. The next public optimization should target verifier mechanics, not private API roundtrips.
+**Lesson**: Prompt-lookup speculation has real signal on code-shaped token streams. The next public optimization should target verifier mechanics, not unsupported runtime path roundtrips.
 
 **Next**: Build the smallest public batch-token verifier probe or prove that public `MLState` cannot support cheap rollback/commit; keep baseline greedy decode unchanged until exactness is preserved.
 

@@ -559,8 +559,8 @@ patterns across entries rather than decorate individual notes.
 
 Insert near the top of the journal.
 
-Diagram: horizontal timeline with color-coded swimlanes: Phi shard search, E5
-private API, public runtime, speculative decode, HyMT/ZAYA/Gemma. This gives
+Diagram: horizontal timeline with color-coded swimlanes: Phi shard search,
+unsupported stream path, public runtime, speculative decode, HyMT/ZAYA/Gemma. This gives
 readers a way to orient before the dense journal entries.
 
 Format: static SVG.
@@ -569,7 +569,7 @@ Priority: high.
 
 ### 9.2 Phi Shard Evolution
 
-Insert around the Phi entries before the private E5 investigation.
+Insert around the Phi entries before the unsupported stream path investigation.
 
 Diagram: progression from 1-layer shards to 3-layer, 4-layer, 20+4+6+2. Use
 small bars over a 32-layer ruler.
@@ -578,12 +578,12 @@ Format: static SVG.
 
 Priority: medium.
 
-### 9.3 E5 Private API Investigation Map
+### 9.3 stream-level Unsupported Runtime Investigation Map
 
-Insert around the E5 chain entries.
+Insert around the stream-level chain entries.
 
-Diagram: explored path map: ObjC reflection -> operation handles -> event bind
--> raw memory bridge -> one-stream timing reality check. Mark the final public
+Diagram: explored path map: CoreML reflection -> operation handles -> event bind
+-> memory bridge -> one-stream timing reality check. Mark the final public
 decision boundary.
 
 Format: static SVG.

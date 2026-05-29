@@ -7,7 +7,7 @@ title: "Journal 073 - Phi LM-Head Shard Count Sweep on Best Topology"
 
 # 2026-04-28 - Phi LM-Head Shard Count Sweep on Best Topology
 
-**Intent**: Test whether changing LM-head shard count improves the remaining `~5 ms/token` LM-head wall time after private E5 chaining proved low leverage for the current layer topology.
+**Intent**: Test whether changing LM-head shard count improves the remaining `~5 ms/token` LM-head wall time after unsupported stream path chaining proved low leverage for the current layer topology.
 
 **Setup**: Generated comparable runtime manifests for the same `16+8+6+2` layer stack with 3-way and 8-way LM-head shards, reusing existing compiled artifacts. Ran strict `MLComputePlan` residency on every 3-way and 8-way LM-head shard before accepting the benchmark comparison; all passed with `compute_non_ane=0`. Profile command shape matched the 4-way baseline: 5 warmup calls, 30 generated tokens, `--profile`.
 

@@ -7,7 +7,7 @@ title: "Journal 085 - Phi N-Gram Proposal Probe Added"
 
 # 2026-04-29 - Phi N-Gram Proposal Probe Added
 
-**Intent**: Try a public n-gram/prompt-lookup direction without resorting to private E5 APIs and without changing exact greedy decode behavior.
+**Intent**: Try a public n-gram/prompt-lookup direction without resorting to unsupported stream path APIs and without changing exact greedy decode behavior.
 
 **Setup**: Added `--ngram-probe`, `--ngram-min`, and `--ngram-max` to [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift). The probe runs normal greedy decode and records whether the current token history has a prior suffix match whose following token would have proposed the model's actual next token.
 

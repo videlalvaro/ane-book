@@ -150,8 +150,8 @@ CoreML is a compiler that takes a PyTorch or TorchScript model and emits an
 
 ![CoreML compile and dispatch pipeline](assets/diagrams/00-why-ane/coreml-dispatch-pipeline.svg)
 
-- `model.espresso.net` — the network graph as a flatbuffer
-- `model.espresso.shape` — tensor shape metadata
+- `compiled graph metadata` — the network graph metadata
+- `compiled shape metadata` — tensor shape metadata
 - `*.mlmodelc/Data/com.apple.CoreML/weights/` — quantized weight blobs
 
 At runtime, the CoreML framework dispatches ops to one of three backends:

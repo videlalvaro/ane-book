@@ -3,11 +3,11 @@ layout: default
 title: "Journal 074 - Phi Long-Decode Topology Baseline Moves to 20+4+6+2"
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Previous: Journal 073</a> | <a href="075-phi-private-e5-timing-on-20-4-6-2.html">Next: Journal 075</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Previous: Journal 073</a> | <a href="075-phi-stream-timing-on-20-4-6-2.html">Next: Journal 075</a></nav>
 
 # 2026-04-28 - Phi Long-Decode Topology Baseline Moves to 20+4+6+2
 
-**Intent**: Re-check existing fused layer topologies after private E5 timing showed boundary removal was low leverage and the layer stack remained the dominant cost.
+**Intent**: Re-check existing fused layer topologies after unsupported stream path timing showed boundary removal was low leverage and the layer stack remained the dominant cost.
 
 **Setup**: Profiled existing public CoreML manifests with the same 4-way LM head, 10 warmup calls, 100 generated tokens, and `--profile`. Ran strict residency on the `20+4+6+2` layer shards and numerical range golden gates for `[0,20)` and `[20,24)`.
 
@@ -23,4 +23,4 @@ title: "Journal 074 - Phi Long-Decode Topology Baseline Moves to 20+4+6+2"
 
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Previous: Journal 073</a> | <a href="075-phi-private-e5-timing-on-20-4-6-2.html">Next: Journal 075</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Previous: Journal 073</a> | <a href="075-phi-stream-timing-on-20-4-6-2.html">Next: Journal 075</a></nav>

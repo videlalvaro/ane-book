@@ -3,7 +3,7 @@ layout: default
 title: "Journal 055 - Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome"
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="054-phi-4-mini-twenty-layer-front-shard-intent.html">Previous: Journal 054</a> | <a href="056-private-ane-chaining-investigation-intent.html">Next: Journal 056</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="054-phi-4-mini-twenty-layer-front-shard-intent.html">Previous: Journal 054</a> | <a href="056-stream-dispatch-investigation-intent.html">Next: Journal 056</a></nav>
 
 # 2026-04-28 - Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome
 
@@ -23,4 +23,4 @@ title: "Journal 055 - Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome"
 
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="054-phi-4-mini-twenty-layer-front-shard-intent.html">Previous: Journal 054</a> | <a href="056-private-ane-chaining-investigation-intent.html">Next: Journal 056</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="054-phi-4-mini-twenty-layer-front-shard-intent.html">Previous: Journal 054</a> | <a href="056-stream-dispatch-investigation-intent.html">Next: Journal 056</a></nav>

@@ -120,9 +120,14 @@ ane-book/
 
 `research/` contains findings that don't fit in the how-to chapters:
 
-- [ANE_CHAIN_SCHEMA.md](research/ANE_CHAIN_SCHEMA.md) — ObjC runtime reflection of the ANE private API
+- [ANE_CHAIN_SCHEMA.md](research/ANE_CHAIN_SCHEMA.md) — public-safe ANE execution-model notes from black-box CoreML experiments
 - [ANE_SCALING_FINDINGS.md](research/ANE_SCALING_FINDINGS.md) — 0.5B → 3B scaling limits
 - [INT4_SHARD_ANE_BUG.md](research/INT4_SHARD_ANE_BUG.md) — The silent CPU fallback with INT4 per-block
+
+The runnable code in this repository uses public CoreML APIs only. Research
+notes may summarize black-box observations of CoreML and ANE behavior, but the
+converters, validators, and Swift runtimes do not require unsupported Apple
+frameworks, unsupported entitlements, or direct ANE driver access.
 
 ---
 

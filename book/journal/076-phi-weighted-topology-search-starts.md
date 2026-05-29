@@ -3,7 +3,7 @@ layout: default
 title: "Journal 076 - Phi Weighted Topology Search Starts"
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="075-phi-private-e5-timing-on-20-4-6-2.html">Previous: Journal 075</a> | <a href="077-phi-20-5-5-2-tail-probe.html">Next: Journal 077</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="075-phi-stream-timing-on-20-4-6-2.html">Previous: Journal 075</a> | <a href="077-phi-20-5-5-2-tail-probe.html">Next: Journal 077</a></nav>
 
 # 2026-04-28 - Phi Weighted Topology Search Starts
 
@@ -23,4 +23,4 @@ title: "Journal 076 - Phi Weighted Topology Search Starts"
 
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="075-phi-private-e5-timing-on-20-4-6-2.html">Previous: Journal 075</a> | <a href="077-phi-20-5-5-2-tail-probe.html">Next: Journal 077</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="075-phi-stream-timing-on-20-4-6-2.html">Previous: Journal 075</a> | <a href="077-phi-20-5-5-2-tail-probe.html">Next: Journal 077</a></nav>

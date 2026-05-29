@@ -23,7 +23,7 @@ overwritten when the runtime feeds the target fallback token at that same
 position. If all `T` draft tokens are accepted, the block state is already the
 correct committed state.
 
-Therefore the public design does not need private E5 or full-state copy/rollback.
+Therefore the public design does not need unsupported stream path or full-state copy/rollback.
 It needs a static block verifier graph:
 
 ```text
@@ -122,9 +122,9 @@ exactness guard. Treat current `--speculative` as experimental.
 **RangeDim unification (2026-05-12)**:
 Co-loading separate T=1 and T=4 shard sets in one process exceeded ANE's
 ~3 GB per-process DRAM limit — error -14. `EnumeratedShapes` was rejected by
-E5RT for stateful `MLState` models with `std::bad_cast`. The fix is
+stream runtime for stateful `MLState` models with `std::bad_cast`. The fix is
 `ct.RangeDim(lower_bound=1, upper_bound=4, default=1)`: a single compiled
-program that E5RT JIT-specialises for T=1 and T=4 on first use per process,
+program that stream runtime JIT-specialises for T=1 and T=4 on first use per process,
 eliminating the co-load problem entirely.
 
 All four shards rebuilt with RangeDim, strict residency confirmed:
@@ -148,7 +148,7 @@ Warm throughput measured via daemon benchmark (`python/phi4_mini_rangedim_bench.
 | Cold T=1 JIT per process | ~112 s |
 | Cold T=4 JIT per process | ~133 s |
 
-E5RT JIT-compiles separate specialisations per T value on first use in each
+stream runtime JIT-compiles separate specialisations per T value on first use in each
 process. A single resident daemon amortises that cost across all requests.
 Manifest: `phi4mini_runtime_meta_rope96_rangedim_20_4_6_2.json`.
 Shards: `local-artifacts/phi4_mini_ane_rangedim/`.

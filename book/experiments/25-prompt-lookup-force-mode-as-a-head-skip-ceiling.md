@@ -13,7 +13,7 @@ CoreML `MLState.withMultiArray(for:)` state access
 Public CoreML state access is better than expected: Python exposes
 `MLState.read_state`/`write_state`, and the Swift SDK exposes
 `MLState.withMultiArray(for:)`. This means exact state copy is possible without
-private API. It does not by itself create speculative speedup, because copying
+unsupported runtime path. It does not by itself create speculative speedup, because copying
 the full Phi KV cache is a large host memory transfer and a single-token verifier
 still performs one ANE layer pass per target token. Real pass-count speedup still
 needs batch-token layer artifacts or another way to verify multiple tokens per

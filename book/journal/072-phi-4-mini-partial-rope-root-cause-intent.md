@@ -3,7 +3,7 @@ layout: default
 title: "Journal 072 - Phi-4-mini Partial-RoPE Root Cause Intent"
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="071-phi-private-e5-one-stream-timing-reality-check.html">Previous: Journal 071</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Next: Journal 073</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="071-phi-stream-one-stream-timing-reality-check.html">Previous: Journal 071</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Next: Journal 073</a></nav>
 
 # 2026-04-29 - Phi-4-mini Partial-RoPE Root Cause Intent
 
@@ -23,4 +23,4 @@ title: "Journal 072 - Phi-4-mini Partial-RoPE Root Cause Intent"
 
 ---
 
-<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="071-phi-private-e5-one-stream-timing-reality-check.html">Previous: Journal 071</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Next: Journal 073</a></nav>
+<nav class="experiment-nav"><a href="../09-journal.html">Back to Journal Index</a> | <a href="071-phi-stream-one-stream-timing-reality-check.html">Previous: Journal 071</a> | <a href="073-phi-lm-head-shard-count-sweep-on-best-topology.html">Next: Journal 073</a></nav>

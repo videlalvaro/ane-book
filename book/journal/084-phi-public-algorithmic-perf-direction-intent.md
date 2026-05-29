@@ -7,7 +7,7 @@ title: "Journal 084 - Phi Public Algorithmic Perf Direction Intent"
 
 # 2026-04-29 - Phi Public Algorithmic Perf Direction Intent
 
-**Intent**: Pivot away from private ANE APIs for small wins; pursue public, ANE-only algorithmic performance via n-gram acceptance, speculative decoding, prompt-lookup decoding, and related public-runtime approaches, following measurement-before-optimization discipline.
+**Intent**: Pivot away from stream dispatchs for small wins; pursue public, ANE-only algorithmic performance via n-gram acceptance, speculative decoding, prompt-lookup decoding, and related public-runtime approaches, following measurement-before-optimization discipline.
 
 **Setup**: Planning note only. Current Phi Swift runtime uses mutable `MLState` with single-token layer shards and the preserved 20+4+6+2 baseline plus batch-4 LM-head artifacts. No command run, no conversion, no benchmark, no cleanup/deletion.
 

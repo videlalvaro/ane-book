@@ -5,9 +5,9 @@ title: "Chapter 1 - ANE Empirical Laws"
 
 # Chapter 1 — ANE Empirical Laws
 
-**Source**: Live ObjC runtime reflection of `AppleNeuralEngine.framework` and
-`ANECompiler.framework` on macOS (M4 Max, h16g, 16 ANE cores), plus 35+
-real-model conversion experiments.
+**Source**: black-box CoreML placement experiments on macOS (M4 Max, h16g,
+16 ANE cores), `MLComputePlan` residency checks, and 35+ real-model conversion
+experiments.
 
 An empirical law is a rule learned from the compiler and hardware, not from an
 API promise. In normal inference engineering you can often change tensor layout,
@@ -152,31 +152,26 @@ Any CPU-scheduled `ios18.conv` is a fail — rebuild the shard.
 
 ---
 
-## Law 7: The Chain Primitive Enables Zero-Copy Multi-Stage Dispatch
+## Law 7: Host Round Trips Are Part of the Model
 
-The ANE private runtime (`AppleNeuralEngine.framework`) exposes a **chain primitive**
-that lets the daemon execute a sequence of model procedures with no host round-trip
-and a shared memory pool for intermediates.
+Large LLM ports are not just tensor graphs. They are also runtime systems. Every
+time Swift calls into a separate CoreML shard, the host has to package inputs,
+enter the CoreML runtime, synchronize outputs, and hand the next shard its input.
+If the shards are too tiny, that orchestration cost becomes part of the model's
+latency.
 
-Key struct: `_ANEChainingRequest`:
+The public lesson is to keep device-local work coarse enough to amortize the
+call boundary:
 
-```
-_inputBuffer              → IOSurfaces in
-_outputSets               → IOSurfaces out (plural, for fan-out)
-_loopbackInputSymbolIndex → chain-edges: stage-N output → stage-N+1 input
-_loopbackOutputSymbolIndex
-_memoryPoolId             → shared buffer pool — no host copy between stages
-_procedureIndex           → which procedure to invoke
-_transactionHandle        → groups stages atomically
-```
+- Pack as many layers into a shard as the ANE compiler will accept.
+- Keep intermediate activations in CoreML-managed tensors whenever possible.
+- Use `MLState` for decode cache instead of copying KV tensors through Swift.
+- Preallocate host buffers, masks, and feature objects in the runtime hot path.
+- Treat multi-function CoreML models as the public direction for future
+    procedure-style dispatch.
 
-The `_loopbackSymbolIndex` arrays wire outputs of one stage directly to inputs of
-the next, entirely inside the ANE daemon. Combined with `_memoryPoolId`, intermediate
-activations never cross the PCIe/UMA bus.
-
-**For MoE**: one loaded `.mlmodelc` can carry N expert procedures, addressed by
-`_procedureIndex`. This is the private-API equivalent of CoreML 9's public
-`MLMultiFunctionDescriptor`.
+This is the dispatch version of the shard-size law: a shard has to be small
+enough to compile, but large enough that the host does not dominate decode.
 
 ---
 
@@ -208,5 +203,5 @@ See Chapter 5 for the full MLState design.
 | Shard size | ≤250 MB per `.mlpackage` |
 | Sharding | 1–3 layers/shard for 7B+ models |
 | Residency check | `MLComputePlan` only (not compile success) |
-| Multi-stage | ANE chain primitive, zero host copy |
+| Multi-stage | Coarse shards and CoreML-managed state to reduce host round trips |
 | Decode cache | `MLState` for KV cache |

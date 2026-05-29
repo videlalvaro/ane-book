@@ -65,7 +65,7 @@ Chronological index of decision entries.
 
 | Entry | Decision |
 |---|---|
-| [043](journal/043-ane-internals-synthesis-before-phi-daemon.html) | ANE Internals Synthesis Before Phi Daemon |
+| [043](journal/043-ane-internals-synthesis-before-phi-daemon.html) | ANE unsupporteds Synthesis Before Phi Daemon |
 | [044](journal/044-phi-4-mini-resident-serve-mode-landed.html) | Phi-4-mini Resident Serve Mode Landed |
 | [045](journal/045-phi-4-mini-five-layer-fused-strategy-intent.html) | Phi-4-mini Five-Layer Fused Strategy Intent |
 | [046](journal/046-phi-4-mini-six-layer-fused-strategy-intent.html) | Phi-4-mini Six-Layer Fused Strategy Intent |
@@ -78,25 +78,25 @@ Chronological index of decision entries.
 | [053](journal/053-phi-4-mini-twenty-four-layer-front-shard-intent.html) | Phi-4-mini Twenty-Four-Layer Front Shard Intent |
 | [054](journal/054-phi-4-mini-twenty-layer-front-shard-intent.html) | Phi-4-mini Twenty-Layer Front Shard Intent |
 | [055](journal/055-phi-4-mini-12-16-20-24-layer-fusion-sweep-outcome.html) | Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome |
-| [056](journal/056-private-ane-chaining-investigation-intent.html) | Private ANE Chaining Investigation Intent |
-| [057](journal/057-private-ane-api-bridge-outcome.html) | Private ANE API Bridge Outcome |
-| [058](journal/058-coreml-e5-bridge-operation-handles-recovered.html) | CoreML E5 Bridge Operation Handles Recovered |
-| [059](journal/059-coreml-e5-two-operation-stream-binder-outcome.html) | CoreML E5 Two-Operation Stream Binder Outcome |
-| [060](journal/060-tiny-e5-execution-controls-outcome.html) | Tiny E5 Execution Controls Outcome |
-| [061](journal/061-e5-binder-timing-controls-outcome.html) | E5 Binder Timing Controls Outcome |
-| [062](journal/062-e5-setupoperationforinputfeatures-replaces-pool.html) | E5 setupOperationForInputFeatures Replaces Pool |
-| [063](journal/063-raw-e5rt-two-model-chain-breakthrough.html) | Raw E5RT Two-Model Chain Breakthrough |
-| [064](journal/064-phi-stateful-raw-e5rt-chain-smoke.html) | Phi Stateful Raw E5RT Chain Smoke |
-| [065](journal/065-phi-public-two-call-reference-and-e5-event-probe.html) | Phi Public Two-Call Reference and E5 Event Probe |
-| [066](journal/066-phi-e5-objc-sync-point-experiment.html) | Phi E5 ObjC Sync-Point Experiment |
-| [067](journal/067-phi-e5-direct-objc-event-bind-outcome.html) | Phi E5 Direct ObjC Event Bind Outcome |
-| [068](journal/068-phi-e5-second-operation-boundary-narrowed.html) | Phi E5 Second-Operation Boundary Narrowed |
-| [069](journal/069-phi-e5-raw-memory-bridge-breakthrough.html) | Phi E5 Raw Memory Bridge Breakthrough |
-| [070](journal/070-phi-full-fused-topology-runs-in-one-e5-stream.html) | Phi Full Fused Topology Runs in One E5 Stream |
-| [071](journal/071-phi-private-e5-one-stream-timing-reality-check.html) | Phi Private E5 One-Stream Timing Reality Check |
+| [056](journal/056-stream-dispatch-investigation-intent.html) | Unsupported ANE Chaining Investigation Intent |
+| [057](journal/057-stream-dispatch-bridge-outcome.html) | Stream Dispatch Bridge Outcome |
+| [058](journal/058-coreml-stream-bridge-operation-handles-recovered.html) | CoreML Stream-Level Bridge Operation Handles Recovered |
+| [059](journal/059-coreml-stream-two-operation-binder-outcome.html) | CoreML Stream-Level Two-Operation Stream Binder Outcome |
+| [060](journal/060-tiny-stream-execution-controls-outcome.html) | Tiny Stream-Level Execution Controls Outcome |
+| [061](journal/061-stream-binder-timing-controls-outcome.html) | Stream-Level Binder Timing Controls Outcome |
+| [062](journal/062-stream-setupoperationforinputfeatures-replaces-pool.html) | Stream-Level SetupOperationForInputFeatures Replaces Pool |
+| [063](journal/063-stream-two-model-chain-breakthrough.html) | Stream-Level Two-Model Chain Breakthrough |
+| [064](journal/064-phi-stateful-stream-chain-smoke.html) | Phi Stateful Stream-Level Chain Smoke |
+| [065](journal/065-phi-public-two-call-reference-and-stream-event-probe.html) | Phi Public Two-Call Reference and Stream-Level Event Probe |
+| [066](journal/066-phi-stream-sync-point-experiment.html) | Phi Stream-Level CoreML Sync-Point Experiment |
+| [067](journal/067-phi-stream-event-bind-outcome.html) | Phi Stream-Level Direct CoreML Event Bind Outcome |
+| [068](journal/068-phi-stream-second-operation-boundary-narrowed.html) | Phi Stream-Level Second-Operation Boundary Narrowed |
+| [069](journal/069-phi-stream-memory-bridge-breakthrough.html) | Phi Stream-Level Memory Bridge Breakthrough |
+| [070](journal/070-phi-full-fused-topology-runs-in-one-stream.html) | Phi Full Fused Topology Runs in One Stream-Level Path |
+| [071](journal/071-phi-stream-one-stream-timing-reality-check.html) | Phi Unsupported Stream-Level One-Stream Timing Reality Check |
 | [073](journal/073-phi-lm-head-shard-count-sweep-on-best-topology.html) | Phi LM-Head Shard Count Sweep on Best Topology |
 | [074](journal/074-phi-long-decode-topology-baseline-moves-to-20-4-6-2.html) | Phi Long-Decode Topology Baseline Moves to 20+4+6+2 |
-| [075](journal/075-phi-private-e5-timing-on-20-4-6-2.html) | Phi Private E5 Timing on 20+4+6+2 |
+| [075](journal/075-phi-stream-timing-on-20-4-6-2.html) | Phi Unsupported Stream-Level Timing on 20+4+6+2 |
 | [076](journal/076-phi-weighted-topology-search-starts.html) | Phi Weighted Topology Search Starts |
 | [077](journal/077-phi-20-5-5-2-tail-probe.html) | Phi 20+5+5+2 Tail Probe |
 | [078](journal/078-phi-4-mini-next-public-optimization-direction-intent.html) | Phi-4-mini Next Public Optimization Direction Intent |

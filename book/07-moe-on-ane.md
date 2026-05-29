@@ -66,7 +66,7 @@ which is what CoreML requires. CoreML has no `if` — only tensor operations.
 
 ---
 
-## Approach 2: Per-Expert Shards with MLMultiFunction
+## Approach 2: Per-Expert Functions with Public Multi-Function Models
 
 CoreML 9 introduced `MLMultiFunctionDescriptor`, the public API for calling a
 specific procedure in a multi-function model:
@@ -78,8 +78,8 @@ config.functionName = "expert_3"
 let model = try MLModel(contentsOf: expertPackageURL, configuration: config)
 ```
 
-The private-API equivalent is `_ANEChainingRequest._procedureIndex`. Both let
-you address one procedure out of N in a single `.mlpackage`.
+The public idea is that one package can expose multiple callable functions, so a
+runtime can choose one expert function without shipping eight separate packages.
 
 **Build a multi-function expert package**:
 
@@ -89,13 +89,14 @@ you address one procedure out of N in a single `.mlpackage`.
 # coremltools 9 supports MLMultiFunction via custom MIL programs
 ```
 
-This approach enables sparse routing (only K of N experts run per step) at the cost
-of implementation complexity. The ANE chain primitive handles dispatch without
-host round-trips.
+This approach could enable sparse routing (only K of N experts run per step) at
+the cost of implementation complexity. The missing piece is not the router math;
+it is a public, efficient way to select expert functions per token while keeping
+intermediate activations device-local.
 
-**Status**: Validated at the private-API layer (ANE_CHAIN_SCHEMA.md). Full
-public-API path through `MLMultiFunctionDescriptor` requires coremltools 9 MIL
-custom programs. Not yet in production in this repo.
+**Status**: not in production in this repo. The shipping ZAYA path uses static
+soft routing because it is public CoreML, easy to validate with `MLComputePlan`,
+and reliable on current tooling.
 
 ---
 
@@ -188,23 +189,20 @@ See `models/privacy-filter/` for build scripts.
 
 ---
 
-## The ANE Chain Primitive (Advanced)
+## Sparse Routing: What a Public Path Would Need
 
-For future work on sparse routing without running all experts, the ANE private
-runtime's chain primitive is the right tool. From `ANE_CHAIN_SCHEMA.md`:
+Sparse MoE remains the enticing path because top-2 routing should run only two
+experts instead of all eight. To make that work cleanly through public CoreML,
+the runtime needs three properties:
 
-- `_ANEChainingRequest._procedureIndex` selects one of N procedures per call
-- `_ANEOutputSetEnqueue` enables a single chain submission to fan out across N procedures
-- `_memoryPoolId` keeps activations in-device across stages — no host copy
-- `_isOpenLoop` allows async/streaming dispatch (fire-and-forget expert prefetch)
+- per-token selection of expert functions without recompiling or reloading;
+- device-local intermediates between router, experts, and weighted sum;
+- `MLComputePlan` visibility so residency can be validated before benchmarking.
 
-This maps onto sparse MoE dispatch: load one `.mlmodelc` per MoE layer with N
-expert procedures. Per token, build a `_ANEChainingRequest` with the top-K
-procedure indices. The ANE runs those K experts and returns the sum.
-
-Status: validated at the ObjC runtime reflection level. Implementation in
-`local-artifacts/ane_chain_probe.m`. Full production use requires bypassing
-CoreML's public API — contact Apple if you want this officially.
+Those requirements explain why this repo currently ships soft routing. It burns
+extra expert compute, but the graph is static, auditable, and portable across the
+public CoreML toolchain. Sparse routing is still a good future target once the
+public multi-function workflow is mature enough for this use case.
 
 ---
 

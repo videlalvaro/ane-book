@@ -17,7 +17,7 @@ title: "Journal 096 - Phi-4-mini T=4 Verifier Scale-Out Intent"
 
 **Lesson**: T=4 verifier scale-out should start from the smallest production shard and advance only through parity plus strict ANE residency gates; disk pressure is a scheduling constraint, not permission for unconfirmed destructive cleanup or CPU/GPU fallback.
 
-**Next**: Add the `T=4` multi-layer shard exporter and runtime manifest references; build/compile the smallest tail shard first; validate block-vs-sequential parity and strict MLComputePlan residency before any larger shard or full scale-out. Keep the path public CoreML only, with no private API and no CPU/GPU compute fallback.
+**Next**: Add the `T=4` multi-layer shard exporter and runtime manifest references; build/compile the smallest tail shard first; validate block-vs-sequential parity and strict MLComputePlan residency before any larger shard or full scale-out. Keep the path public CoreML only, with no unsupported runtime path and no CPU/GPU compute fallback.
 
 **Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
