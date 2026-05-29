@@ -419,9 +419,46 @@ Format: static SVG.
 
 Priority: medium. It lightens the chapter with a practical non-chat example.
 
-## Chapter 8: Experiment Index
+## Chapter 8: Swift Runtime
 
-Chapter 8 is long and should not get a diagram for every experiment. Add section
+### 8.1 Runtime Hot Path
+
+Insert near the start of `Swift Runtime`.
+
+Diagram: token ID -> embedding copy -> layer shard sequence with state -> LM-head
+shards -> host reduction -> next token. Mark which work is ANE and which work is
+host bookkeeping.
+
+Format: static SVG.
+
+Priority: high. This chapter explains the production loop between compiled shards
+and generated tokens.
+
+### 8.2 Cache-Friendly Buffer Reuse
+
+Insert after `Cache-Friendly Host Design`.
+
+Diagram: one-time allocated buffers (`embedBuf`, masks, RoPE, routing weights)
+feeding repeated decode steps. Contrast with per-token allocation churn.
+
+Format: static SVG.
+
+Priority: high.
+
+### 8.3 Runtime State Ownership
+
+Insert after `State Ownership`.
+
+Diagram: per-sequence `MLState` objects, KV cache state, and small conv states,
+showing reset at sequence boundaries and reuse inside decode.
+
+Format: static SVG.
+
+Priority: medium.
+
+## Chapter 9: Experiment Index
+
+Chapter 9 is long and should not get a diagram for every experiment. Add section
 breakers that summarize clusters of experiments visually.
 
 ### 8.1 Experiment Timeline
@@ -513,9 +550,9 @@ Format: static SVG.
 
 Priority: high.
 
-## Chapter 9: Decision Journal
+## Chapter 10: Decision Journal
 
-Chapter 9 is an audit trail. Diagrams should be sparse and should summarize
+Chapter 10 is an audit trail. Diagrams should be sparse and should summarize
 patterns across entries rather than decorate individual notes.
 
 ### 9.1 Decision Timeline by Theme
@@ -574,7 +611,7 @@ Build these first because they will improve the reader experience the most:
 4. Chapter 5: KV cache write animation.
 5. Chapter 6: n-gram draft and verify animation.
 6. Chapter 7: soft routing vs sparse routing.
-7. Chapter 8: experiment timeline.
+7. Chapter 9: experiment timeline.
 
 ## Suggested File Layout
 

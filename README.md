@@ -74,8 +74,9 @@ practitioners who want to port their own models to ANE:
 | [05 — Stateful KV Cache](book/05-stateful-kv-cache.md) | MLState, Swift daemon design, decode loop |
 | [06 — RangeDim + Speculative](book/06-rangedim-speculative.md) | Variable T, n-gram acceptance |
 | [07 — MoE on ANE](book/07-moe-on-ane.md) | Soft routing, per-expert dispatch, ZAYA & Privacy Filter |
-| [08 — Experiment Index](book/08-experiments.md) | Searchable index of experiment writeups |
-| [09 — Decision Journal](book/09-journal.md) | The thinking behind the hard calls |
+| [08 — Swift Runtime](book/08-swift-runtime.md) | Cache-friendly CoreML orchestration, state, buffers, and serving |
+| [09 — Experiment Index](book/08-experiments.md) | Searchable index of experiment writeups |
+| [10 — Decision Journal](book/09-journal.md) | The thinking behind the hard calls |
 | [Glossary](book/glossary.md) | Definitions for inference, CoreML, ANE, and validation terms |
 
 ---
@@ -84,7 +85,7 @@ practitioners who want to port their own models to ANE:
 
 ```
 ane-models/
-├── book/           ← the porting guide (chapters 00–09)
+├── book/           ← the porting guide (chapters 00–10)
 ├── converters/     ← Python scripts for GGUF → CoreML (Xcode python3)
 ├── runtime/        ← Swift inference runtimes
 ├── models/         ← per-model manifests, goldens, build scripts

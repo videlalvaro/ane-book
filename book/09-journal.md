@@ -1,9 +1,9 @@
 ---
 layout: default
-title: "Chapter 9 - Decision Journal"
+title: "Chapter 10 - Decision Journal"
 ---
 
-# Chapter 9 - Decision Journal
+# Chapter 10 - Decision Journal
 
 ![Validation-first development loop](assets/diagrams/09-journal/validation-loop.svg)
 

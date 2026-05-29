@@ -186,6 +186,7 @@ everything to `[1, channels, T, 1]` and use `Conv2d(1×1)`, nothing lands on ANE
 - **Chapter 5** — Stateful KV cache (MLState, the Swift daemon design)
 - **Chapter 6** — RangeDim and speculative decode (T=1..4, n-gram acceptance)
 - **Chapter 7** — MoE on ANE (soft routing, per-expert dispatch, ZAYA)
-- **Chapter 8** — Experiment index (all experiments, what worked and why)
-- **Chapter 9** — Decision journal (the thinking behind the hard calls)
+- **Chapter 8** — Swift runtime (cache-friendly CoreML orchestration and serving)
+- **Chapter 9** — Experiment index (all experiments, what worked and why)
+- **Chapter 10** — Decision journal (the thinking behind the hard calls)
 - **Glossary** — short definitions for inference, CoreML, ANE, and validation terms

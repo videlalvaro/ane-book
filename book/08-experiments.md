@@ -1,9 +1,9 @@
 ---
 layout: default
-title: "Chapter 8 - Experiment Index"
+title: "Chapter 9 - Experiment Index"
 ---
 
-# Chapter 8 — Experiment Index
+# Chapter 9 — Experiment Index
 
 **Date**: 2026-04-14  
 **Purpose**: Mine 9 classic CS/math books for new AutoEML kernel optimization ideas.  

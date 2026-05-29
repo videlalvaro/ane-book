@@ -23,8 +23,9 @@ By Alvaro Videla - [@old_sound](https://x.com/old_sound)
 | [05 - Stateful KV Cache](05-stateful-kv-cache.html) | MLState, Swift daemon design, decode loop |
 | [06 - RangeDim + Speculative](06-rangedim-speculative.html) | Variable T, n-gram acceptance |
 | [07 - MoE on ANE](07-moe-on-ane.html) | Soft routing, per-expert dispatch, ZAYA and Privacy Filter |
-| [08 - Experiment Index](08-experiments.html) | Searchable index of experiment writeups |
-| [09 - Decision Journal](09-journal.html) | The thinking behind the hard calls |
+| [08 - Swift Runtime](08-swift-runtime.html) | Cache-friendly CoreML orchestration, state, buffers, and serving |
+| [09 - Experiment Index](08-experiments.html) | Searchable index of experiment writeups |
+| [10 - Decision Journal](09-journal.html) | The thinking behind the hard calls |
 | [Glossary](glossary.html) | Definitions for inference, CoreML, ANE, and validation terms |
 
 ## Repository

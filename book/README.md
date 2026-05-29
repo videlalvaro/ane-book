@@ -29,8 +29,9 @@ When Pages is enabled for the repository, the rendered book is available at:
 | [05 - Stateful KV Cache](05-stateful-kv-cache.md) | MLState, Swift daemon design, decode loop |
 | [06 - RangeDim + Speculative](06-rangedim-speculative.md) | Variable token axes, prefill batching, n-gram speculation |
 | [07 - MoE on ANE](07-moe-on-ane.md) | Soft routing, expert shards, ZAYA and Privacy Filter |
-| [08 - Experiment Index](08-experiments.md) | Searchable index of experiment writeups |
-| [09 - Decision Journal](09-journal.md) | Design decisions and the reasoning behind them |
+| [08 - Swift Runtime](08-swift-runtime.md) | Cache-friendly CoreML orchestration, state, buffers, and serving |
+| [09 - Experiment Index](08-experiments.md) | Searchable index of experiment writeups |
+| [10 - Decision Journal](09-journal.md) | Design decisions and the reasoning behind them |
 | [Glossary](glossary.md) | Definitions for inference, CoreML, ANE, and validation terms |
 
 ## What This Book Covers
@@ -40,6 +41,7 @@ When Pages is enabled for the repository, the rendered book is available at:
 - Quantization choices that preserve quality without triggering CPU fallback.
 - Shard sizing rules for compiler reliability and ANE residency.
 - Stateful KV-cache runtimes using public `MLState` APIs.
+- Cache-friendly Swift runtime design for warm decode and serving.
 - RangeDim and speculative decoding patterns for better throughput.
 - MoE-specific lessons from ZAYA and the Privacy Filter runtime.
 

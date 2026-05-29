@@ -146,8 +146,24 @@
               <a href="{{ '/07-moe-on-ane.html#checklist' | relative_url }}">Checklist</a>
             </div>
           </details>
+          <details class="toc-section{% if page.url == '/08-swift-runtime.html' %} active{% endif %}"{% if page.url == '/08-swift-runtime.html' %} open{% endif %}>
+            <summary>08 - Swift Runtime</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/08-swift-runtime.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/08-swift-runtime.html#what-the-runtime-owns' | relative_url }}">Runtime ownership</a>
+              <a href="{{ '/08-swift-runtime.html#boot-sequence' | relative_url }}">Boot sequence</a>
+              <a href="{{ '/08-swift-runtime.html#the-decode-hot-path' | relative_url }}">Decode hot path</a>
+              <a href="{{ '/08-swift-runtime.html#cache-friendly-host-design' | relative_url }}">Cache-friendly host</a>
+              <a href="{{ '/08-swift-runtime.html#precomputed-tables' | relative_url }}">Precomputed tables</a>
+              <a href="{{ '/08-swift-runtime.html#state-ownership' | relative_url }}">State ownership</a>
+              <a href="{{ '/08-swift-runtime.html#lm-head-and-sampling' | relative_url }}">LM head and sampling</a>
+              <a href="{{ '/08-swift-runtime.html#serving-mode' | relative_url }}">Serving mode</a>
+              <a href="{{ '/08-swift-runtime.html#failure-modes' | relative_url }}">Failure modes</a>
+              <a href="{{ '/08-swift-runtime.html#checklist' | relative_url }}">Checklist</a>
+            </div>
+          </details>
           <details class="toc-section{% if page.url == '/08-experiments.html' or page.url contains '/experiments/' %} active{% endif %}"{% if page.url == '/08-experiments.html' or page.url contains '/experiments/' %} open{% endif %}>
-            <summary>08 - Experiment Index</summary>
+            <summary>09 - Experiment Index</summary>
             <div class="toc-subnav">
               <a href="{{ '/08-experiments.html' | relative_url }}">Experiment index</a>
               <a href="{{ '/08-experiments.html#books-surveyed' | relative_url }}">Books surveyed</a>
@@ -178,7 +194,7 @@
             </div>
           </details>
           <details class="toc-section{% if page.url == '/09-journal.html' or page.url contains '/journal/' %} active{% endif %}"{% if page.url == '/09-journal.html' or page.url contains '/journal/' %} open{% endif %}>
-            <summary>09 - Journal</summary>
+            <summary>10 - Journal</summary>
             <div class="toc-subnav toc-subnav-long">
               <a href="{{ '/09-journal.html' | relative_url }}">Journal index</a>
               <details class="toc-subsection">
