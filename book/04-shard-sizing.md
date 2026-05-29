@@ -45,27 +45,81 @@ The right number of layers per shard depends on two things:
 1. Per-layer weight size (function of `d_model`, `n_heads`, `d_ff`)
 2. Whether the shard includes the embedding table and/or LM head
 
-Formula for a single transformer layer's parameter count:
+Use formulas only for first-pass planning. The final authority is the compiled
+artifact size plus `MLComputePlan`, because CoreML may store weights differently
+after quantization, palettization, graph folding, or state packing.
+
+For a dense decoder layer with full multi-head attention, a rough parameter count
+is:
 
 ```
 params_per_layer =
-    4 * d_model * d_model              # Q, K, V, O projections (approx, ignoring GQA)
-  + 3 * d_model * d_ff                 # gate, up, down projections
-  + 2 * d_model                        # RMSNorm weights (x2)
+    4 * d_model * d_model              # Q, K, V, O projections
+  + 3 * d_model * d_ff                 # SwiGLU gate, up, down projections
+  + 2 * d_model                        # RMSNorm weights, usually negligible
 ```
 
-At INT8 (1 byte/param), weight size in MB = `params_per_layer / 1e6`.
+For grouped-query attention, K and V are smaller than Q and O. Let:
+
+```text
+kv_dim = n_kv_heads * d_head
+```
+
+Then attention is closer to:
+
+```text
+attention_params =
+    d_model * d_model                  # Q
+  + d_model * kv_dim                   # K
+  + d_model * kv_dim                   # V
+  + d_model * d_model                  # O
+```
+
+For a SwiGLU FFN:
+
+```text
+ffn_params = 3 * d_model * d_ff        # gate, up, down
+```
+
+At INT8, raw weight size in MB is roughly `params / 1e6`. Treat that as an
+estimate, not a promise. A measured `.mlmodelc` size can be lower or higher than
+the raw count depending on the conversion path.
 
 Example calculation:
 
-| Model | d_model | d_ff | Params/layer | INT8 MB/layer | Layers at 200 MB |
-|-------|---------|------|-------------|---------------|-----------------|
-| Phi-4-mini | 3072 | 8192 | ~62M | ~62 MB | 3 |
-| Gemma-4-26B | 5120 | 32768 | ~200M | ~200 MB | 1 |
-| ZAYA1-8B | 4096 | 14336 (MoE) | ~120M | ~120 MB | 1 |
-| Qwen 0.5B | 896 | 4864 | ~10M | ~10 MB | 20 (monolithic OK) |
+```text
+Phi-4-mini planning estimate, using the 32-head / d_head=96 export docs:
 
-For models with `d_ff > 16K`, one layer per shard is the only viable option.
+d_model = 3072
+n_kv_heads = 8
+d_head = 96
+kv_dim = 768
+d_ff = 8192
+
+attention ~= 2 * 3072^2 + 2 * 3072 * 768 = 23.6M params
+FFN       ~= 3 * 3072 * 8192              = 75.5M params
+total     ~= 99M params before converter-specific packing effects
+```
+
+The validated 3-layer Phi-4-mini INT8 shard was 223 MB compiled, so for that
+artifact family the measured planning number is about 74 MB per layer. Use the
+measured compiled artifact when choosing a shard boundary.
+
+Observed planning numbers from this repository:
+
+| Artifact family | Measured compiled size | Practical packing note |
+|-----------------|------------------------|------------------------|
+| Phi-4-mini INT8 | 223 MB for 3 layers | 3 layers is near the validated ceiling |
+| Gemma-4-26B INT8 | ~180 MB for 1 layer | 1 layer per shard |
+| ZAYA MoE INT8, 8-expert book variant | ~120 MB for 1 MoE layer | 1 MoE layer per shard |
+| ZAYA Exp 34 RangeDim exporter | ~193-202 MB for 1 16-expert MoE shard | 1 MoE layer per shard |
+| Qwen 0.5B INT8 | ~10 MB/layer class | monolithic or large layer groups are plausible |
+
+For models with `d_ff > 16K`, one layer per shard is usually the only viable
+starting point.
+For MoE models, do not reuse the dense FFN formula directly. A soft-routed MoE
+shard that runs all experts must budget every expert's gate/up/down projections,
+not only the top-k active experts.
 
 ---
 
@@ -166,7 +220,8 @@ runtime_meta.json  ← vocab_size, d_model, n_layers, n_lm_head_shards, etc.
 ## Shard Sizing Checklist
 
 ```
-[ ] Per-layer INT8 MB calculated: d_model × d_ff × 3 (approx)
+[ ] Per-layer INT8 MB estimated with attention + FFN/MoE formulas
+[ ] Compiled `.mlmodelc` size measured before scaling the shard family
 [ ] Layers-per-shard chosen to stay under 200 MB (leave 50 MB headroom)
 [ ] LM head split if vocab_size * d_model > 200M params
 [ ] Embedding table extracted as .bin for host-side lookup

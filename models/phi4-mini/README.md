@@ -10,6 +10,10 @@
 
 ## Architecture
 
+The table below describes the 32-head / `d_head=96` export path used by
+`converters/phi4_mini_rangedim_export_shard.py` and the model notes in this
+README.
+
 | Parameter | Value |
 |-----------|-------|
 | `d_model` | 3072 |
@@ -21,7 +25,17 @@
 | `vocab_size` | 100352 |
 | `max_seq_len` | 4096 |
 
+Variant note: the checked-in `phi4mini_runtime_meta.json` currently describes a
+different generated artifact set (`n_heads=24`, `d_head=128`, `rope_dim=96`,
+`vocab_size=200064`, four LM-head shards). Do not mix dimensions from that
+manifest with the 32-head export path above when doing shard-size math or runtime
+validation.
+
 ## Shard Structure
+
+The shape below is the 32-head export family described in this README. The
+checked-in `phi4mini_runtime_meta.json` has a different shard list and should be
+treated as its own generated artifact manifest.
 
 ```
 phi4_mini_ane/
@@ -31,8 +45,9 @@ phi4_mini_ane/
 └── phi4mini_runtime_meta.json                    # shape manifest
 ```
 
-Each layer shard: ~96 MB, 3 layers packed per shard (11 shards total for 32 layers,
-with the last shard holding 2 layers).
+Earlier 3-layer INT8 Phi-4-mini shards validated near the practical ANE ceiling.
+Use the compiled `.mlmodelc` size for the artifact family you are reproducing;
+do not mix shard-count or LM-head-split numbers between manifests.
 
 ## Building
 

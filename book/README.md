@@ -45,6 +45,21 @@ When Pages is enabled for the repository, the rendered book is available at:
 - RangeDim and speculative decoding patterns for better throughput.
 - MoE-specific lessons from ZAYA and the Privacy Filter runtime.
 
+## Evidence Standard
+
+The strongest claims in this book should be traceable to one of three evidence
+levels:
+
+1. **Checked-in artifact evidence**: converter, runtime, validator, manifest, or
+   research note in this repository.
+2. **Experiment journal evidence**: an audit-trail entry recording a measurement
+   or decision that may not include every generated artifact.
+3. **External/author observation**: a useful lesson from adjacent experiments;
+   these should be labeled when the supporting artifact is not checked in.
+
+When a model family has multiple artifact variants, keep dimensions, manifests,
+converters, and runtime notes from the same variant together.
+
 ## Repository Context
 
 The surrounding repository contains the converters, validators, Swift runtimes,

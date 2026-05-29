@@ -19,7 +19,8 @@ the ANE compiler can place and the runtime can call efficiently.
 
 A Mixture of Experts layer replaces the standard FFN block with N expert FFNs
 and a router that selects which K experts to run per token. For a model like
-ZAYA1-8B (28 MoE layers, 8 experts/layer, top-2 routing), you need to:
+the 8-expert ZAYA1-8B variant described below (28 MoE layers, 8 experts/layer,
+top-2 routing), you need to:
 
 1. Run the router (a small linear projection → softmax)
 2. Select the top-2 expert indices per token
@@ -51,6 +52,11 @@ out = sum(w_i * e_i for w_i, e_i in zip(router_weights, expert_outs))
 
 **Pros**: Fully vectorized. All experts run every step. Simple CoreML graph.
 **Cons**: 4× compute vs top-2 sparse routing (8 experts run vs 2 used).
+
+Some variants explicitly mask the router to top-k before the weighted sum. Other
+variants use the full softmax distribution and rely on the inactive experts being
+near-zero. The ANE tradeoff is the same in both cases: the graph runs every
+expert so the compiled program has no data-dependent branch.
 
 This is the approach used in ZAYA1-8B's production CoreML shards. At 9 tok/s on
 M4 Max with 8 experts, the overhead is acceptable and the graph stays fully ANE.
@@ -98,6 +104,14 @@ custom programs. Not yet in production in this repo.
 ZAYA is a 1.58-bit-average-binarized model trained from LLaMA-2-7B using
 "1-bit" techniques. Our CoreML port is the first ANE-native MoE of this class.
 
+Variant note: this chapter describes the 8-expert, 28-layer ZAYA book/runtime
+variant documented in `models/zaya/README.md`. The checked-in
+`converters/zaya_full_convert.py` file is an Exp 34 RangeDim exporter for a
+different ZAYA artifact family: `H=2048`, 16 experts plus one null router slot,
+and MoE layers `1,3,...,79` (40 MoE shards). Do not use that converter as the
+source of truth for the dimensions in this section without also adopting that
+Exp 34 manifest family.
+
 Key dimensions:
 - 28 MoE layers
 - 8 experts per layer, top-2 routing
@@ -105,7 +119,7 @@ Key dimensions:
 - Per-expert FFN: `d_model × d_ff/n_experts × d_model` (soft-routed)
 - Embedding: `vocab_size × d_model` = 32000 × 4096
 
-Shard structure (40 total shards):
+Shard structure (58 compiled model shards):
 ```
 zaya_ane/
 ├── attn/          # 28 attention shards (one per layer)

@@ -127,6 +127,11 @@ Not yet validated. Do not use as a production path without the full gate sequenc
 On 2026-04-23, four hours of "INT4 quality cost" framing turned out to be a
 one-line bug: RMSNorm `(1+gamma)` → `gamma`.
 
+This case study comes from the author's experiment log, not from a checked-in
+Gemma converter in this repository. Treat the specific Gemma date/model as
+provenance for the debugging lesson; the reproducible rule is the validation
+procedure below.
+
 Gemma-4-26B-A4B uses `w_eff = (1 + gamma)` in its RMSNorm (a scalar offset).
 Using raw `gamma` produces logits that are systematically shifted, mimicking
 quantization noise. Cosine similarity in the 0.92–0.97 range against FP16 reference

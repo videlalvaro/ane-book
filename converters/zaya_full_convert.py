@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """ZAYA1-8B MoE shard exporter — Exp 34 (RangeDim T=1..4).
 
+This is not the 8-expert, 28-layer ZAYA book/runtime variant documented in
+models/zaya/README.md. It targets a separate Exp 34 artifact family with H=2048,
+16 experts plus one null router slot, and 40 MoE layer indices.
+
 Builds 40 ANE-native MoE shards (layers 1,3,...,79) with:
   - RangeDim T=1..4 (greedy decode T=1 + chunked prefill T=4)
   - INT8 symmetric quantization (all conv/linear weights)

@@ -9,6 +9,16 @@
 
 ---
 
+## Artifact Note
+
+This README describes the 8-expert, 28-layer ZAYA runtime/book variant. The
+checked-in `converters/zaya_full_convert.py` script is an Exp 34 RangeDim exporter
+for a different ZAYA artifact family: hidden size 2048, 16 experts plus one null
+router slot, and MoE layers `1,3,...,79` (40 MoE shards). Keep the README/runtime
+manifest and converter family together when reproducing results.
+
+---
+
 ## Architecture
 
 | Parameter | Value |
@@ -32,7 +42,7 @@ weights dominate.
 This trades compute (8× expert work vs 2×) for a fully-static graph that stays
 100% ANE-resident. At 9 tok/s on M4 Max, the overhead is acceptable.
 
-## Shard Structure (40 total shards)
+## Shard Structure (58 compiled model shards)
 
 ```
 zaya_ane/
@@ -56,9 +66,9 @@ is computed in the same shard and the weighted sum is applied before returning.
 # Download ZAYA1 weights (requires HuggingFace account)
 # Model: "1bitLLM/bitnet_b1_58-large" or your ZAYA1-8B checkpoint
 
-# Export all 56 shards (28 attn + 28 MoE) + 2 LM head shards
-# Uses Xcode python3 — uses about 6 GB RAM peak
-/usr/bin/python3 ../../converters/zaya_full_convert.py
+# Export the 8-expert variant with the converter/manifest that matches this
+# README. Do not use converters/zaya_full_convert.py for these dimensions; that
+# checked-in script documents the Exp 34 16-expert RangeDim path.
 
 # Validate residency on MoE shards
 /usr/bin/python3 ../../validators/phi4_mini_residency_check.py \
@@ -91,4 +101,5 @@ combining all of a transformer layer into one package. This is because:
 ## Download
 
 Source: `1bitLLM/bitnet_b1_58-large` (or equivalent ZAYA1-8B checkpoint).
-See `converters/zaya_full_convert.py` for the weight discovery logic.
+Use the converter that matches the manifest family you are reproducing; the
+checked-in `converters/zaya_full_convert.py` documents the Exp 34 16-expert path.
