@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">MLComputePlan residency gate</title>
+  <desc id="desc">Compilation and correctness are not enough; MLComputePlan must show all conv operations prefer the Neural Engine.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .box { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 10; }
+      .pass { fill: #e8fff5; stroke: #0f9f6e; stroke-width: 2; rx: 10; }
+      .fail { fill: #fff4e8; stroke: #d97706; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 15px; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+    </marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="38" text-anchor="middle" class="label">The only residency gate that counts</text>
+  <rect x="64" y="120" width="160" height="84" class="box" />
+  <text x="144" y="153" text-anchor="middle" class="label">.mlmodelc</text>
+  <text x="144" y="179" text-anchor="middle" class="small">loads and runs</text>
+  <path d="M224 162 H340" class="arrow" />
+  <rect x="342" y="100" width="230" height="124" class="box" />
+  <text x="457" y="132" text-anchor="middle" class="label">MLComputePlan</text>
+  <text x="457" y="162" text-anchor="middle" class="code">ios18.conv -> ?</text>
+  <text x="457" y="190" text-anchor="middle" class="small">inspect preferred device</text>
+  <path d="M572 142 C640 96 686 94 742 120" class="arrow" />
+  <path d="M572 184 C640 232 686 234 742 208" class="arrow" />
+  <rect x="744" y="82" width="160" height="92" class="pass" />
+  <text x="824" y="118" text-anchor="middle" class="label">PASS</text>
+  <text x="824" y="145" text-anchor="middle" class="small">100% ANE conv</text>
+  <rect x="744" y="198" width="160" height="92" class="fail" />
+  <text x="824" y="234" text-anchor="middle" class="label">REBUILD</text>
+  <text x="824" y="261" text-anchor="middle" class="small">any CPU conv</text>
+  <text x="144" y="250" text-anchor="middle" class="small">correct output can still be CPU</text>
+</svg>

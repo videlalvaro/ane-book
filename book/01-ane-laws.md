@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 1 - ANE Empirical Laws"
+---
+
 # Chapter 1 — ANE Empirical Laws
 
 **Source**: Live ObjC runtime reflection of `AppleNeuralEngine.framework` and
@@ -17,6 +22,8 @@ the batch dimension = 1, spatial height = T (sequence length), spatial width = 1
 ```
 [batch, channels, height, width] → [1, C, T, 1]
 ```
+
+![Canonical ANE tensor shape](assets/diagrams/01-ane-laws/canonical-shape.svg)
 
 This is because the ANE's primary op is `ios18.conv`, which operates on 4D
 tensors. Any op that doesn't fit this shape will fall through to GPU or CPU.
@@ -110,6 +117,8 @@ compile, load, and produce correct output — entirely on CPU — with no error 
 warning.
 
 **The only reliable residency check is `MLComputePlan`**:
+
+![MLComputePlan residency gate](assets/diagrams/01-ane-laws/residency-gate.svg)
 
 ```swift
 let plan = try await MLComputePlan.load(contentsOf: modelURL, configuration: config)

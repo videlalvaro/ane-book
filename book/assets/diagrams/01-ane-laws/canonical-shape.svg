@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">Canonical ANE tensor shape</title>
+  <desc id="desc">The ANE-friendly tensor shape is batch 1, channels C, token height T, width 1. Other shapes tend to fall back.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .cube { fill: #e8fff5; stroke: #0f9f6e; stroke-width: 2; }
+      .bad { fill: #fff4e8; stroke: #d97706; stroke-width: 2; }
+      .arrow { stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 15px; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 16px; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+    </marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">The ANE wants image-shaped transformer tensors</text>
+  <rect x="86" y="106" width="220" height="116" class="cube" />
+  <path d="M306 106 L352 78 V194 L306 222 Z" class="cube" />
+  <path d="M86 106 L132 78 H352 L306 106 Z" class="cube" />
+  <line x1="122" y1="106" x2="122" y2="222" stroke="#86efac" />
+  <line x1="158" y1="106" x2="158" y2="222" stroke="#86efac" />
+  <line x1="194" y1="106" x2="194" y2="222" stroke="#86efac" />
+  <line x1="230" y1="106" x2="230" y2="222" stroke="#86efac" />
+  <text x="220" y="262" text-anchor="middle" class="code">[1, C, T, 1]</text>
+  <text x="220" y="288" text-anchor="middle" class="small">batch=1, channels=C, height=T tokens, width=1</text>
+
+  <path d="M390 170 H530" class="arrow" />
+  <rect x="552" y="96" width="150" height="78" class="cube" />
+  <text x="627" y="128" text-anchor="middle" class="label">ios18.conv</text>
+  <text x="627" y="154" text-anchor="middle" class="small">ANE path</text>
+
+  <rect x="552" y="214" width="150" height="78" class="bad" />
+  <text x="627" y="246" text-anchor="middle" class="label">other shapes</text>
+  <text x="627" y="272" text-anchor="middle" class="small">fallback risk</text>
+  <path d="M430 212 C470 252 500 252 550 252" class="arrow" />
+
+  <rect x="748" y="125" width="130" height="94" fill="#eef6ff" stroke="#2563eb" stroke-width="2" rx="10" />
+  <text x="813" y="160" text-anchor="middle" class="label">hidden</text>
+  <text x="813" y="187" text-anchor="middle" class="code">[1,d,T,1]</text>
+</svg>

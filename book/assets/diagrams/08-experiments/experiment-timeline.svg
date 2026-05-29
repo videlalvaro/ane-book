@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 360" role="img" aria-labelledby="title desc">
+  <title id="title">Experiment log timeline</title>
+  <desc id="desc">The experiment log groups into EML ideas, Phi shape search, speculative decode, MicroGPT floor, HyMT, ZAYA, and Gemma quality work.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .axis { stroke: #334155; stroke-width: 3; }
+      .tick { stroke: #334155; stroke-width: 2; }
+      .card { stroke-width: 2; rx: 10; }
+      .a { fill: #eef6ff; stroke: #2563eb; }
+      .b { fill: #e8fff5; stroke: #0f9f6e; }
+      .c { fill: #fff8e1; stroke: #ca8a04; }
+      .d { fill: #f5f3ff; stroke: #7c3aed; }
+      .e { fill: #fff4e8; stroke: #d97706; }
+      .label { font-size: 17px; font-weight: 700; }
+      .small { font-size: 13px; fill: #475569; }
+    </style>
+  </defs>
+  <rect width="1100" height="360" fill="#f8fafc" />
+  <text x="550" y="34" text-anchor="middle" class="label">Chapter 8 is a sequence of gated experiments, not a random log</text>
+  <line x1="80" y1="185" x2="1020" y2="185" class="axis" />
+  <g transform="translate(90 82)">
+    <rect width="130" height="78" class="card a" /><text x="65" y="30" text-anchor="middle" class="label">Exp 16-19</text><text x="65" y="55" text-anchor="middle" class="small">EML kernels</text>
+  </g>
+  <g transform="translate(240 205)">
+    <rect width="140" height="78" class="card b" /><text x="70" y="30" text-anchor="middle" class="label">Exp 20-22</text><text x="70" y="55" text-anchor="middle" class="small">Phi shapes</text>
+  </g>
+  <g transform="translate(400 82)">
+    <rect width="150" height="78" class="card c" /><text x="75" y="30" text-anchor="middle" class="label">Exp 23-26</text><text x="75" y="55" text-anchor="middle" class="small">speculation</text>
+  </g>
+  <g transform="translate(575 205)">
+    <rect width="130" height="78" class="card d" /><text x="65" y="30" text-anchor="middle" class="label">Exp 27</text><text x="65" y="55" text-anchor="middle" class="small">MicroGPT floor</text>
+  </g>
+  <g transform="translate(730 82)">
+    <rect width="130" height="78" class="card b" /><text x="65" y="30" text-anchor="middle" class="label">Exp 28</text><text x="65" y="55" text-anchor="middle" class="small">HyMT</text>
+  </g>
+  <g transform="translate(875 205)">
+    <rect width="130" height="78" class="card e" /><text x="65" y="30" text-anchor="middle" class="label">Exp 29-35</text><text x="65" y="55" text-anchor="middle" class="small">ZAYA MoE</text>
+  </g>
+  <g transform="translate(945 82)">
+    <rect width="130" height="78" class="card a" /><text x="65" y="30" text-anchor="middle" class="label">Exp 36</text><text x="65" y="55" text-anchor="middle" class="small">Gemma quality</text>
+  </g>
+  <line x1="155" y1="160" x2="155" y2="185" class="tick" /><line x1="310" y1="185" x2="310" y2="205" class="tick" />
+  <line x1="475" y1="160" x2="475" y2="185" class="tick" /><line x1="640" y1="185" x2="640" y2="205" class="tick" />
+  <line x1="795" y1="160" x2="795" y2="185" class="tick" /><line x1="940" y1="185" x2="940" y2="205" class="tick" />
+  <line x1="1010" y1="160" x2="1010" y2="185" class="tick" />
+</svg>

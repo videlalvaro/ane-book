@@ -1,8 +1,15 @@
+---
+layout: default
+title: "Chapter 2 - Porting Recipe"
+---
+
 # Chapter 2 — Porting Recipe: GGUF to CoreML ANE
 
 This chapter walks you through converting a model from GGUF to a set of
 ANE-resident CoreML shards, from scratch. We use Qwen 2.5 as the worked example
 but the pattern applies to any dense transformer.
+
+![GGUF to validated ANE runtime porting flow](assets/diagrams/02-porting-recipe/porting-flow.svg)
 
 ## Prerequisites
 

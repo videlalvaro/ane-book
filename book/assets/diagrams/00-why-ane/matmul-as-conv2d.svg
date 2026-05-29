@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">Matmul represented as a 1x1 convolution</title>
+  <desc id="desc">A linear projection y equals W x is equivalent to a 1x1 Conv2d over an activation shaped as batch 1, channels, tokens, width 1.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #132033; }
+      .panel { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 12; }
+      .accent { fill: #e8fff5; stroke: #0f9f6e; stroke-width: 2; }
+      .kernel { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; }
+      .arrow { stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 15px; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+    </marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">Every linear projection becomes a 1x1 Conv2d</text>
+
+  <rect x="48" y="78" width="345" height="220" class="panel" />
+  <text x="220" y="112" text-anchor="middle" class="label">Linear algebra view</text>
+  <rect x="86" y="145" width="120" height="92" class="kernel" />
+  <line x1="126" y1="145" x2="126" y2="237" stroke="#93c5fd" />
+  <line x1="166" y1="145" x2="166" y2="237" stroke="#93c5fd" />
+  <text x="146" y="263" text-anchor="middle" class="code">W [C_out, C_in]</text>
+  <text x="235" y="196" text-anchor="middle" class="label">x</text>
+  <rect x="265" y="135" width="44" height="112" class="accent" />
+  <text x="287" y="263" text-anchor="middle" class="code">x [C_in]</text>
+  <path d="M310 191 H350" class="arrow" />
+  <text x="320" y="222" class="code">y</text>
+
+  <path d="M410 188 H550" class="arrow" />
+  <text x="480" y="168" text-anchor="middle" class="small">same math</text>
+
+  <rect x="567" y="78" width="345" height="220" class="panel" />
+  <text x="740" y="112" text-anchor="middle" class="label">ANE/CoreML view</text>
+  <rect x="610" y="150" width="132" height="72" class="accent" />
+  <line x1="632" y1="150" x2="632" y2="222" stroke="#86efac" />
+  <line x1="654" y1="150" x2="654" y2="222" stroke="#86efac" />
+  <line x1="676" y1="150" x2="676" y2="222" stroke="#86efac" />
+  <line x1="698" y1="150" x2="698" y2="222" stroke="#86efac" />
+  <text x="676" y="247" text-anchor="middle" class="code">input [1, C_in, T, 1]</text>
+  <rect x="766" y="162" width="62" height="48" class="kernel" />
+  <text x="797" y="156" text-anchor="middle" class="code">1x1</text>
+  <path d="M742 186 H764" class="arrow" />
+  <path d="M828 186 H865" class="arrow" />
+  <rect x="866" y="150" width="28" height="72" class="kernel" />
+  <text x="880" y="247" text-anchor="middle" class="code">[1,C_out,T,1]</text>
+  <text x="740" y="286" text-anchor="middle" class="small">Conv2d(C_in, C_out, kernel_size=1)</text>
+</svg>

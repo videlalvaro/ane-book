@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 0 - Why ANE?"
+---
+
 # Chapter 0 — Why ANE? The Case for the Neural Engine
 
 ## The Hardware You're Not Using
@@ -39,6 +44,8 @@ CoreML is a compiler that takes a PyTorch or TorchScript model and emits an
 `.mlpackage`. When you call `xcrun coremlcompiler compile`, it produces an
 `.mlmodelc` directory with:
 
+![CoreML compile and dispatch pipeline](assets/diagrams/00-why-ane/coreml-dispatch-pipeline.svg)
+
 - `model.espresso.net` — the network graph as a flatbuffer
 - `model.espresso.shape` — tensor shape metadata
 - `*.mlmodelc/Data/com.apple.CoreML/weights/` — quantized weight blobs
@@ -60,6 +67,8 @@ matrix-multiply (GEMM) shaders. The ANE does not have a standalone GEMM.
 The trick: a 1×1 convolution over a `[1, C_in, T, 1]` input with a
 `[C_out, C_in, 1, 1]` kernel is mathematically identical to `y = Wx` with
 `W` being `[C_out, C_in]`.
+
+![Matmul represented as a 1x1 Conv2d](assets/diagrams/00-why-ane/matmul-as-conv2d.svg)
 
 ```python
 # This is how every LLM linear projection becomes ANE-native:

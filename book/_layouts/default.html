@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <nav class="site-nav" aria-label="Book navigation">
+        <a href="{{ '/' | relative_url }}">Chapters</a>
+        <a href="{{ '/README.html' | relative_url }}">README</a>
+        <a href="https://github.com/videlalvaro/ane-models">Repository</a>
+      </nav>
+    </header>
+    <main class="page-content">
+      {{ content }}
+    </main>
+  </body>
+</html>

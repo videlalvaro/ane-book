@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 4 - Shard Sizing"
+---
+
 # Chapter 4 — Shard Sizing
 
 ## The 250 MB Wall
@@ -68,6 +73,8 @@ LM head: 151936 * 4096 = 622M params → 622 MB at INT8 → ERROR -14
 The LM head cannot be a single shard at large vocab sizes.
 
 **Solution: split the LM head into vocab slices**.
+
+![LM head sliced across vocabulary shards](assets/diagrams/04-shard-sizing/lm-head-slicing.svg)
 
 ```python
 # Split into N chunks along vocab dimension

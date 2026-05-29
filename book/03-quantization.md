@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 3 - Quantization on ANE"
+---
+
 # Chapter 3 — Quantization on ANE
 
 ## The Only Safe Baseline: INT8 Per-Tensor
@@ -8,6 +13,8 @@ validated to keep all `ios18.conv` ops on ANE across all shard sizes is:
 > **INT8 per-tensor weight quantization** (`granularity="per_tensor"`)
 
 Everything else either degrades quality, silently falls to CPU, or both.
+
+![Quantization choices on ANE](assets/diagrams/03-quantization/quantization-map.svg)
 
 ---
 

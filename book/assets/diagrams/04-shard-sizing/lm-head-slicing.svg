@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">LM head slicing across vocabulary shards</title>
+  <desc id="desc">A large LM head matrix is split into vocabulary slices. Each CoreML shard produces a logit slice, then the host concatenates slices before sampling.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .matrix { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; }
+      .slice1 { fill: #e8fff5; stroke: #0f9f6e; stroke-width: 2; }
+      .slice2 { fill: #fff8e1; stroke: #ca8a04; stroke-width: 2; }
+      .slice3 { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 2; }
+      .host { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #475569; stroke-width: 2.2; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; fill: #475569; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">Split the LM head along the vocabulary axis</text>
+  <rect x="70" y="92" width="160" height="190" class="matrix" />
+  <line x1="70" y1="155" x2="230" y2="155" stroke="#60a5fa" stroke-width="2" />
+  <line x1="70" y1="218" x2="230" y2="218" stroke="#60a5fa" stroke-width="2" />
+  <text x="150" y="308" text-anchor="middle" class="code">[vocab, d_model]</text>
+  <text x="150" y="70" text-anchor="middle" class="small">too large as one shard</text>
+  <path d="M230 186 H305" class="arrow" />
+  <rect x="330" y="80" width="160" height="58" class="slice1" />
+  <rect x="330" y="151" width="160" height="58" class="slice2" />
+  <rect x="330" y="222" width="160" height="58" class="slice3" />
+  <text x="410" y="116" text-anchor="middle" class="code">shard 0 logits</text>
+  <text x="410" y="187" text-anchor="middle" class="code">shard 1 logits</text>
+  <text x="410" y="258" text-anchor="middle" class="code">shard 2 logits</text>
+  <path d="M490 109 C570 109 585 150 640 158" class="arrow" />
+  <path d="M490 180 H638" class="arrow" />
+  <path d="M490 251 C570 251 585 210 640 202" class="arrow" />
+  <rect x="650" y="142" width="190" height="80" class="host" />
+  <text x="745" y="174" text-anchor="middle" class="label">host concat</text>
+  <text x="745" y="200" text-anchor="middle" class="small">then argmax/sample</text>
+  <text x="745" y="258" text-anchor="middle" class="code">[vocab] logits</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" role="img" aria-labelledby="title desc">
+  <title id="title">Soft routing versus sparse routing for MoE</title>
+  <desc id="desc">Soft routing runs every expert and weights the outputs. Sparse routing runs only the selected top-k experts, which is harder to express as a static CoreML graph.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .panel { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 12; }
+      .expert { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .active { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .muted { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 2; rx: 8; }
+      .router { fill: #fff8e1; stroke: #ca8a04; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #475569; stroke-width: 2.2; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; fill: #475569; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1000" height="380" fill="#f8fafc" />
+  <text x="500" y="36" text-anchor="middle" class="label">MoE on CoreML: static graph beats conditional dispatch</text>
+  <rect x="50" y="70" width="420" height="260" class="panel" />
+  <text x="260" y="104" text-anchor="middle" class="label">Soft routing: production path</text>
+  <rect x="90" y="135" width="90" height="44" class="router" /><text x="135" y="163" text-anchor="middle" class="small">router</text>
+  <path d="M180 157 H220" class="arrow" />
+  <rect x="230" y="115" width="72" height="38" class="expert" /><rect x="230" y="160" width="72" height="38" class="expert" />
+  <rect x="230" y="205" width="72" height="38" class="expert" /><rect x="230" y="250" width="72" height="38" class="expert" />
+  <text x="266" y="140" text-anchor="middle" class="small">E0</text><text x="266" y="185" text-anchor="middle" class="small">E1</text>
+  <text x="266" y="230" text-anchor="middle" class="small">E2</text><text x="266" y="275" text-anchor="middle" class="small">E3</text>
+  <path d="M302 134 C350 140 360 162 382 188" class="arrow" />
+  <path d="M302 179 C342 180 360 184 382 194" class="arrow" />
+  <path d="M302 224 C342 214 360 206 382 200" class="arrow" />
+  <path d="M302 269 C350 250 364 220 382 206" class="arrow" />
+  <rect x="384" y="170" width="58" height="44" class="active" /><text x="413" y="198" text-anchor="middle" class="small">sum</text>
+  <text x="260" y="312" text-anchor="middle" class="small">All experts run; weights decide contribution.</text>
+
+  <rect x="530" y="70" width="420" height="260" class="panel" />
+  <text x="740" y="104" text-anchor="middle" class="label">Sparse routing: desired path</text>
+  <rect x="570" y="135" width="90" height="44" class="router" /><text x="615" y="163" text-anchor="middle" class="small">top-k</text>
+  <path d="M660 157 H700" class="arrow" />
+  <rect x="710" y="115" width="72" height="38" class="muted" /><rect x="710" y="160" width="72" height="38" class="active" />
+  <rect x="710" y="205" width="72" height="38" class="muted" /><rect x="710" y="250" width="72" height="38" class="active" />
+  <text x="746" y="140" text-anchor="middle" class="small">E0</text><text x="746" y="185" text-anchor="middle" class="small">E1</text>
+  <text x="746" y="230" text-anchor="middle" class="small">E2</text><text x="746" y="275" text-anchor="middle" class="small">E3</text>
+  <path d="M782 179 H850" class="arrow" /><path d="M782 269 C820 248 835 224 850 202" class="arrow" />
+  <rect x="852" y="170" width="58" height="44" class="active" /><text x="881" y="198" text-anchor="middle" class="small">sum</text>
+  <text x="740" y="312" text-anchor="middle" class="small">Fewer experts run, but conditional dispatch is harder.</text>
+</svg>

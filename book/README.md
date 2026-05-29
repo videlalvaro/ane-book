@@ -1,0 +1,52 @@
+---
+layout: default
+title: "Book README"
+---
+
+# The ANE LLM Inference Book
+
+A practitioner's guide to production LLM inference on the Apple Neural Engine.
+The book documents the practical path from model weights to ANE-resident CoreML
+graphs, Swift runtimes, validation gates, and the engineering tradeoffs found
+while porting real LLMs.
+
+## Read Online
+
+This folder is configured as the source for the repository's GitHub Pages site.
+When Pages is enabled for the repository, the rendered book is available at:
+
+<https://videlalvaro.github.io/ane-models/>
+
+## Chapters
+
+| Chapter | Topic |
+|---------|-------|
+| [00 - Why ANE?](00-why-ane.md) | ANE vs GPU vs CPU; why CoreML; the Conv2d trick |
+| [01 - ANE Laws](01-ane-laws.md) | Empirical rules: shard limits, quantization, residency |
+| [02 - Porting Recipe](02-porting-recipe.md) | GGUF to CoreML, step by step |
+| [03 - Quantization](03-quantization.md) | INT8 production, INT4 tradeoffs, the silent CPU fallback |
+| [04 - Shard Sizing](04-shard-sizing.md) | Layer count vs size, compiler limits, LM-head splits |
+| [05 - Stateful KV Cache](05-stateful-kv-cache.md) | MLState, Swift daemon design, decode loop |
+| [06 - RangeDim + Speculative](06-rangedim-speculative.md) | Variable token axes, prefill batching, n-gram speculation |
+| [07 - MoE on ANE](07-moe-on-ane.md) | Soft routing, expert shards, ZAYA and Privacy Filter |
+| [08 - Experiment Log](08-experiments.md) | Experiments, results, failures, and lessons learned |
+| [09 - Decision Journal](09-journal.md) | Design decisions and the reasoning behind them |
+
+## What This Book Covers
+
+- CoreML graph shapes that keep transformer compute on the Apple Neural Engine.
+- Quantization choices that preserve quality without triggering CPU fallback.
+- Shard sizing rules for compiler reliability and ANE residency.
+- Stateful KV-cache runtimes using public `MLState` APIs.
+- RangeDim and speculative decoding patterns for better throughput.
+- MoE-specific lessons from ZAYA and the Privacy Filter runtime.
+
+## Repository Context
+
+The surrounding repository contains the converters, validators, Swift runtimes,
+model manifests, and demos referenced by the book. Start from the top-level
+[README](../README.md) for setup instructions and model-specific entry points.
+
+## License
+
+The book and repository are released under the [MIT License](../LICENSE).

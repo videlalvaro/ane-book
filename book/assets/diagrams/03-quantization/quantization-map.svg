@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">Quantization choices on ANE</title>
+  <desc id="desc">INT8 per tensor is the production path. INT4 per block risks CPU fallback on shards. INT4 palettization is promising but must be gated. W8A8 remains future work.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .root { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; rx: 10; }
+      .good { fill: #e8fff5; stroke: #0f9f6e; stroke-width: 2; rx: 10; }
+      .warn { fill: #fff8e1; stroke: #ca8a04; stroke-width: 2; rx: 10; }
+      .bad { fill: #fff4e8; stroke: #d97706; stroke-width: 2; rx: 10; }
+      .future { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .label { font-size: 17px; font-weight: 700; }
+      .small { font-size: 14px; fill: #475569; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">Quantization choices are also placement choices</text>
+  <rect x="380" y="72" width="200" height="58" class="root" />
+  <text x="480" y="106" text-anchor="middle" class="label">Need to ship?</text>
+  <path d="M480 130 V166" class="arrow" />
+  <rect x="80" y="190" width="180" height="92" class="good" />
+  <text x="170" y="221" text-anchor="middle" class="label">INT8 per-tensor</text>
+  <text x="170" y="249" text-anchor="middle" class="small">production baseline</text>
+  <text x="170" y="271" text-anchor="middle" class="small">validated on shards</text>
+  <rect x="300" y="190" width="180" height="92" class="bad" />
+  <text x="390" y="221" text-anchor="middle" class="label">INT4 per-block</text>
+  <text x="390" y="249" text-anchor="middle" class="small">small shards fall</text>
+  <text x="390" y="271" text-anchor="middle" class="small">to CPU silently</text>
+  <rect x="520" y="190" width="180" height="92" class="warn" />
+  <text x="610" y="221" text-anchor="middle" class="label">INT4 palette</text>
+  <text x="610" y="249" text-anchor="middle" class="small">promising</text>
+  <text x="610" y="271" text-anchor="middle" class="small">gate every shard</text>
+  <rect x="740" y="190" width="140" height="92" class="future" />
+  <text x="810" y="221" text-anchor="middle" class="label">W8A8</text>
+  <text x="810" y="249" text-anchor="middle" class="small">future</text>
+  <text x="810" y="271" text-anchor="middle" class="small">calibration needed</text>
+  <path d="M480 166 C360 166 260 166 170 190" class="arrow" />
+  <path d="M480 166 C450 166 420 166 390 190" class="arrow" />
+  <path d="M480 166 C520 166 570 166 610 190" class="arrow" />
+  <path d="M480 166 C630 166 740 166 810 190" class="arrow" />
+</svg>

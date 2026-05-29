@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 7 - Mixture of Experts on ANE"
+---
+
 # Chapter 7 — Mixture of Experts on ANE
 
 ## Why MoE on ANE Is Hard
@@ -13,6 +18,8 @@ ZAYA1-8B (28 MoE layers, 8 experts/layer, top-2 routing), you need to:
 
 Steps 1 and 2 are trivial. Steps 3 and 4 are the hard part: how do you
 conditionally dispatch to a subset of 8 expert FFNs, on ANE, per token?
+
+![Soft routing versus sparse routing for MoE on ANE](assets/diagrams/07-moe-on-ane/soft-vs-sparse-routing.svg)
 
 ---
 

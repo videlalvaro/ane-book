@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">KV cache write cursor</title>
+  <desc id="desc">Each decode step writes the new key and value into the current position of the MLState cache, then attention reads the prefix up to that position.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .cache { fill: #ffffff; stroke: #334155; stroke-width: 2; }
+      .past { fill: #dbeafe; }
+      .new { fill: #86efac; animation: pulse 2.4s ease-in-out infinite; }
+      .future { fill: #f1f5f9; }
+      .arrow { stroke: #475569; stroke-width: 2.4; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; fill: #475569; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+      @keyframes pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">MLState keeps KV inside CoreML between decode calls</text>
+  <text x="126" y="96" class="label">k_new / v_new</text>
+  <rect x="118" y="116" width="130" height="54" fill="#e8fff5" stroke="#0f9f6e" stroke-width="2" rx="8" />
+  <text x="183" y="149" text-anchor="middle" class="code">[heads,1,d]</text>
+  <path d="M248 143 H360" class="arrow" />
+  <text x="458" y="98" text-anchor="middle" class="label">state cache positions</text>
+  <g transform="translate(360 120)">
+    <rect width="52" height="86" class="past cache" /><rect x="52" width="52" height="86" class="past cache" />
+    <rect x="104" width="52" height="86" class="past cache" /><rect x="156" width="52" height="86" class="new cache" />
+    <rect x="208" width="52" height="86" class="future cache" /><rect x="260" width="52" height="86" class="future cache" />
+    <text x="26" y="112" text-anchor="middle" class="small">0</text><text x="78" y="112" text-anchor="middle" class="small">1</text>
+    <text x="130" y="112" text-anchor="middle" class="small">2</text><text x="182" y="112" text-anchor="middle" class="small">pos</text>
+    <text x="234" y="112" text-anchor="middle" class="small">...</text><text x="286" y="112" text-anchor="middle" class="small">S</text>
+  </g>
+  <path d="M542 206 C558 250 610 268 680 244" class="arrow" />
+  <rect x="684" y="208" width="170" height="76" fill="#eef6ff" stroke="#2563eb" stroke-width="2" rx="10" />
+  <text x="769" y="238" text-anchor="middle" class="label">attention reads</text>
+  <text x="769" y="264" text-anchor="middle" class="code">cache[0..pos]</text>
+  <text x="480" y="318" text-anchor="middle" class="small">The host passes only the current hidden state; KV remains resident in MLState.</text>
+</svg>

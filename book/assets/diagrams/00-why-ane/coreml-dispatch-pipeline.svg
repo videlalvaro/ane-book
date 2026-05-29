@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">CoreML compile and dispatch pipeline</title>
+  <desc id="desc">A PyTorch model is converted to a CoreML mlprogram, compiled to mlmodelc, then dispatched to ANE, GPU, or CPU. MLComputePlan verifies the chosen backend.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #15202b; }
+      .box { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 10; }
+      .ane { fill: #e8fff5; stroke: #0f9f6e; }
+      .fallback { fill: #fff4e8; stroke: #d97706; }
+      .check { fill: #eef6ff; stroke: #2563eb; }
+      .arrow { stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); fill: none; }
+      .small { font-size: 15px; }
+      .label { font-size: 18px; font-weight: 700; }
+      .muted { fill: #64748b; font-size: 14px; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+    </marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">CoreML chooses placement at compile time</text>
+
+  <rect x="40" y="92" width="150" height="86" class="box" />
+  <text x="115" y="126" text-anchor="middle" class="label">PyTorch</text>
+  <text x="115" y="152" text-anchor="middle" class="small">TorchScript trace</text>
+
+  <rect x="250" y="92" width="160" height="86" class="box" />
+  <text x="330" y="126" text-anchor="middle" class="label">CoreML</text>
+  <text x="330" y="152" text-anchor="middle" class="small">mlprogram</text>
+
+  <rect x="470" y="92" width="170" height="86" class="box" />
+  <text x="555" y="122" text-anchor="middle" class="label">coremlcompiler</text>
+  <text x="555" y="150" text-anchor="middle" class="small">ANEF placement</text>
+
+  <rect x="700" y="92" width="160" height="86" class="box" />
+  <text x="780" y="126" text-anchor="middle" class="label">.mlmodelc</text>
+  <text x="780" y="152" text-anchor="middle" class="small">compiled bundle</text>
+
+  <path d="M190 135 H248" class="arrow" />
+  <path d="M410 135 H468" class="arrow" />
+  <path d="M640 135 H698" class="arrow" />
+
+  <path d="M780 178 V220" class="arrow" />
+  <rect x="640" y="232" width="120" height="58" class="ane" />
+  <text x="700" y="257" text-anchor="middle" class="label">ANE</text>
+  <text x="700" y="278" text-anchor="middle" class="small">target path</text>
+
+  <rect x="780" y="232" width="120" height="58" class="fallback" />
+  <text x="840" y="257" text-anchor="middle" class="label">CPU/GPU</text>
+  <text x="840" y="278" text-anchor="middle" class="small">fallback</text>
+
+  <path d="M780 220 C760 220 730 220 710 232" class="arrow" />
+  <path d="M780 220 C805 220 830 220 840 232" class="arrow" />
+
+  <rect x="145" y="238" width="360" height="72" class="check" />
+  <text x="325" y="267" text-anchor="middle" class="label">MLComputePlan</text>
+  <text x="325" y="291" text-anchor="middle" class="small">verify every ios18.conv prefers Neural Engine</text>
+  <path d="M700 261 H506" class="arrow" />
+  <text x="555" y="82" text-anchor="middle" class="muted">No runtime warning if placement is wrong</text>
+</svg>

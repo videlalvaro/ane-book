@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" role="img" aria-labelledby="title desc">
+  <title id="title">N-gram speculative draft and verify</title>
+  <desc id="desc">Prompt history proposes draft tokens with n-gram lookup. A T=4 verifier checks the block, accepts the matching prefix, and falls back on the first mismatch.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .token { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 8; }
+      .draft { fill: #fff8e1; stroke: #ca8a04; stroke-width: 2; rx: 8; }
+      .accept { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 8; animation: glow 2.8s ease-in-out infinite; }
+      .reject { fill: #fee2e2; stroke: #dc2626; stroke-width: 2; rx: 8; animation: shake 2.8s ease-in-out infinite; }
+      .model { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #475569; stroke-width: 2.4; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; fill: #475569; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+      @keyframes glow { 0%,100% { filter: none; } 50% { filter: drop-shadow(0 0 6px #22c55e); } }
+      @keyframes shake { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1000" height="380" fill="#f8fafc" />
+  <text x="500" y="36" text-anchor="middle" class="label">Speculative decode turns repeated context into fewer full-model calls</text>
+  <text x="106" y="92" class="label">history</text>
+  <rect x="70" y="112" width="52" height="44" class="token" /><rect x="132" y="112" width="52" height="44" class="token" />
+  <rect x="194" y="112" width="52" height="44" class="token" /><rect x="256" y="112" width="52" height="44" class="token" />
+  <text x="96" y="139" text-anchor="middle" class="code">A</text><text x="158" y="139" text-anchor="middle" class="code">B</text>
+  <text x="220" y="139" text-anchor="middle" class="code">C</text><text x="282" y="139" text-anchor="middle" class="code">D</text>
+  <path d="M308 134 H392" class="arrow" />
+  <rect x="400" y="98" width="148" height="72" fill="#ffffff" stroke="#334155" stroke-width="2" rx="10" />
+  <text x="474" y="126" text-anchor="middle" class="label">n-gram lookup</text>
+  <text x="474" y="150" text-anchor="middle" class="small">cheap draft</text>
+  <path d="M548 134 H628" class="arrow" />
+  <g transform="translate(638 94)">
+    <text x="100" y="0" text-anchor="middle" class="label">draft T=4</text>
+    <rect x="0" y="20" width="56" height="46" class="draft" /><rect x="66" y="20" width="56" height="46" class="draft" />
+    <rect x="132" y="20" width="56" height="46" class="draft" /><rect x="198" y="20" width="56" height="46" class="draft" />
+    <text x="28" y="49" text-anchor="middle" class="code">d1</text><text x="94" y="49" text-anchor="middle" class="code">d2</text>
+    <text x="160" y="49" text-anchor="middle" class="code">d3</text><text x="226" y="49" text-anchor="middle" class="code">d4</text>
+  </g>
+  <path d="M766 170 V214" class="arrow" />
+  <rect x="616" y="224" width="300" height="72" class="model" />
+  <text x="766" y="253" text-anchor="middle" class="label">full model verifier</text>
+  <text x="766" y="278" text-anchor="middle" class="small">one RangeDim forward pass</text>
+  <path d="M616 260 H360" class="arrow" />
+  <g transform="translate(94 232)">
+    <text x="125" y="-18" text-anchor="middle" class="label">commit result</text>
+    <rect x="0" y="0" width="56" height="46" class="accept" /><rect x="66" y="0" width="56" height="46" class="accept" />
+    <rect x="132" y="0" width="56" height="46" class="reject" /><rect x="198" y="0" width="56" height="46" class="token" />
+    <text x="28" y="29" text-anchor="middle" class="code">ok</text><text x="94" y="29" text-anchor="middle" class="code">ok</text>
+    <text x="160" y="29" text-anchor="middle" class="code">miss</text><text x="226" y="29" text-anchor="middle" class="code">fall</text>
+  </g>
+  <text x="500" y="340" text-anchor="middle" class="small">Accepted prefix advances the sequence; the first miss uses the target model token.</text>
+</svg>

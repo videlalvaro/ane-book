@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 8 - Experiment Log"
+---
+
 # Book-Driven AutoEML Experiment Design
 
 **Date**: 2026-04-14  
@@ -222,6 +227,8 @@ When writing up these experiments, cite:
 ## Phi ANE Shape Optimization Program
 
 **Date**: 2026-04-28
+
+![Experiment log timeline](assets/diagrams/08-experiments/experiment-timeline.svg)
 
 The Phi-4-mini ANE work turns the same book ideas into a hardware-shape search
 problem. The objective is no longer reducing scalar transcendentals; it is making

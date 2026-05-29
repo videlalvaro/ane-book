@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">Validation-first development loop</title>
+  <desc id="desc">The journal follows a loop: hypothesis, build shard, residency gate, golden gate, benchmark, then keep or revert.</desc>
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
+      .node { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 10; }
+      .gate { fill: #e8fff5; stroke: #0f9f6e; stroke-width: 2; rx: 10; }
+      .decision { fill: #fff8e1; stroke: #ca8a04; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); fill: none; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; fill: #475569; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="960" height="360" fill="#f8fafc" />
+  <text x="480" y="36" text-anchor="middle" class="label">The journal records the validation loop</text>
+  <rect x="80" y="132" width="130" height="70" class="node" /><text x="145" y="161" text-anchor="middle" class="label">hypothesis</text><text x="145" y="184" text-anchor="middle" class="small">shape or bug</text>
+  <rect x="250" y="132" width="130" height="70" class="node" /><text x="315" y="161" text-anchor="middle" class="label">build shard</text><text x="315" y="184" text-anchor="middle" class="small">compile</text>
+  <rect x="420" y="132" width="130" height="70" class="gate" /><text x="485" y="161" text-anchor="middle" class="label">residency</text><text x="485" y="184" text-anchor="middle" class="small">100% ANE</text>
+  <rect x="590" y="132" width="130" height="70" class="gate" /><text x="655" y="161" text-anchor="middle" class="label">golden</text><text x="655" y="184" text-anchor="middle" class="small">cos gate</text>
+  <rect x="760" y="132" width="130" height="70" class="node" /><text x="825" y="161" text-anchor="middle" class="label">benchmark</text><text x="825" y="184" text-anchor="middle" class="small">tok/s, energy</text>
+  <path d="M210 167 H248" class="arrow" /><path d="M380 167 H418" class="arrow" /><path d="M550 167 H588" class="arrow" /><path d="M720 167 H758" class="arrow" />
+  <rect x="390" y="254" width="180" height="62" class="decision" /><text x="480" y="280" text-anchor="middle" class="label">keep or revert</text><text x="480" y="302" text-anchor="middle" class="small">document why</text>
+  <path d="M825 202 C780 280 650 285 572 285" class="arrow" />
+  <path d="M390 285 C210 285 140 245 145 204" class="arrow" />
+</svg>

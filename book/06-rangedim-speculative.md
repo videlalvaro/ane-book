@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 6 - RangeDim and Speculative Decode"
+---
+
 # Chapter 6 — RangeDim and Speculative Decode
 
 ## The Prefill/Decode Asymmetry
@@ -40,6 +45,11 @@ for aggressive prefill, but test ANE residency — very large T can trigger fall
 The idea: instead of generating tokens one at a time, draft `n` candidate tokens
 using a cheap heuristic (n-gram lookup), verify all `n` at once with the full model
 in a single T=n forward pass, and accept as many as are correct.
+
+![N-gram speculative draft and verify flow](assets/diagrams/06-rangedim-speculative/ngram-draft-verify.svg)
+
+The accepted draft prefix glows green; the first mismatch becomes the fallback
+token from the full model verifier.
 
 Expected tokens/call with n-gram matching on natural language:
 - T=1: 1.0 tokens/call (baseline)

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Chapter 5 - Stateful KV Cache"
+---
+
 # Chapter 5 — Stateful KV Cache with MLState
 
 ## Why MLState
@@ -10,6 +15,12 @@ CoreML's `MLState` stores tensors inside the model's runtime, persisting between
 `predict()` calls. The host never touches the KV tensor after write.
 
 The decode loop reduces to:
+
+![Stateful decode loop with MLState KV cache](assets/diagrams/05-stateful-kv-cache/kv-cache-write.svg)
+
+The green slot pulses at the current write position: each decode call appends
+the new K/V rows, while attention reads the prefix already stored in `MLState`.
+
 ```
 token → embed → [layer_0(state), layer_1(state), ..., layer_N(state)] → lm_head → sample
 ```

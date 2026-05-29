@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 9 - Decision Journal"
+---
+
+![Validation-first development loop](assets/diagrams/09-journal/validation-loop.svg)
+
 ## 2026-04-26 — FP16 Gemma ANE Rebuild Retry Requested
 
 **Intent**: Retry a full FP16 Gemma ANE rebuild now to produce complete FP16 artifacts under ANE-only policy gates, aligned with the project ANE-only mandate and quality-before-perf workflow (BOOK_ANALYSIS optimization-discipline framing; project policy in .github/copilot-instructions.md).
