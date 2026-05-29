@@ -333,7 +333,7 @@ save_multifunction(desc, "experts_multi.mlpackage")
 # performs constant deduplication across functions for shared weights
 ```
 
-**End-to-end probe** ([research-probes/ane_multifunction_probe.py]):
+**End-to-end probe** (ane_multifunction_probe.py):
 Built 4 tiny `linear+relu` "experts", combined into one `.mlpackage` via `save_multifunction`, loaded each via `function_name="expert_i"` on `CPU_AND_NE`, all four ran and produced distinct outputs:
 ```
 expert_0: out[:4] = [15.585, 0.0, 8.421, 0.0]
@@ -377,7 +377,7 @@ expert_3: out[:4] = [0.0,   0.0, 8.632, 0.278]
 
 ## Still Open
 
-1. ~~**Procedure-count cap per loaded model**~~ — **REFUTED.** Sweep N=4,16,32,64,96,128,192,256 ([research-probes/ane_proc_cap_sweep.py]) — **all 256 functions loaded and ran successfully on `CPU_AND_NE`**. No cap. The `[64 I]` arrays in `VirtANEModel` are per-procedure symbol/bank limits, not procedure counts. Implication: **all 128 Gemma 4 experts per layer can live in a single `.mlpackage`** — 30 packages total instead of 60.
+1. ~~**Procedure-count cap per loaded model**~~ — **REFUTED.** Sweep N=4,16,32,64,96,128,192,256 (ane_proc_cap_sweep.py) — **all 256 functions loaded and ran successfully on `CPU_AND_NE`**. No cap. The `[64 I]` arrays in `VirtANEModel` are per-procedure symbol/bank limits, not procedure counts. Implication: **all 128 Gemma 4 experts per layer can live in a single `.mlpackage`** — 30 packages total instead of 60.
 2. **Shared-weight memory accounting** — measure on-disk and in-memory size of an N-function `.mlpackage` vs N standalone packages, with and without identical weights, to validate dedup ratio.
 3. **Sequential-load cost vs cached instances** — sweep showed 0.33s per `MLModel(..., function_name=...)` load+predict at N=256 (84s total). Real driver must cache the loaded `MLModel` per function. Open: does the daemon refcount the underlying `_ANEModel` so 128 cached instances share one resident model? (The chain primitive proves yes at the firmware level.)
 4. **Chain across two distinct loaded models** — verified the daemon holds 2 models concurrently (round 1); next is to actually `prepareChainingWithModel:` with a real `_ANEChainingRequest` whose `_outputSets` reference procedures from both models. Open question: does `_procedureIndex` namespace span both models, or is the chain bound to one model only?
@@ -1036,7 +1036,7 @@ At least for **stateful INT8 conv-heavy shards**, ANE placement remains valid at
 
 ### Bandwidth at ANE-resident sizes
 
-Pure-linear sweep ([research-probes/ane_bw_sweep.py]) — **only sizes >16 MB are reliably on ANE**:
+Pure-linear sweep (ane_bw_sweep.py) — **only sizes >16 MB are reliably on ANE**:
 
 | Weights | Latency | Effective BW |
 |---|---|---|
@@ -1048,7 +1048,7 @@ Realistic ANE BW is **~25–110 GB/s** depending on shape. The 21 GB/s case at 6
 
 ### Cached-instance is mandatory
 
-Probe ([research-probes/ane_cache_probe.py]) — 16 MB linear, 200 iters:
+Probe (ane_cache_probe.py) — 16 MB linear, 200 iters:
 
 | Operation | Latency |
 |---|---|
@@ -1060,7 +1060,7 @@ Probe ([research-probes/ane_cache_probe.py]) — 16 MB linear, 200 iters:
 
 ### Realistic Gemma-expert timing
 
-[research-probes/ane_expert_probe.py] builds a Gemma-style SwiGLU MLP (gate+up+silu*+down) with realistic shapes:
+ane_expert_probe.py builds a Gemma-style SwiGLU MLP (gate+up+silu*+down) with realistic shapes:
 
 | Label | d_model | d_ffn | Weights | Latency | Effective BW |
 |---|---|---|---|---|---|
@@ -1097,10 +1097,10 @@ The earlier 25–50 tok/s back-of-envelope was **2–5× too optimistic**. The d
 
 ### Files
 
-- [research-probes/ane_bw_sweep.py] — pure-linear BW sweep
-- [research-probes/ane_cache_probe.py] — cached vs fresh
-- [research-probes/ane_expert_probe.py] — Gemma-shape SwiGLU
-- [research-probes/ane_device_probe.py] — verifies which ops actually ran on ANE
+- ane_bw_sweep.py — pure-linear BW sweep
+- ane_cache_probe.py — cached vs fresh
+- ane_expert_probe.py — Gemma-shape SwiGLU
+- ane_device_probe.py — verifies which ops actually ran on ANE
 ## Sweep Results (Procedure Count)
 
 | N | build_s | save_s | run_s | pkg_MB | ok |
