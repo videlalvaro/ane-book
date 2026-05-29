@@ -19,17 +19,157 @@
       <aside class="toc-sidebar" aria-label="Table of contents">
         <nav class="toc-nav">
           <div class="toc-heading">Contents</div>
-          <a href="{{ '/' | relative_url }}"{% if page.url == '/' or page.url == '/index.html' %} class="active"{% endif %}>Cover</a>
-          <a href="{{ '/00-why-ane.html' | relative_url }}"{% if page.url == '/00-why-ane.html' %} class="active"{% endif %}>00 - Why ANE</a>
-          <a href="{{ '/01-ane-laws.html' | relative_url }}"{% if page.url == '/01-ane-laws.html' %} class="active"{% endif %}>01 - ANE Laws</a>
-          <a href="{{ '/02-porting-recipe.html' | relative_url }}"{% if page.url == '/02-porting-recipe.html' %} class="active"{% endif %}>02 - Porting Recipe</a>
-          <a href="{{ '/03-quantization.html' | relative_url }}"{% if page.url == '/03-quantization.html' %} class="active"{% endif %}>03 - Quantization</a>
-          <a href="{{ '/04-shard-sizing.html' | relative_url }}"{% if page.url == '/04-shard-sizing.html' %} class="active"{% endif %}>04 - Shard Sizing</a>
-          <a href="{{ '/05-stateful-kv-cache.html' | relative_url }}"{% if page.url == '/05-stateful-kv-cache.html' %} class="active"{% endif %}>05 - Stateful KV Cache</a>
-          <a href="{{ '/06-rangedim-speculative.html' | relative_url }}"{% if page.url == '/06-rangedim-speculative.html' %} class="active"{% endif %}>06 - RangeDim + Speculative</a>
-          <a href="{{ '/07-moe-on-ane.html' | relative_url }}"{% if page.url == '/07-moe-on-ane.html' %} class="active"{% endif %}>07 - MoE on ANE</a>
-          <a href="{{ '/08-experiments.html' | relative_url }}"{% if page.url == '/08-experiments.html' or page.url contains '/experiments/' %} class="active"{% endif %}>08 - Experiment Index</a>
-          <a href="{{ '/09-journal.html' | relative_url }}"{% if page.url == '/09-journal.html' %} class="active"{% endif %}>09 - Journal</a>
+          <a class="toc-root{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}" href="{{ '/' | relative_url }}">Cover</a>
+          <details class="toc-section{% if page.url == '/00-why-ane.html' %} active{% endif %}"{% if page.url == '/00-why-ane.html' %} open{% endif %}>
+            <summary>00 - Why ANE</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/00-why-ane.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/00-why-ane.html#the-hardware-youre-not-using' | relative_url }}">The hardware you're not using</a>
+              <a href="{{ '/00-why-ane.html#ane-vs-gpu-vs-cpu--the-real-tradeoffs' | relative_url }}">ANE vs GPU vs CPU</a>
+              <a href="{{ '/00-why-ane.html#what-coreml-actually-does' | relative_url }}">What CoreML does</a>
+              <a href="{{ '/00-why-ane.html#why-every-matmul-must-be-conv2d' | relative_url }}">Matmul as Conv2d</a>
+              <a href="{{ '/00-why-ane.html#what-this-book-covers' | relative_url }}">What this book covers</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/01-ane-laws.html' %} active{% endif %}"{% if page.url == '/01-ane-laws.html' %} open{% endif %}>
+            <summary>01 - ANE Laws</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/01-ane-laws.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/01-ane-laws.html#law-1-the-shape-must-be-1-channels-t-1' | relative_url }}">Law 1: Shape</a>
+              <a href="{{ '/01-ane-laws.html#law-2-use-ios18conv-for-every-projection' | relative_url }}">Law 2: ios18.conv</a>
+              <a href="{{ '/01-ane-laws.html#law-3-int8-per-tensor-is-the-production-baseline' | relative_url }}">Law 3: INT8 baseline</a>
+              <a href="{{ '/01-ane-laws.html#law-4-the-shard-size-ceiling-is-250-mb' | relative_url }}">Law 4: Shard ceiling</a>
+              <a href="{{ '/01-ane-laws.html#law-5-every-layer-must-be-its-own-shard-for-large-models' | relative_url }}">Law 5: Layer shards</a>
+              <a href="{{ '/01-ane-laws.html#law-6-mlcomputeplan-is-the-ground-truth' | relative_url }}">Law 6: MLComputePlan</a>
+              <a href="{{ '/01-ane-laws.html#law-7-the-chain-primitive-enables-zero-copy-multi-stage-dispatch' | relative_url }}">Law 7: Chain primitive</a>
+              <a href="{{ '/01-ane-laws.html#law-8-stateful-kv-cache-requires-mlstate' | relative_url }}">Law 8: MLState</a>
+              <a href="{{ '/01-ane-laws.html#summary-table' | relative_url }}">Summary table</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/02-porting-recipe.html' %} active{% endif %}"{% if page.url == '/02-porting-recipe.html' %} open{% endif %}>
+            <summary>02 - Porting Recipe</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/02-porting-recipe.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/02-porting-recipe.html#prerequisites' | relative_url }}">Prerequisites</a>
+              <a href="{{ '/02-porting-recipe.html#step-0-read-the-gguf-and-extract-metadata' | relative_url }}">Step 0: Metadata</a>
+              <a href="{{ '/02-porting-recipe.html#step-1-build-the-conv2d-model-graph' | relative_url }}">Step 1: Conv2d graph</a>
+              <a href="{{ '/02-porting-recipe.html#step-2-load-weights-from-gguf' | relative_url }}">Step 2: Weights</a>
+              <a href="{{ '/02-porting-recipe.html#step-3-trace-and-convert-to-coreml' | relative_url }}">Step 3: Convert</a>
+              <a href="{{ '/02-porting-recipe.html#step-4-apply-int8-quantization' | relative_url }}">Step 4: Quantize</a>
+              <a href="{{ '/02-porting-recipe.html#step-5-save-and-compile' | relative_url }}">Step 5: Compile</a>
+              <a href="{{ '/02-porting-recipe.html#step-6-verify-ane-residency' | relative_url }}">Step 6: Residency</a>
+              <a href="{{ '/02-porting-recipe.html#step-7-capture-a-golden-for-quality-validation' | relative_url }}">Step 7: Golden</a>
+              <a href="{{ '/02-porting-recipe.html#summary-checklist' | relative_url }}">Checklist</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/03-quantization.html' %} active{% endif %}"{% if page.url == '/03-quantization.html' %} open{% endif %}>
+            <summary>03 - Quantization</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/03-quantization.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/03-quantization.html#the-only-safe-baseline-int8-per-tensor' | relative_url }}">INT8 baseline</a>
+              <a href="{{ '/03-quantization.html#the-int4-per-block-silent-cpu-fallback' | relative_url }}">INT4 CPU fallback</a>
+              <a href="{{ '/03-quantization.html#why-int8-works' | relative_url }}">Why INT8 works</a>
+              <a href="{{ '/03-quantization.html#int4-palettization-promising-but-unvalidated' | relative_url }}">INT4 palettization</a>
+              <a href="{{ '/03-quantization.html#int4-noise-at-15b-scale' | relative_url }}">INT4 noise</a>
+              <a href="{{ '/03-quantization.html#w8a8-weights--activations-future-direction' | relative_url }}">W8A8</a>
+              <a href="{{ '/03-quantization.html#the-norm-convention-bug-a-case-study' | relative_url }}">Norm bug case study</a>
+              <a href="{{ '/03-quantization.html#quantization-decision-tree' | relative_url }}">Decision tree</a>
+              <a href="{{ '/03-quantization.html#checklist-before-using-any-non-int8-quantization' | relative_url }}">Checklist</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/04-shard-sizing.html' %} active{% endif %}"{% if page.url == '/04-shard-sizing.html' %} open{% endif %}>
+            <summary>04 - Shard Sizing</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/04-shard-sizing.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/04-shard-sizing.html#the-250-mb-wall' | relative_url }}">The 250 MB wall</a>
+              <a href="{{ '/04-shard-sizing.html#layer-counting-how-many-layers-per-shard' | relative_url }}">Layer counting</a>
+              <a href="{{ '/04-shard-sizing.html#the-lm-head-problem' | relative_url }}">LM head</a>
+              <a href="{{ '/04-shard-sizing.html#embedding-table' | relative_url }}">Embedding table</a>
+              <a href="{{ '/04-shard-sizing.html#shard-naming-convention' | relative_url }}">Shard naming</a>
+              <a href="{{ '/04-shard-sizing.html#shard-sizing-checklist' | relative_url }}">Checklist</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/05-stateful-kv-cache.html' %} active{% endif %}"{% if page.url == '/05-stateful-kv-cache.html' %} open{% endif %}>
+            <summary>05 - Stateful KV Cache</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/05-stateful-kv-cache.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/05-stateful-kv-cache.html#why-mlstate' | relative_url }}">Why MLState</a>
+              <a href="{{ '/05-stateful-kv-cache.html#mlstate-in-coremltools' | relative_url }}">MLState in coremltools</a>
+              <a href="{{ '/05-stateful-kv-cache.html#swift-runtime-for-stateful-decode' | relative_url }}">Swift runtime</a>
+              <a href="{{ '/05-stateful-kv-cache.html#the-cca-cross-chunk-attention-pattern' | relative_url }}">CCA pattern</a>
+              <a href="{{ '/05-stateful-kv-cache.html#known-bugs-and-pitfalls' | relative_url }}">Pitfalls</a>
+              <a href="{{ '/05-stateful-kv-cache.html#checklist' | relative_url }}">Checklist</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/06-rangedim-speculative.html' %} active{% endif %}"{% if page.url == '/06-rangedim-speculative.html' %} open{% endif %}>
+            <summary>06 - RangeDim + Speculative</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/06-rangedim-speculative.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/06-rangedim-speculative.html#the-prefilldecode-asymmetry' | relative_url }}">Prefill/decode asymmetry</a>
+              <a href="{{ '/06-rangedim-speculative.html#rangedim-variable-sequence-length-in-coreml' | relative_url }}">RangeDim</a>
+              <a href="{{ '/06-rangedim-speculative.html#n-gram-speculative-decode' | relative_url }}">n-Gram speculative decode</a>
+              <a href="{{ '/06-rangedim-speculative.html#rangedim-conversion' | relative_url }}">RangeDim conversion</a>
+              <a href="{{ '/06-rangedim-speculative.html#stateful--rangedim-known-complication' | relative_url }}">Stateful + RangeDim</a>
+              <a href="{{ '/06-rangedim-speculative.html#benchmarked-speeds-m4-max-48-gb' | relative_url }}">Benchmarked speeds</a>
+              <a href="{{ '/06-rangedim-speculative.html#checklist' | relative_url }}">Checklist</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/07-moe-on-ane.html' %} active{% endif %}"{% if page.url == '/07-moe-on-ane.html' %} open{% endif %}>
+            <summary>07 - MoE on ANE</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/07-moe-on-ane.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/07-moe-on-ane.html#why-moe-on-ane-is-hard' | relative_url }}">Why MoE is hard</a>
+              <a href="{{ '/07-moe-on-ane.html#approach-1-soft-routing-weighted-sum-of-all-experts' | relative_url }}">Soft routing</a>
+              <a href="{{ '/07-moe-on-ane.html#approach-2-per-expert-shards-with-mlmultifunction' | relative_url }}">Per-expert shards</a>
+              <a href="{{ '/07-moe-on-ane.html#zaya1-8b-architecture' | relative_url }}">ZAYA architecture</a>
+              <a href="{{ '/07-moe-on-ane.html#packing-all-experts-into-one-shard' | relative_url }}">Expert packing</a>
+              <a href="{{ '/07-moe-on-ane.html#privacy-filter-moe-ner' | relative_url }}">Privacy filter</a>
+              <a href="{{ '/07-moe-on-ane.html#the-ane-chain-primitive-advanced' | relative_url }}">Chain primitive</a>
+              <a href="{{ '/07-moe-on-ane.html#checklist' | relative_url }}">Checklist</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/08-experiments.html' or page.url contains '/experiments/' %} active{% endif %}"{% if page.url == '/08-experiments.html' or page.url contains '/experiments/' %} open{% endif %}>
+            <summary>08 - Experiment Index</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/08-experiments.html' | relative_url }}">Experiment index</a>
+              <a href="{{ '/08-experiments.html#books-surveyed' | relative_url }}">Books surveyed</a>
+              <a href="{{ '/08-experiments.html#experiments' | relative_url }}">Experiments table</a>
+              <a href="{{ '/experiments/16-log-sum-exp-peephole-rewrite.html' | relative_url }}">16 - Log-sum-exp rewrite</a>
+              <a href="{{ '/experiments/17-fused-apl-style-inner-product.html' | relative_url }}">17 - Fused inner product</a>
+              <a href="{{ '/experiments/18-constraint-propagation-for-realness.html' | relative_url }}">18 - Constraint propagation</a>
+              <a href="{{ '/experiments/19-balanced-tree-reduction-semigroup-accumulator.html' | relative_url }}">19 - Balanced tree reduction</a>
+              <a href="{{ '/experiments/20-weighted-automaton-layer-partition-search.html' | relative_url }}">20 - Layer partition search</a>
+              <a href="{{ '/experiments/21-apl-style-token-stream-batching.html' | relative_url }}">21 - Token batching</a>
+              <a href="{{ '/experiments/22-hierarchical-lm-head-reduction.html' | relative_url }}">22 - LM head reduction</a>
+              <a href="{{ '/experiments/23-prompt-lookup-n-gram-speculation.html' | relative_url }}">23 - Prompt lookup</a>
+              <a href="{{ '/experiments/24-structured-cot-as-a-grammar-constrained-sampler.html' | relative_url }}">24 - Structured CoT</a>
+              <a href="{{ '/experiments/25-prompt-lookup-force-mode-as-a-head-skip-ceiling.html' | relative_url }}">25 - Force mode</a>
+              <a href="{{ '/experiments/26-multi-token-verifier-feasibility.html' | relative_url }}">26 - Multi-token verifier</a>
+              <a href="{{ '/experiments/27-microgpt-on-ane-minimum-size-constraint-discovery.html' | relative_url }}">27 - MicroGPT</a>
+              <a href="{{ '/experiments/28-hymt-1-8b-rangedim-t-1-4-n-gram-speculative-decode.html' | relative_url }}">28 - HyMT RangeDim</a>
+              <a href="{{ '/experiments/29-zaya1-8b-moe-feasibility-probe-on-ane.html' | relative_url }}">29 - ZAYA MoE probe</a>
+              <a href="{{ '/experiments/30-zaya1-8b-stateful-attn-shards-kv-cache-on-ane.html' | relative_url }}">30 - Stateful attn shards</a>
+              <a href="{{ '/experiments/31-zaya1-8b-cca-conv-qk-gates-wired-into-40-stateful-attn-shards-2025-07-14.html' | relative_url }}">31 - CCA gates</a>
+              <a href="{{ '/experiments/32-zaya1-8b-speculative-decode-t-4-verifier-n-gram-implemented-bottlenecked.html' | relative_url }}">32 - Speculative decode</a>
+              <a href="{{ '/experiments/33-phi-4-mini-arc-challenge-eval-5-shot-raw-completion-complete.html' | relative_url }}">33 - ARC-Challenge eval</a>
+              <a href="{{ '/experiments/34-zaya1-8b-moe-rangedim-rebuild-t-1-4-speculative-moe-complete.html' | relative_url }}">34 - MoE RangeDim rebuild</a>
+              <a href="{{ '/experiments/35-zaya1-8b-moe-int4pal-per-grouped-channel-palettization-group-size-32-complete.html' | relative_url }}">35 - INT4pal MoE</a>
+              <a href="{{ '/experiments/36-gemma-4-26b-a4b-int8-per-channel-rebuild-t4-3-quality-fix.html' | relative_url }}">36 - Gemma quality fix</a>
+              <a href="{{ '/08-experiments.html#experiment-execution-order' | relative_url }}">Execution order</a>
+              <a href="{{ '/08-experiments.html#references' | relative_url }}">References</a>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/09-journal.html' %} active{% endif %}"{% if page.url == '/09-journal.html' %} open{% endif %}>
+            <summary>09 - Journal</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/09-journal.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/09-journal.html#2026-04-26--fp16-gemma-ane-rebuild-retry-requested' | relative_url }}">2026-04-26 - Gemma retry</a>
+              <a href="{{ '/09-journal.html#2026-04-27--phi-4-mini-instruct-ane-support-scaffolding-intent' | relative_url }}">2026-04-27 - Phi support</a>
+              <a href="{{ '/09-journal.html#2026-04-27--phi-4-mini-layer-0-gate-residency-passed' | relative_url }}">Layer 0 residency</a>
+              <a href="{{ '/09-journal.html#2026-04-27--phi-4-mini-numerical-smoke-passed' | relative_url }}">Numerical smoke</a>
+              <a href="{{ '/09-journal.html#2026-04-27--phi-4-mini-bounded-run-range-orchestration-landed' | relative_url }}">Run-range orchestration</a>
+            </div>
+          </details>
         </nav>
       </aside>
       <main class="page-content">
