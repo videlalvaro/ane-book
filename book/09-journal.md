@@ -5,7 +5,7 @@ title: "Chapter 9 - Decision Journal"
 
 ![Validation-first development loop](assets/diagrams/09-journal/validation-loop.svg)
 
-## 2026-04-26 — FP16 Gemma ANE Rebuild Retry Requested
+## 2026-04-26 — FP16 Gemma ANE Rebuild Retry Requested {#journal-001}
 
 **Intent**: Retry a full FP16 Gemma ANE rebuild now to produce complete FP16 artifacts under ANE-only policy gates, aligned with the project ANE-only mandate and quality-before-perf workflow (BOOK_ANALYSIS optimization-discipline framing; project policy in .github/copilot-instructions.md).
 **Setup**: Planned run scope: all 30 FP16 layer shards, FP16 LM-head shards, regenerated FP16 runtime metadata, and non-REAP prefill/decode gates. Constraints captured: ANE-only compute, no REAP path, resumable commands, and no destructive deletions.
@@ -16,7 +16,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; python/moe/GEMMA_ANE_RESEARCH.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md; scripts/gemma_ram_safe_rebuild.sh
 
 ---
-## 2026-04-27 — Phi-4-mini-instruct ANE Support Scaffolding Intent
+## 2026-04-27 — Phi-4-mini-instruct ANE Support Scaffolding Intent {#journal-002}
 
 **Intent**: Start Phi-4-mini-instruct ANE support with safe scaffolding only: reusable analyzer/preflight and orchestration scripts before any expensive conversion. The plan follows the ANE-only mandate, quality-before-performance gating, and optimization discipline from BOOK_ANALYSIS.md (measure and validate before scaling an implementation).
 **Setup**: Workspace: `this repo`; model seed artifact: `models/Phi-4-mini-instruct.Q8_0.gguf`; planned baseline: INT8 per-tensor CoreML shards targeting ANE. Initial implementation scope is non-destructive preflight/analyzer/orchestration code only, with disk/RAM/cache guardrails and no full conversion, no cleanup of model/output artifacts, and no benchmarking.
@@ -27,7 +27,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: .github/copilot-instructions.md; BOOK_ANALYSIS.md; python/moe/GEMMA_ANE_RESEARCH.md; local-artifacts/ANE_CHAIN_SCHEMA.md; models/Phi-4-mini-instruct.Q8_0.gguf
 
 ---
-## 2026-04-27 — Phi-4-mini-instruct Layer-0 Gate Residency Passed
+## 2026-04-27 — Phi-4-mini-instruct Layer-0 Gate Residency Passed {#journal-003}
 
 **Intent**: Validate the smallest representative Phi-4-mini-instruct full-layer INT8 CoreML shard before scale-out, following the ANE residency gate and optimization discipline from BOOK_ANALYSIS.md.
 **Setup**: Layer 0 full-layer INT8 mlpackage conversion, CoreML compilation to mlmodelc, strict MLComputePlan residency check.
@@ -38,7 +38,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layer-0 Numerical Smoke Passed
+## 2026-04-27 — Phi-4-mini Layer-0 Numerical Smoke Passed {#journal-004}
 
 **Intent**: Add a cheap per-layer numerical smoke gate before scale-out, comparing PyTorch FP16 layer-0 hidden states against CoreML INT8 output under the quality-before-performance workflow.
 **Setup**: Added stage `golden-layer` in `scripts/phi4_mini_ane.sh`; PyTorch FP16 vs CoreML INT8 layer-0 smoke gate; output JSON `tmp/phi4_mini_ane/golden_layer_0.json`.
@@ -49,7 +49,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; tmp/phi4_mini_ane/golden_layer_0.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layer-1 Guarded Smoke Intent
+## 2026-04-27 — Phi-4-mini Layer-1 Guarded Smoke Intent {#journal-005}
 
 **Intent**: Continue Phi-4-mini-instruct ANE support by generalizing the per-layer PyTorch-vs-CoreML smoke gate beyond layer 0, then exercising only layer 1 through the same guarded path, following the project quality-before-scale workflow and BOOK_ANALYSIS.md validation discipline.
 **Setup**: Planned scope: parameterize the existing layer smoke gate for nonzero layers; run layer 1 only through guarded conversion, compile, strict residency validation, and numerical smoke. Constraints: no full conversion, no perf or energy run, and no cleanup/deletion.
@@ -60,7 +60,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; python/phi4_mini_layer0_golden.py; .github/copilot-instructions.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layer-1 Guarded Smoke Passed
+## 2026-04-27 — Phi-4-mini Layer-1 Guarded Smoke Passed {#journal-006}
 
 **Intent**: Validate the generalized per-layer smoke gate on Phi-4-mini layer 1 before scale-out, following the quality-before-performance workflow and BOOK_ANALYSIS.md validation discipline.
 **Setup**: Generalized the per-layer smoke gate; ran layer 1 only through guarded INT8 full-layer mlpackage conversion, compile, strict MLComputePlan residency, and numerical smoke. JSON outputs: `tmp/phi4_mini_ane/residency_layer_1.json` and `tmp/phi4_mini_ane/golden_layer_1.json`.
@@ -71,7 +71,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; python/phi4_mini_layer0_golden.py; tmp/phi4_mini_ane/residency_layer_1.json; tmp/phi4_mini_ane/golden_layer_1.json; .github/copilot-instructions.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 2–3 Bounded Smoke Intent
+## 2026-04-27 — Phi-4-mini Layers 2–3 Bounded Smoke Intent {#journal-007}
 
 **Intent**: Continue Phi-4-mini-instruct ANE support with a bounded batch of layers 2 and 3 only, using the established guardrails and BOOK_ANALYSIS.md validation-before-scale discipline.
 **Setup**: Planned flow: guarded preflight → convert → compile → strict MLComputePlan residency → per-layer PyTorch-vs-CoreML numerical smoke for layers 2 and 3. Constraints: no full 32-layer conversion, no perf/energy run, and no cleanup or deletion.
@@ -82,7 +82,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; python/phi4_mini_layer0_golden.py; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 2–3 Bounded Smoke Passed
+## 2026-04-27 — Phi-4-mini Layers 2–3 Bounded Smoke Passed {#journal-008}
 
 **Intent**: Record the bounded layers 2–3 Phi-4-mini-instruct guarded outcome before any scale-out, following the established quality-before-performance workflow and BOOK_ANALYSIS.md validation discipline.
 **Setup**: Ran only layers 2 and 3 through INT8 full-layer mlpackage conversion, compile, strict MLComputePlan residency, and per-layer PyTorch-vs-CoreML numerical smoke. JSON outputs: `tmp/phi4_mini_ane/residency_layer_2.json`, `tmp/phi4_mini_ane/residency_layer_3.json`, `tmp/phi4_mini_ane/golden_layer_2.json`, and `tmp/phi4_mini_ane/golden_layer_3.json`.
@@ -93,7 +93,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; python/phi4_mini_layer0_golden.py; tmp/phi4_mini_ane/residency_layer_2.json; tmp/phi4_mini_ane/residency_layer_3.json; tmp/phi4_mini_ane/golden_layer_2.json; tmp/phi4_mini_ane/golden_layer_3.json; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Bounded Run-Range Orchestration Intent
+## 2026-04-27 — Phi-4-mini Bounded Run-Range Orchestration Intent {#journal-009}
 
 **Intent**: Add a non-destructive `run-range` style stage to `scripts/phi4_mini_ane.sh` so a bounded Phi-4-mini layer range can advance automatically while preserving the quality-before-scale workflow and BOOK_ANALYSIS.md validation discipline.
 **Setup**: Planned scope: orchestration only; per-layer resource preflight between layers; mandatory gates for convert, compile, strict residency, and numerical smoke. Constraints: no heavy conversion/full-model run, no perf or energy run, and no cleanup/deletion.
@@ -104,7 +104,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; python/phi4_mini_layer0_golden.py; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Bounded Run-Range Orchestration Landed
+## 2026-04-27 — Phi-4-mini Bounded Run-Range Orchestration Landed {#journal-010}
 
 **Intent**: Record the outcome of adding bounded Phi-4-mini layer-range orchestration while preserving the ANE-only, quality-before-scale workflow and BOOK_ANALYSIS.md validation discipline.
 **Setup**: `scripts/phi4_mini_ane.sh` now has `run-range` with `--layer-start` inclusive, `--layer-end` exclusive, default safety cap `--max-range-layers 4`, preflight before each layer, skip of convert/compile when the compiled artifact already exists, and strict residency plus numerical smoke per layer. Validation commands: `bash -n scripts/phi4_mini_ane.sh`; dry-run `run-range --layer-start 4 --layer-end 6 --gatekeeper-go --dry-run`.
@@ -115,7 +115,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 4–7 Bounded Run-Range Intent
+## 2026-04-27 — Phi-4-mini Layers 4–7 Bounded Run-Range Intent {#journal-011}
 
 **Intent**: Start the first actual bounded Phi-4-mini build+test using the new `run-range` stage for layers 4 through 7 only, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Planned command shape: `scripts/phi4_mini_ane.sh run-range --layer-start 4 --layer-end 8 --gatekeeper-go`; per-layer flow: preflight before each layer, convert, compile, strict MLComputePlan residency, and numerical smoke.
@@ -126,7 +126,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 4–7 Bounded Run-Range Passed
+## 2026-04-27 — Phi-4-mini Layers 4–7 Bounded Run-Range Passed {#journal-012}
 
 **Intent**: Record the actual bounded Phi-4-mini layers 4–7 build+test outcome, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Ran `bash scripts/phi4_mini_ane.sh run-range --layer-start 4 --layer-end 8 --gatekeeper-go`; per-layer flow: preflight, convert, compile, strict MLComputePlan residency, and numerical smoke.
@@ -137,7 +137,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Four-Layer Batch Runner Intent
+## 2026-04-27 — Phi-4-mini Four-Layer Batch Runner Intent {#journal-013}
 
 **Intent**: Add a future-facing Phi-4-mini batched build runner that advances only bounded four-layer batches, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Planned orchestration: process one explicit four-layer batch at a time, check resources between batches, and reuse existing per-layer gates: convert, compile, strict MLComputePlan residency, and numerical smoke.
@@ -148,7 +148,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 8–11 Run-Batches Intent
+## 2026-04-27 — Phi-4-mini Layers 8–11 Run-Batches Intent {#journal-014}
 
 **Intent**: Use the new `run-batches` stage for the next actual bounded Phi-4-mini build+test batch, layers 8–11 only, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Planned command: `bash scripts/phi4_mini_ane.sh run-batches --layer-start 8 --layer-end 12 --batch-size 4 --stop-after-batches 1 --gatekeeper-go`; preflight before the batch, then existing per-layer convert, compile, strict MLComputePlan residency, and numerical smoke gates.
@@ -159,7 +159,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Run-Batches Landed and Layers 8–11 Passed
+## 2026-04-27 — Phi-4-mini Run-Batches Landed and Layers 8–11 Passed {#journal-015}
 
 **Intent**: Record the `run-batches` orchestration outcome and the first bounded actual batch, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: `scripts/phi4_mini_ane.sh` now has a future-facing `run-batches` stage with `--batch-size` default 4, explicit `--layer-end` required to avoid silent full conversion, `--stop-after-batches`, resource preflight before each batch, and delegation to `run-range` for per-layer convert, compile, strict residency, and golden gates. Validation dry-run: `run-batches --layer-start 8 --layer-end 16 --batch-size 4 --stop-after-batches 2 --gatekeeper-go --dry-run` produced batches 8–12 and 12–16. Actual bounded run: `run-batches --layer-start 8 --layer-end 12 --batch-size 4 --stop-after-batches 1 --gatekeeper-go`.
@@ -170,7 +170,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 12–15 Run-Batches Intent
+## 2026-04-27 — Phi-4-mini Layers 12–15 Run-Batches Intent {#journal-016}
 
 **Intent**: Continue the actual Phi-4-mini bounded build+test with `run-batches` for layers 12–15 only, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Planned command: `bash scripts/phi4_mini_ane.sh run-batches --layer-start 12 --layer-end 16 --batch-size 4 --stop-after-batches 1 --gatekeeper-go`; completion proceeds in explicit four-layer batches with preflight, convert, compile, strict MLComputePlan residency, and numerical smoke gates.
@@ -181,7 +181,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Layers 12–15 Run-Batches Passed
+## 2026-04-27 — Phi-4-mini Layers 12–15 Run-Batches Passed {#journal-017}
 
 **Intent**: Record the next explicit Phi-4-mini guarded four-layer batch outcome, continuing validation-before-scale per BOOK_ANALYSIS.md and the project ANE-only gate policy.
 **Setup**: Ran `bash scripts/phi4_mini_ane.sh run-batches --layer-start 12 --layer-end 16 --batch-size 4 --stop-after-batches 1 --gatekeeper-go`; one explicit guarded batch for layers 12–15 with convert, compile, strict MLComputePlan residency, and numerical smoke gates.
@@ -192,7 +192,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Remaining Layers 16–31 Run-Batches Intent
+## 2026-04-27 — Phi-4-mini Remaining Layers 16–31 Run-Batches Intent {#journal-018}
 
 **Intent**: Complete the remaining Phi-4-mini ANE layer builds because the user explicitly requested all layers built to completion, while preserving BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Planned command: `bash scripts/phi4_mini_ane.sh run-batches --layer-start 16 --layer-end 32 --batch-size 4 --gatekeeper-go`; explicit bounded remaining-layer range 16–31, with preflight between batches/layers and existing guarded per-layer convert, compile, strict MLComputePlan residency, and numerical smoke gates.
@@ -203,7 +203,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini All 32 Layer Shards Completed
+## 2026-04-27 — Phi-4-mini All 32 Layer Shards Completed {#journal-019}
 
 **Intent**: Complete all Phi-4-mini layer shards because the user explicitly requested all layers built to completion, while preserving BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Ran `bash scripts/phi4_mini_ane.sh run-batches --layer-start 16 --layer-end 32 --batch-size 4 --gatekeeper-go`, with a continuation/follow-up for tail layers when needed. Artifacts targeted `local-artifacts/phi4_mini_ane`; per-layer gates were convert, compile, strict MLComputePlan residency, and numerical smoke.
@@ -214,7 +214,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: scripts/phi4_mini_ane.sh; local-artifacts/phi4_mini_ane; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini LM Head Shard Builder Intent
+## 2026-04-27 — Phi-4-mini LM Head Shard Builder Intent {#journal-020}
 
 **Intent**: After all 32 Phi-4-mini layer shards completed and the user said “keep going from the top,” proceed to the next ANE-only compute-heavy component: final RMSNorm plus LM head projection, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only mandate.
 **Setup**: Planned implementation: build a Phi-4-mini LM head shard builder that reads `token_embd.weight` as the tied LM head and `output_norm.weight` from GGUF, splits vocab=200064 into 4 INT8 CoreML shards, and emits one RMSNorm+Conv2d shard per vocab slice for Xcode Python/CoreML compilation.
@@ -225,7 +225,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; models/Phi-4-mini-instruct.Q8_0.gguf
 
 ---
-## 2026-04-27 — Phi-4-mini LM Head Shards Passed
+## 2026-04-27 — Phi-4-mini LM Head Shards Passed {#journal-021}
 
 **Intent**: Move the compute-heavy Phi-4-mini final RMSNorm plus tied LM head projection onto ANE as sharded CoreML artifacts, following the ANE-only mandate and BOOK_ANALYSIS.md validation-before-scale discipline.
 **Setup**: Implemented `python/phi4_mini_lm_head_shards.py` and `python/phi4_mini_lm_head_golden.py`; added `lm-head-shard` and `lm-head` stages to `scripts/phi4_mini_ane.sh`. Built 4 INT8 CoreML shards under `local-artifacts/phi4_mini_ane/lm_head_shards`; shard 0 was built and gated first, then shards 1–3 were built. Final command: `bash scripts/phi4_mini_ane.sh lm-head --gatekeeper-go`.
@@ -236,7 +236,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_lm_head_shards.py; python/phi4_mini_lm_head_golden.py; scripts/phi4_mini_ane.sh; local-artifacts/phi4_mini_ane/lm_head_shards; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Runtime Scaffolding Smoke Passed
+## 2026-04-27 — Phi-4-mini Runtime Scaffolding Smoke Passed {#journal-022}
 
 **Intent**: Continue from completed layer shards and LM-head shards into prompt-ID runtime scaffolding while preserving the ANE-only boundary and BOOK_ANALYSIS.md validation-before-performance discipline.
 **Setup**: Added `python/phi4_mini_export_runtime.py` to export the permitted host embedding lookup bin plus runtime manifest. Added `local-artifacts/phi4_mini_ane.swift`, a prompt-ID smoke runtime chaining 32 stateful layer shards and 4 ANE LM-head shards, with host work limited to embedding lookup, RoPE/mask bookkeeping, and argmax. Compiled with `swiftc -O -framework CoreML -o local-artifacts/phi4_mini_ane_runtime local-artifacts/phi4_mini_ane.swift`.
@@ -247,7 +247,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_export_runtime.py; local-artifacts/phi4_mini_ane.swift; local-artifacts/phi4_mini_ane; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Tok/s Timing Smoke Intent
+## 2026-04-27 — Phi-4-mini Tok/s Timing Smoke Intent {#journal-023}
 
 **Intent**: Answer the user's “what's our current tok/s?” question by adding lightweight timing to the Swift prompt-ID runtime and running a bounded throughput smoke, following BOOK_ANALYSIS.md measurement-before-optimization discipline.
 **Setup**: Planned scope: instrument `local-artifacts/phi4_mini_ane.swift` around the existing full-chain prompt-ID decode path; run a small bounded `--max-new` tok/s smoke using completed Phi-4-mini layer shards and 4 LM-head shards. Constraints: no tokenizer integration, no HF full-logit golden validation, no powermetrics/energy run, and no cleanup or deletion.
@@ -258,7 +258,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane.swift; local-artifacts/phi4_mini_ane; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Provisional Tok/s Timing Smoke
+## 2026-04-27 — Phi-4-mini Provisional Tok/s Timing Smoke {#journal-024}
 
 **Intent**: Measure current prompt-ID decode throughput after runtime scaffolding, following BOOK_ANALYSIS.md measurement-before-optimization discipline.
 **Setup**: Added lightweight timing lines to `local-artifacts/phi4_mini_ane.swift`, recompiled `local-artifacts/phi4_mini_ane_runtime`, and ran bounded prompt-ID smokes with completed Phi-4-mini layer shards plus 4 LM-head shards.
@@ -270,7 +270,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane.swift; local-artifacts/phi4_mini_ane_runtime; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Lean ANE Runtime Optimization Intent
+## 2026-04-27 — Phi-4-mini Lean ANE Runtime Optimization Intent {#journal-025}
 
 **Intent**: Start optimizing toward a leaner ANE model/runtime to save energy for coding agents by applying low-risk host-overhead changes before any energy benchmarking. The plan follows Iverson/APL whole-array primitive thinking by treating the four LM-head shards as independent array partitions, Dragon Book strength reduction/allocation hoisting by reusing CoreML input providers, and Stepanov's semigroup/reduction framing by reducing four local argmaxes into one global argmax.
 **Setup**: Planned scope: Phi-4-mini Swift prompt-ID runtime only; reuse CoreML input providers instead of allocating a new MLDictionaryFeatureProvider for each layer/token; copy every layer output into the reusable x buffer; dispatch the 4 independent ANE LM-head shards concurrently; perform a four-way argmax reduction on host over shard-local results. Constraints: preserve ANE-only heavy compute, keep LM-head projection in CoreML ANE shards with no CPU fallback, run no powermetrics/energy benchmark yet, and perform no cleanup/deletion.
@@ -281,7 +281,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array primitives; Dragon Book strength reduction/allocation hoisting; Stepanov semigroup/reduction); local-artifacts/phi4_mini_ane.swift; .github/copilot-instructions.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-27 — Phi-4-mini Lean ANE Runtime Optimization Outcome
+## 2026-04-27 — Phi-4-mini Lean ANE Runtime Optimization Outcome {#journal-026}
 
 **Intent**: Optimize `local-artifacts/phi4_mini_ane.swift` for a leaner Phi-4-mini ANE runtime while preserving ANE-only heavy compute. Techniques followed BOOK_ANALYSIS.md: Dragon Book allocation/strength reduction by hoisting and reusing `MLDictionaryFeatureProvider` and `MLFeatureValue` allocations outside the per-layer hot loop; Iverson/APL whole-array partitioning by treating the 4 LM-head shards as independent vocab slices; and Stepanov-style reduction by reducing 4 local argmaxes to one global argmax.
 **Setup**: Swift prompt-ID runtime with 32 ANE layer shards and 4 ANE LM-head shards. Host work remained limited to embedding lookup, RoPE/mask bookkeeping, and argmax/reduction. Per-token stdout was removed from the default hot path behind `--trace`. Compiled optimized runtime successfully with no diagnostics.
@@ -292,7 +292,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book allocation/strength reduction; Iverson/APL whole-array partitioning; Stepanov reduction); local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Decode Profile Intent
+## 2026-04-27 — Phi-4-mini Decode Profile Intent {#journal-027}
 
 **Intent**: Answer the user's concern that about 8 tok/s is still too low by measuring where decode time is lost before further optimization, following BOOK_ANALYSIS.md measurement-before-optimization discipline.
 **Setup**: Planned change: add optional `--profile` timing to `local-artifacts/phi4_mini_ane.swift` around embedding/RoPE-mask host setup, the 32 per-token layer-shard CoreML calls, LM-head input copy, LM-head ANE prediction plus reduction, and per-layer aggregate timings. Scope is lightweight runtime instrumentation only, using existing Phi-4-mini ANE layer and LM-head shards.
@@ -303,7 +303,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Two-Layer Full-Shard Probe Intent
+## 2026-04-27 — Phi-4-mini Two-Layer Full-Shard Probe Intent {#journal-028}
 
 **Intent**: Test a 2-layer full-shard probe covering layers 0–2 to reduce decode layer CoreML calls from 32 to 16 if ANE residency and quality pass, applying Dragon Book strength reduction/call-hoisting and Iverson whole-operation fusion.
 **Setup**: Decode-only profile showed Phi-4-mini spends about 117.746 ms/token in 32 layer CoreML calls, mean about 3.680 ms/layer call; LM head is about 5.093 ms/token and host bookkeeping is negligible. Planned probe uses INT8, a separate output directory, and no cleanup or deletion.
@@ -314,7 +314,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book strength reduction/call-hoisting; Iverson whole-operation fusion); local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Decode Profile and Two-Layer Probe Outcome
+## 2026-04-27 — Phi-4-mini Decode Profile and Two-Layer Probe Outcome {#journal-029}
 
 **Intent**: Measure the decode bottleneck before optimizing, then test a non-destructive 2-layer full-shard probe as a call-count reduction hypothesis, following BOOK_ANALYSIS.md measurement-before-optimization and Dragon Book call-hoisting/strength-reduction discipline.
 **Setup**: Added decode-only `--profile` breakdown to `local-artifacts/phi4_mini_ane.swift`; ran existing 32-layer Phi runtime plus LM-head shards. Built separate probe `local-artifacts/phi4_mini_ane_2layer_probe/phi4mini_layer0_2_q8` and added `python/phi4_mini_range_golden.py`; no cleanup/deletion.
@@ -325,7 +325,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/phi4_mini_ane.swift; python/phi4_mini_range_golden.py; local-artifacts/phi4_mini_ane_2layer_probe/phi4mini_layer0_2_q8; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Three-Layer Full-Shard Probe Intent
+## 2026-04-27 — Phi-4-mini Three-Layer Full-Shard Probe Intent {#journal-030}
 
 **Intent**: Test a non-destructive 3-layer Phi-4-mini full INT8 stateful shard for layers 0–3 after the 2-layer probe passed, applying Dragon Book call-hoisting/strength reduction and Iverson whole-operation fusion.
 **Setup**: Planned separate output directory: `local-artifacts/phi4_mini_ane_3layer_probe`; build and compile the layers 0–3 shard, then run strict MLComputePlan residency and multi-layer golden quality only if compile succeeds. No deletion/cleanup and no perf or energy benchmarking.
@@ -336,7 +336,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction; Iverson whole-operation fusion); local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md; local-artifacts/phi4_mini_ane_2layer_probe
 
 ---
-## 2026-04-27 — Phi-4-mini Three-Layer Full-Shard Probe Passed
+## 2026-04-27 — Phi-4-mini Three-Layer Full-Shard Probe Passed {#journal-031}
 
 **Intent**: Try the user-requested 3-layer Phi-4-mini version to reduce layer CoreML calls from 32 to about 11, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Built a non-destructive full INT8 stateful probe for layers 0–3 in `local-artifacts/phi4_mini_ane_3layer_probe` with `gguf_to_ane.py --layer-start 0 --layer-end 3 --output-name phi4mini_layer0_3_q8`; then compiled, ran strict MLComputePlan residency, and ran range golden quality. No perf/energy and no cleanup/deletion.
@@ -347,7 +347,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction; Iverson whole-operation fusion); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_3layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Full 3-Layer Shard Strategy Validation Intent
+## 2026-04-27 — Phi-4-mini Full 3-Layer Shard Strategy Validation Intent {#journal-032}
 
 **Intent**: After the layers 0–3 3-layer Phi-4-mini probe passed and the user said “ok, validate that,” validate the full 3-layer shard strategy across the whole 32-layer model, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Planned non-destructive output directory: `local-artifacts/phi4_mini_ane_3layer_probe`. Ranges: [0,3), [3,6), [6,9), [9,12), [12,15), [15,18), [18,21), [21,24), [24,27), [27,30), and tail [30,32). For each range, compile if missing, then run strict MLComputePlan residency and range golden smoke.
@@ -358,7 +358,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction; Iverson whole-operation fusion); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_3layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — LLM.int8() ANE Conv2D Adaptation Review Intent
+## 2026-04-27 — LLM.int8() ANE Conv2D Adaptation Review Intent {#journal-033}
 
 **Intent**: Review Dettmers et al. LLM.int8() (arXiv:2208.07339) and assess whether vector-wise quantization plus mixed-precision outlier decomposition can be adapted to the repository's Conv2D(1x1)-based ANE conversion path. The analysis follows BOOK_ANALYSIS.md validation-before-scale discipline: first reason about operator shape, quantization semantics, and ANE residency risk before proposing any implementation.
 **Setup**: Planning task only. Scope is paper/codepath analysis against the existing CoreML Conv2D(1x1) ANE shard strategy, current INT8 per-tensor production baseline, and ANE residency/golden quality gates. No conversion, compilation, benchmarking, cleanup, deletion, or other destructive operation should be run for this note.
@@ -369,7 +369,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: arXiv:2208.07339; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; python/moe/GEMMA_ANE_RESEARCH.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Full 3-Layer Shard Strategy Validated
+## 2026-04-27 — Phi-4-mini Full 3-Layer Shard Strategy Validated {#journal-034}
 
 **Intent**: Record the completed full-model validation of the Phi-4-mini 3-layer fused-shard strategy, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Validated ranges [0,3), [3,6), [6,9), [9,12), [12,15), [15,18), [18,21), [21,24), [24,27), [27,30), and tail [30,32) in `local-artifacts/phi4_mini_ane_3layer_probe`; no cleanup/deletion and no energy benchmarking.
@@ -380,7 +380,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_3layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Fused Runtime Migration Intent
+## 2026-04-27 — Phi-4-mini Fused Runtime Migration Intent {#journal-035}
 
 **Intent**: After the full Phi-4-mini 3-layer fused-shard strategy passed residency and golden across all ranges, migrate the runtime from 32 one-layer shards to the validated 11 fused layer shards, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Planned work: add/export a fused runtime manifest, update the Swift runtime to accept contiguous layer ranges where shard count does not equal `n_layers`, compile the runtime, and re-profile tok/s. Heavy compute remains ANE-only; permitted host work stays limited to embedding lookup, RoPE/mask bookkeeping, sampling, metadata, and cache position bookkeeping. No cleanup/deletion and no energy/powermetrics unless explicitly requested.
@@ -391,7 +391,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_3layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Fused Runtime Migration Outcome
+## 2026-04-27 — Phi-4-mini Fused Runtime Migration Outcome {#journal-036}
 
 **Intent**: Complete the runtime migration from 32 one-layer Phi-4-mini shards to the validated 11 fused layer shards, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: `python/phi4_mini_export_runtime.py` now supports `--layer-artifact-dir`, `--layer-group-size`, and `--manifest-name`; `local-artifacts/phi4_mini_ane.swift` now validates contiguous layer coverage instead of `layer_shards == n_layers` and reports fused range timings. Generated `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_3layer.json` with 11 layer entries covering 0..32 and paths to `../phi4_mini_ane_3layer_probe/*.mlmodelc`; compiled the runtime and profiled with the fused manifest.
@@ -402,7 +402,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; python/phi4_mini_export_runtime.py; local-artifacts/phi4_mini_ane.swift; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_3layer.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Four-Layer Fused Shard Intent
+## 2026-04-27 — Phi-4-mini Four-Layer Fused Shard Intent {#journal-037}
 
 **Intent**: Probe whether a larger fused Phi-4-mini shard beyond the validated 3-layer/288M pattern remains ANE-resident before any broader scale-out, following BOOK_ANALYSIS.md validation-before-scale discipline and the project ANE-only gate policy.
 **Setup**: Planned non-destructive build: one INT8 stateful CoreML shard for layers [0,4) under `local-artifacts/phi4_mini_ane_4layer_probe`, then compile and run strict MLComputePlan residency validation. No cleanup/deletion, no golden validation unless requested after residency, and no energy benchmarking.
@@ -413,7 +413,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_4layer_probe
 
 ---
-## 2026-04-27 — Phi-4-mini Four-Layer Fused Shard Residency Passed
+## 2026-04-27 — Phi-4-mini Four-Layer Fused Shard Residency Passed {#journal-038}
 
 **Intent**: Test whether a larger Phi-4-mini fused shard for layers [0,4) can remain ANE-resident beyond the prior 3-layer/288M probe, following BOOK_ANALYSIS.md validation-before-scale and whole-operation fusion discipline.
 **Setup**: Built non-destructively under `local-artifacts/phi4_mini_ane_4layer_probe`; converted and compiled one INT8 stateful CoreML shard for layers [0,4); ran strict MLComputePlan residency. Residency JSON: `tmp/phi4_mini_ane/four_layer_probe_residency_0_4.json`.
@@ -424,7 +424,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_4layer_probe; tmp/phi4_mini_ane/four_layer_probe_residency_0_4.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Four-Layer Fused Shard Golden Passed
+## 2026-04-27 — Phi-4-mini Four-Layer Fused Shard Golden Passed {#journal-039}
 
 **Intent**: Run the next quality gate after the layers [0,4) Phi-4-mini 4-layer fused shard passed strict ANE residency, following BOOK_ANALYSIS.md validation-before-scale and whole-operation fusion discipline.
 **Setup**: Ran `python/phi4_mini_range_golden.py --layer-start 0 --layer-end 4 --mlmodelc local-artifacts/phi4_mini_ane_4layer_probe/phi4mini_layer0_4_q8.mlmodelc --json-out tmp/phi4_mini_ane/four_layer_probe_golden_0_4.json`; no cleanup/deletion and no energy benchmark.
@@ -435,7 +435,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_4layer_probe; tmp/phi4_mini_ane/four_layer_probe_residency_0_4.json; tmp/phi4_mini_ane/four_layer_probe_golden_0_4.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Full 4-Layer Fused Strategy Intent
+## 2026-04-27 — Phi-4-mini Full 4-Layer Fused Strategy Intent {#journal-040}
 
 **Intent**: After the first Phi-4-mini 4-layer fused shard [0,4) passed both strict ANE residency and range golden, proceed from the user's "go aheadf" approval to validate the full 4-layer fused strategy, following BOOK_ANALYSIS.md validation-before-scale and whole-operation fusion discipline.
 **Setup**: Planned non-destructive output directory: `local-artifacts/phi4_mini_ane_4layer_probe`. Build/compile remaining ranges [4,8), [8,12), [12,16), [16,20), [20,24), [24,28), and [28,32), then run strict MLComputePlan residency and range golden for all eight ranges including existing [0,4).
@@ -446,7 +446,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_4layer_probe; tmp/phi4_mini_ane/four_layer_probe_residency_0_4.json; tmp/phi4_mini_ane/four_layer_probe_golden_0_4.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Full 4-Layer Fused Strategy Completed
+## 2026-04-27 — Phi-4-mini Full 4-Layer Fused Strategy Completed {#journal-041}
 
 **Intent**: Complete validation and runtime profiling of the full Phi-4-mini 4-layer fused-shard strategy, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Built and compiled all eight 4-layer ranges [0,4), [4,8), [8,12), [12,16), [16,20), [20,24), [24,28), and [28,32) under `local-artifacts/phi4_mini_ane_4layer_probe`; each mlpackage/mlmodelc was about 384-385 MB. Generated `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_4layer.json` and profiled the Swift runtime with the 4-layer manifest.
@@ -457,7 +457,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_4layer_probe; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_4layer.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-27 — Phi-4-mini Isolated Warm Cache Outcome
+## 2026-04-27 — Phi-4-mini Isolated Warm Cache Outcome {#journal-042}
 
 **Intent**: Add explicit isolated warm-cache support to the Phi-4-mini Swift runtime so agent-session startup latency is paid before real generation, following BOOK_ANALYSIS.md measurement-before-optimization and call-hoisting discipline.
 **Setup**: Updated `local-artifacts/phi4_mini_ane.swift` with `--warmup-calls N` and `--warmup-token-id ID`. Warmup runs with separate `MLState`s for layer shards, then resets attention/KV write masks so the real generation KV cache starts clean. Tested on the 4-layer fused manifest.
@@ -468,7 +468,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — ANE Internals Synthesis Before Phi Daemon
+## 2026-04-28 — ANE Internals Synthesis Before Phi Daemon {#journal-043}
 
 **Intent**: Analyze `local-artifacts/ANE_CHAIN_SCHEMA.md` before starting Phi daemon work, to ground the next runtime direction in observed ANE compile/load/store/runtime architecture rather than process-name inference alone.
 **Setup**: Planning/synthesis only. Source reviewed: external `ane-internals` README. Findings were saved to session/repo memory. No CoreML conversion, residency validation, golden validation, performance run, cleanup, deletion, or energy benchmark was performed.
@@ -479,7 +479,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/ANE_CHAIN_SCHEMA.md; memory:session/plan.md; memory:repo/ane-internals-insights.md; .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-28 — Phi-4-mini Resident Serve Mode Landed
+## 2026-04-28 — Phi-4-mini Resident Serve Mode Landed {#journal-044}
 
 **Intent**: Implement the first resident Phi-4-mini runtime service mode after saving the ANE-internals synthesis, treating CoreML execution as a loaded-artifact lifecycle and following BOOK_ANALYSIS.md measurement-before-optimization discipline.
 **Setup**: Updated `local-artifacts/phi4_mini_ane.swift` with `--serve`, which loads models once, optionally runs isolated warmup, then starts a JSON-lines protocol. Request schema: `{"prompt_ids":[...],"max_new":N,"profile":true}`. Responses include `ok`, `generated_ids`, `timing`, and optional `profile`. Serve mode keeps `MLModel` instances resident, creates fresh `MLState`s per request to avoid KV-cache leakage, resets masks per request, writes status logs to stderr, and reserves stdout for READY/JSON responses.
@@ -490,7 +490,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md; memory:repo/ane-internals-insights.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Five-Layer Fused Strategy Intent
+## 2026-04-28 — Phi-4-mini Five-Layer Fused Strategy Intent {#journal-045}
 
 **Intent**: After the user asked whether tok/s can be pushed higher and the 4-layer fused runtime reached about 15 tok/s, scale the successful single 5-layer Phi-4-mini fused shard probe non-destructively to the full 5-layer topology, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Existing probe: single fused INT8 shard [0,5) under `local-artifacts/phi4_mini_ane_5layer_probe`, built and compiled at 481M. Planned ranges: [0,5), [5,10), [10,15), [15,20), [20,25), [25,30), and tail [30,32). Run strict MLComputePlan residency and range golden for every range before generating any 5-layer runtime manifest/profile.
@@ -501,7 +501,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_5layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Six-Layer Fused Strategy Intent
+## 2026-04-28 — Phi-4-mini Six-Layer Fused Strategy Intent {#journal-046}
 
 **Intent**: After the 5-layer fused runtime best observed 15.661 tok/s, test whether a 6-layer Phi-4-mini fused topology can push decode throughput higher, applying BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Existing non-destructive probe: single INT8 fused shard [0,6) built and compiled under `local-artifacts/phi4_mini_ane_6layer_probe`; artifact size 577M. Planned full topology: [0,6), [6,12), [12,18), [18,24), [24,30), and tail [30,32). Run strict MLComputePlan residency and range golden across all ranges before generating any 6-layer runtime manifest/profile.
@@ -512,7 +512,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_6layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Five- and Six-Layer Fusion Outcome
+## 2026-04-28 — Phi-4-mini Five- and Six-Layer Fusion Outcome {#journal-047}
 
 **Intent**: Push Phi-4-mini decode tok/s higher after the 4-layer fused topology reached 15.412 tok/s in the same session, using BOOK_ANALYSIS.md call-hoisting/strength-reduction and whole-operation fusion discipline.
 **Setup**: Built, validated, and profiled full 5-layer topology ranges [0,5), [5,10), [10,15), [15,20), [20,25), [25,30), [30,32), then full 6-layer topology ranges [0,6), [6,12), [12,18), [18,24), [24,30), [30,32). 5-layer artifacts: six 481M shards plus 192M tail; runtime manifest `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_5layer.json`. 6-layer artifacts: five 577M shards plus 192M tail; runtime manifest `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_6layer.json`.
@@ -523,7 +523,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_5layer.json; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_6layer.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini LM-Head Optimization Outcome
+## 2026-04-28 — Phi-4-mini LM-Head Optimization Outcome {#journal-048}
 
 **Intent**: Reduce the remaining Phi-4-mini LM-head bottleneck after 6-layer fusion made the layer chain faster, following BOOK_ANALYSIS.md measurement-before-optimization discipline and the project ANE-only mandate for compute-heavy projection/reduction work.
 **Setup**: Tested ANE-resident LM-head alternatives on the 6-layer fused runtime: an experimental top-1 LM-head shard, an 8-way full-logit LM head under `local-artifacts/phi4_mini_ane/lm_head_shards_8`, and a 3-way full-logit LM head under `local-artifacts/phi4_mini_ane/lm_head_shards_3`. Runtime manifests included `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_6layer_head8.json` and `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_6layer_head3.json`. Swift runtime now supports variable LM-head shard counts and profiling counters that separate head predict shard work from host reduce work.
@@ -534,7 +534,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane/lm_head_shards_8; local-artifacts/phi4_mini_ane/lm_head_shards_3; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_6layer_head8.json; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_6layer_head3.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Eight-Layer Fused Shard Intent
+## 2026-04-28 — Phi-4-mini Eight-Layer Fused Shard Intent {#journal-049}
 
 **Intent**: Probe whether a larger 8-layer Phi-4-mini fused INT8 stateful CoreML shard can reduce the dominant layer-chain cost after LM-head top-k failed strict ANE residency and 3-way/8-way full-logit LM-head sharding did not improve throughput. The hypothesis follows BOOK_ANALYSIS.md Iverson/APL whole-array and fused-operator thinking: treat a larger contiguous layer range as one fused array operation instead of optimizing the now-smaller LM-head path.
 **Setup**: Current timing context: layer execution dominates decode at about 57-60 ms/token, while the LM head remains about 5.1 ms/token. Planned non-destructive probe directory: `local-artifacts/phi4_mini_ane_8layer_probe`. Build only the first range [0,8) as an INT8 stateful CoreML shard, compile it, then run strict MLComputePlan residency and range golden quality before any scale-out or profiling.
@@ -545,7 +545,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array and fused-operator thinking); local-artifacts/ANE_CHAIN_SCHEMA.md (empirical shard-size law, revalidated per range); local-artifacts/phi4_mini_ane_8layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Eight-Layer Asymmetric Fusion Outcome
+## 2026-04-28 — Phi-4-mini Eight-Layer Asymmetric Fusion Outcome {#journal-050}
 
 **Intent**: Validate whether 8-layer Phi-4-mini fused INT8 stateful CoreML shards can reduce layer-chain overhead beyond the 6-layer baseline, applying BOOK_ANALYSIS.md Iverson/APL whole-operation fusion and Dragon Book call-hoisting/strength-reduction discipline while preserving strict ANE residency and golden quality gates.
 **Setup**: Built full 8-layer compiled artifacts under `local-artifacts/phi4_mini_ane_8layer_probe`; each compiled artifact is about 769 MB. Validated ranges [0,8), [8,16), [16,24), and [24,32), then generated the successful asymmetric runtime manifest `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_8_8_8_6_2.json` using [0,8), [8,16), [16,24), [24,30), and [30,32). The exporter now supports repeated `--layer-spec start:end:path` arguments for asymmetric manifests.
@@ -556,7 +556,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-operation fusion; Dragon Book call-hoisting/strength reduction); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_8layer_probe; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_8_8_8_6_2.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Twelve-Layer Front Shard Intent
+## 2026-04-28 — Phi-4-mini Twelve-Layer Front Shard Intent {#journal-051}
 
 **Intent**: Before the next Phi-4-mini optimization run, probe a larger front fused shard for layers [0,12) to reduce layer model-call count beyond the asymmetric 8+8+8+6+2 topology, applying BOOK_ANALYSIS.md Iverson/APL whole-array fused-operator thinking while preserving validation-before-scale discipline.
 **Setup**: Current timing context: asymmetric 8+8+8+6+2 reached about 16.65 tok/s with layer time about 55 ms/token. Planned non-destructive probe directory: `local-artifacts/phi4_mini_ane_12layer_probe`; build and compile only the INT8 stateful CoreML shard [0,12) before any broader topology work.
@@ -567,7 +567,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array fused operator); local-artifacts/ANE_CHAIN_SCHEMA.md (empirical shard-size law, revalidated per larger shard); local-artifacts/phi4_mini_ane_12layer_probe; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_8_8_8_6_2.json; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Sixteen-Layer Front Shard Intent
+## 2026-04-28 — Phi-4-mini Sixteen-Layer Front Shard Intent {#journal-052}
 
 **Intent**: Before the next Phi-4-mini run, test whether a larger front fused shard [0,16) can improve on the valid 12+12+6+2 topology, applying BOOK_ANALYSIS.md Iverson/APL whole-array fusion and Dragon Book call-hoisting discipline while keeping validation ahead of performance claims.
 **Setup**: Current comparison point: 12+12+6+2 is valid and produced profiles of 16.598 tok/s and then 17.159 tok/s, making it a possible new best that still needs controlled comparison. Planned non-destructive probe directory: `local-artifacts/phi4_mini_ane_16layer_probe`; proposed topology if gates pass is 16+8+6+2.
@@ -578,7 +578,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array fusion; Dragon Book call-hoisting); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_12layer_probe; local-artifacts/phi4_mini_ane_16layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Twenty-Four-Layer Front Shard Intent
+## 2026-04-28 — Phi-4-mini Twenty-Four-Layer Front Shard Intent {#journal-053}
 
 **Intent**: Before the next Phi-4-mini run, test whether a very large front fused shard [0,24) can reduce model-call overhead enough to improve on the current best topology, applying BOOK_ANALYSIS.md Iverson/APL whole-array fusion and Dragon Book call-hoisting while keeping validation ahead of performance claims.
 **Setup**: Current timing context: 16+8+6+2 repeated at 17.174 tok/s, slightly ahead of 12+12+6+2 at 17.159 tok/s. Planned non-destructive probe directory: `local-artifacts/phi4_mini_ane_24layer_probe`; only consider topology 24+6+2 if build, compile, strict MLComputePlan residency, and golden validation all pass.
@@ -589,7 +589,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array fusion; Dragon Book call-hoisting); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_16layer_probe; local-artifacts/phi4_mini_ane_24layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini Twenty-Layer Front Shard Intent
+## 2026-04-28 — Phi-4-mini Twenty-Layer Front Shard Intent {#journal-054}
 
 **Intent**: Before the next Phi-4-mini run, narrow the fusion search from failed [0,24) to [0,20) to locate the strict-residency cliff, applying BOOK_ANALYSIS.md Iverson/APL whole-array fusion and Dragon Book call-hoisting only through the established validation gates.
 **Setup**: Prior [0,24) compiled at about 2.3G but failed strict residency completely, with all conv and compute ops placed on CPU. Planned non-destructive probe directory: `local-artifacts/phi4_mini_ane_20layer_probe`; disk is lower at roughly 43 GiB free, so do not delete generated artifacts without explicit confirmation.
@@ -600,7 +600,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array fusion; Dragon Book call-hoisting); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane_20layer_probe; local-artifacts/phi4_mini_ane_24layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome
+## 2026-04-28 — Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome {#journal-055}
 
 **Intent**: Complete the larger front-fused Phi-4-mini sweep to locate the strict ANE residency cliff and throughput sweet spot after 8-layer asymmetric fusion, applying BOOK_ANALYSIS.md Iverson/APL whole-array fusion and Dragon Book call-hoisting while preserving residency and golden gates.
 **Setup**: Tested larger INT8 stateful front shards and asymmetric manifests using already validated tail shards: 12+12+6+2, 16+8+6+2, 20+4+6+2, and the attempted 24+6+2 path. Manifests profiled included `phi4mini_runtime_meta_12_12_6_2.json`, `phi4mini_runtime_meta_16_8_6_2.json`, and `phi4mini_runtime_meta_20_4_6_2.json`. No cleanup/deletion or energy benchmark was performed.
@@ -611,7 +611,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson/APL whole-array fusion; Dragon Book call-hoisting); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_12_12_6_2.json; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_16_8_6_2.json; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_20_4_6_2.json; local-artifacts/phi4_mini_ane_24layer_probe; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Private ANE Chaining Investigation Intent
+## 2026-04-28 — Private ANE Chaining Investigation Intent {#journal-056}
 
 **Intent**: After validating the public CoreML fused Phi-4-mini topology at about 17.1 decode tok/s, start investigating private/Internal ANE API chaining to avoid CoreML per-shard hidden-state roundtrips without relying solely on larger layer fusion. The hypothesis follows BOOK_ANALYSIS.md call-hoisting/strength-reduction discipline: remove boundary crossings while preserving ANE-only compute.
 **Setup**: Planning note before the run. Knowledge source: `local-artifacts/ANE_CHAIN_SCHEMA.md`. First target: a small proof-of-concept that chains two already-validated ANE layer shards while keeping intermediates off the Swift/CoreML boundary. Existing public baseline remains the strict-resident, golden-passed Phi-4-mini 16+8+6+2 CoreML fused topology.
@@ -622,7 +622,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Private ANE API Bridge Outcome
+## 2026-04-28 — Private ANE API Bridge Outcome {#journal-057}
 
 **Intent**: Record the outcome of the private ANE API investigation after checkpointing the public Phi-4-mini ANE runtime state, following BOOK_ANALYSIS.md call-hoisting/strength-reduction discipline for reducing CoreML shard boundary costs.
 **Setup**: Checkpoint/tag `phi4-mini-ane-q8-fusion-17tok-2026-04-28` was created on commit `f273a47` before investigation. Probes included direct `_ANEClient` / `prepareChaining` selector inspection, `ane_chain_probe` against current Phi public-CoreML `.mlmodelc` shards, and new `ane_coreml_bridge_probe.m` to inspect the public CoreML load path.
@@ -633,7 +633,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/ane_chain_probe.m; local-artifacts/ane_coreml_bridge_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — CoreML E5 Bridge Operation Handles Recovered
+## 2026-04-28 — CoreML E5 Bridge Operation Handles Recovered {#journal-058}
 
 **Intent**: Advance the private ANE/CoreML E5 bridge from program-library discovery toward operation-level chaining, following BOOK_ANALYSIS.md Dragon Book call-hoisting/strength-reduction discipline to remove host materialization between validated shards.
 **Setup**: Added `local-artifacts/coreml_e5_class_dump.m` to dump live CoreML E5 classes. Updated `local-artifacts/ane_coreml_bridge_probe.m` to reach `MLE5StaticShapeExecutionStreamOperationPool`, call `prepareWithInitialPoolSize:error:`, `_takeOut` an `MLE5ExecutionStreamOperation`, and dump operation plus port handles on Phi layer30_32 and layer16_24 shards.
@@ -644,7 +644,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/coreml_e5_class_dump.m; local-artifacts/ane_coreml_bridge_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — CoreML E5 Two-Operation Stream Binder Outcome
+## 2026-04-28 — CoreML E5 Two-Operation Stream Binder Outcome {#journal-059}
 
 **Intent**: Test whether two already-loaded private CoreML E5 operations from adjacent Phi shards can be placed into one `MLE5ExecutionStream`, following BOOK_ANALYSIS.md Dragon Book call-hoisting/strength-reduction discipline to reduce shard-boundary materialization.
 **Setup**: Added `local-artifacts/e5_two_op_stream_probe.m`; loaded adjacent Phi shards 16_24 then 24_30; extracted one `MLE5ExecutionStreamOperation` from each; constructed a single `MLE5ExecutionStream` containing both operations; probed stage A `hidden` output binding and stage B `x` input binding.
@@ -655,7 +655,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Tiny E5 Execution Controls Outcome
+## 2026-04-28 — Tiny E5 Execution Controls Outcome {#journal-060}
 
 **Intent**: Test minimal E5 execution control models before full Phi chaining, following BOOK_ANALYSIS.md Dragon Book call-hoisting/strength-reduction discipline for removing shard-boundary materialization.
 **Setup**: Generated workspace-local toy CoreML models: `toy_a` computes `x+1`, `toy_b` computes `x*2`, and `toy_b_h` computes `h*2`. Ran a two-operation `MLE5ExecutionStream` with `toy_a+toy_b`, then a distinct-input `toy_a+toy_b_h` test with forced direct binder state. Broad dyld extraction was deferred because disk free was about 25 GiB.
@@ -666,7 +666,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — E5 Binder Timing Controls Outcome
+## 2026-04-28 — E5 Binder Timing Controls Outcome {#journal-061}
 
 **Intent**: Pin down when private CoreML E5 port bindings become fixed, following BOOK_ANALYSIS.md Dragon Book call-hoisting/strength-reduction discipline for removing shard-boundary materialization without relying on post-hoc host mutation.
 **Setup**: Updated `local-artifacts/e5_two_op_stream_probe.m` to call `MLE5InputPortBinder bindMemoryObjectForFeatureValue`, operation-level `_bindInputFeaturesAndWaitEvents` / `_bindOutputPortsWithOptions`, stream `_prepareForInputFeatures`, and raw `_executeStream` on toy E5 control models.
@@ -677,7 +677,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — E5 setupOperationForInputFeatures Replaces Pool
+## 2026-04-28 — E5 setupOperationForInputFeatures Replaces Pool {#journal-062}
 
 **Intent**: Determine whether the ObjC `MLE5ExecutionStream setupOperationForInputFeatures:operationPool:error:` surface can append multiple operations to one stream, following BOOK_ANALYSIS.md call-hoisting/strength-reduction discipline for reducing shard-boundary materialization.
 **Setup**: Ran `e5_two_op_stream_probe --probe-setup` on a fresh stream. The probe called `setupOperationForInputFeatures:operationPool:error:` twice: first with the `toy_a` pool, then with the `toy_b` / `toy_b_h` pool.
@@ -688,7 +688,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength reduction); local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Raw E5RT Two-Model Chain Breakthrough
+## 2026-04-28 — Raw E5RT Two-Model Chain Breakthrough {#journal-063}
 
 **Intent**: Prove true cross-model chaining inside one E5 execution stream by using raw E5RT encode hooks instead of public host roundtrips, following BOOK_ANALYSIS.md measurement/validation discipline and the ANE_CHAIN_SCHEMA.md focus on stream-level ANE behavior.
 **Setup**: CoreML imports raw E5RT symbols from Espresso, including `e5rt_execution_stream_operation_prepare_op_for_encode` and `e5rt_execution_stream_encode_operation`. `e5_two_op_stream_probe` now `dlsym`s those symbols. Successful sequence: bind stage A input/output via ObjC operation private methods; bind stage A output feature/memory object into stage B input binder; bind stage B output; call raw E5RT prepare+encode for stage A and stage B operation handles into one stream; then call `MLE5ExecutionStream _executeStream:error`.
@@ -699,7 +699,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi Stateful Raw E5RT Chain Smoke
+## 2026-04-28 — Phi Stateful Raw E5RT Chain Smoke {#journal-064}
 
 **Intent**: Extend the raw E5RT two-operation stream breakthrough from toy controls to real Phi stateful shards, following BOOK_ANALYSIS.md call-hoisting/strength-reduction discipline and the ANE_CHAIN_SCHEMA.md stream-level execution focus.
 **Setup**: Extended `e5_two_op_stream_probe` with `--phi-input` for real Phi shapes and state handling. Target chain: `local-artifacts/phi4_mini_ane_8layer_probe/phi4mini_layer16_24_q8.mlmodelc` -> `local-artifacts/phi4_mini_ane_6layer_probe/phi4mini_layer24_30_q8.mlmodelc`. Direct `MLState` did not work; `MLFeatureValue.internalFeatureValueWithState` requires a one-buffer `MLState`, so the probe uses `MLState.backings` and `MLState initWithBackings` per state port, then wraps each state with `internalFeatureValueWithState`. Stage B uses a provider overriding `x` with stage A hidden while CoreML's `_bindInputFeaturesAndWaitEvents` binds ordinary inputs and state.
@@ -710,7 +710,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi Public Two-Call Reference and E5 Event Probe
+## 2026-04-28 — Phi Public Two-Call Reference and E5 Event Probe {#journal-065}
 
 **Intent**: Prove whether the raw Phi stage-B zero was caused by bad synthetic inputs or by the private two-operation E5 stream path.
 **Setup**: Added `local-artifacts/phi_public_two_call_probe.m`, a public-only CoreML reference that loads `phi4mini_layer16_24_q8.mlmodelc` and `phi4mini_layer24_30_q8.mlmodelc` in a fresh process. It runs public stateful prediction for stage A, feeds A's hidden to stage B, and avoids mixing public prediction with private operation-pool mutation.
@@ -721,7 +721,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi_public_two_call_probe.m; local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi E5 ObjC Sync-Point Experiment
+## 2026-04-28 — Phi E5 ObjC Sync-Point Experiment {#journal-066}
 
 **Intent**: Test whether CoreML's `MLPredictionSyncPoint` route can express the stage-A completion / stage-B wait dependency without directly calling raw E5RT event bind functions.
 **Setup**: Widened `coreml_e5_class_dump.m` to include event/sync classes. Found private `MLPredictionSyncPoint` with `initWithSharedEvent:value:` and hidden `MLPredictionOptions` accessors for `completionSyncPoint` and `waitSyncPoints`. Added `--objc-sync-points` to `e5_two_op_stream_probe`, creating an `MTLSharedEvent` and passing completion/wait sync points through the private bind methods. Added `--objc-sync-update` as a separate explicit experiment for the private future-value update hooks.
@@ -732,7 +732,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/coreml_e5_class_dump.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi E5 Direct ObjC Event Bind Outcome
+## 2026-04-28 — Phi E5 Direct ObjC Event Bind Outcome {#journal-067}
 
 **Intent**: Determine whether explicitly attaching CoreML completion/wait shared events is enough to make raw Phi stage B consume stage A's output.
 **Setup**: Added `--objc-sync-bind-direct`, which calls `_bindNewCompletionEventsDirectlyWithCompletionSyncPoint:` on stage A and `_bindNewWaitEventsDirectlyWithWaitSyncPoints:` on stage B after manual input/output port binding.
@@ -743,7 +743,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi E5 Second-Operation Boundary Narrowed
+## 2026-04-28 — Phi E5 Second-Operation Boundary Narrowed {#journal-068}
 
 **Intent**: Separate generic raw E5 chaining problems from Phi-specific second-operation failure.
 **Setup**: Added true FP16 Torch controls, a 4D `[1,C,1,1]` toy mode, a tiny `ct.StateType` stateful toy, logical-stride `MLMultiArray` stats, and a restored direct-binding mode in `AttemptHiddenToXBinding`. Added `--rebind-second-x` to re-apply hidden-to-input direct binding after `_bindInputFeaturesAndWaitEvents` sets up state/inout ports.
@@ -754,7 +754,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi E5 Raw Memory Bridge Breakthrough
+## 2026-04-28 — Phi E5 Raw Memory Bridge Breakthrough {#journal-069}
 
 **Intent**: Determine why real Phi stage B still read zeros even though stage B `x` reported direct binding, state/inout memory objects were bound, and toy stateful chains passed.
 **Setup**: Added E5RT port-memory diagnostics to `e5_two_op_stream_probe`: retain each port's memory object, query memory size, and query data pointer. Compared successful FP16 4D stateful toy chaining against failing Phi `23_24 -> 24_25`, then added an explicit `--raw-bind-memory` experiment using `e5rt_io_port_bind_memory_object(stageB.x, stageA.hidden.memoryObject)` before raw encode.
@@ -765,7 +765,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/phi_public_two_call_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi Full Fused Topology Runs in One E5 Stream
+## 2026-04-28 — Phi Full Fused Topology Runs in One E5 Stream {#journal-070}
 
 **Intent**: Move from pairwise private E5 correctness to an N-op private stream for the whole best public Phi topology, `16+8+6+2`.
 **Setup**: Added `--manual-chain-all` to `e5_two_op_stream_probe`, accepting multiple positional `.mlmodelc` paths. The path loads every operation into one `MLE5ExecutionStream`, binds normal inputs/state for each operation, raw-binds `stageN.hidden` memory into `stageN+1.x`, raw-prepares/encodes all operations, then executes the stream once. Generalized `phi_public_two_call_probe` so the public reference can run the same ordered shard list in a separate process.
@@ -776,7 +776,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/phi_public_two_call_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi Private E5 One-Stream Timing Reality Check
+## 2026-04-28 — Phi Private E5 One-Stream Timing Reality Check {#journal-071}
 
 **Intent**: Measure whether the validated private one-stream E5 path materially improves Phi decode latency by removing public CoreML hidden-state roundtrips between fused layer shards.
 **Setup**: Added `--iterations` and `--warmup-iterations` to `e5_two_op_stream_probe --manual-chain-all`. Ran the full `16+8+6+2` fused layer stack with 10 warmup executes and 100 measured executes. Re-ran the public Swift runtime on `phi4mini_runtime_meta_16_8_6_2.json` with 5 warmup calls, 30 generated tokens, and `--profile`.
@@ -787,7 +787,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-29 — Phi-4-mini Partial-RoPE Root Cause Intent
+## 2026-04-29 — Phi-4-mini Partial-RoPE Root Cause Intent {#journal-072}
 
 **Intent**: Record the Phi-4-mini generation-quality root cause before the next CoreML probe: the GGUF metadata specifies partial RoPE via `phi3.rope.dimension_count=96`, while the conversion, runtime, and reference stack had been applying RoPE across the full `d_head=128`. The fix follows BOOK_ANALYSIS.md validation discipline: preserve the real model contract through each layer of the stack before scaling or benchmarking.
 **Setup**: Local weights: `models/Phi-4-mini-instruct.Q8_0.gguf`. Official HF config reports `partial_rotary_factor=0.75`, matching a 96-dimensional rotary subspace. With the same local GGUF weights, the HF/partial-RoPE path produces valid Erlang for the prompt, while the GGUF-parsed/full-RoPE path produces Python-looking garbage. Code has been patched to carry `rope_dim` through conversion/runtime/reference paths. Planned next run is a user-approved single-layer layer-0 CoreML rebuild probe into a new tmp directory, followed by compile, golden validation, and strict ANE residency validation.
@@ -798,7 +798,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; models/Phi-4-mini-instruct.Q8_0.gguf; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi LM-Head Shard Count Sweep on Best Topology
+## 2026-04-28 — Phi LM-Head Shard Count Sweep on Best Topology {#journal-073}
 
 **Intent**: Test whether changing LM-head shard count improves the remaining `~5 ms/token` LM-head wall time after private E5 chaining proved low leverage for the current layer topology.
 **Setup**: Generated comparable runtime manifests for the same `16+8+6+2` layer stack with 3-way and 8-way LM-head shards, reusing existing compiled artifacts. Ran strict `MLComputePlan` residency on every 3-way and 8-way LM-head shard before accepting the benchmark comparison; all passed with `compute_non_ane=0`. Profile command shape matched the 4-way baseline: 5 warmup calls, 30 generated tokens, `--profile`.
@@ -809,7 +809,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_16_8_6_2.json; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_16_8_6_2_head3.json; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_16_8_6_2_head8.json; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi Long-Decode Topology Baseline Moves to 20+4+6+2
+## 2026-04-28 — Phi Long-Decode Topology Baseline Moves to 20+4+6+2 {#journal-074}
 
 **Intent**: Re-check existing fused layer topologies after private E5 timing showed boundary removal was low leverage and the layer stack remained the dominant cost.
 **Setup**: Profiled existing public CoreML manifests with the same 4-way LM head, 10 warmup calls, 100 generated tokens, and `--profile`. Ran strict residency on the `20+4+6+2` layer shards and numerical range golden gates for `[0,20)` and `[20,24)`.
@@ -820,7 +820,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_20_4_6_2.json; local-artifacts/ANE_CHAIN_SCHEMA.md; BOOK_ANALYSIS.md
 
 ---
-## 2026-04-28 — Phi Private E5 Timing on 20+4+6+2
+## 2026-04-28 — Phi Private E5 Timing on 20+4+6+2 {#journal-075}
 
 **Intent**: Re-test private one-stream E5 chaining on the newly promoted `20+4+6+2` public baseline.
 **Setup**: Ran `e5_two_op_stream_probe --manual-chain-all --raw-bind-memory` on `[0,20) -> [20,24) -> [24,30) -> [30,32)` with 10 warmup executes and 100 measured executes. Ran the generalized public sequential probe on the same shard list for correctness.
@@ -831,7 +831,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/e5_two_op_stream_probe.m; local-artifacts/phi_public_two_call_probe.m; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-28 — Phi Weighted Topology Search Starts
+## 2026-04-28 — Phi Weighted Topology Search Starts {#journal-076}
 
 **Intent**: Start moving from hand-picked fused layer topologies to a book-shaped search process for ANE-efficient computation shapes.
 **Setup**: Added `python/phi4_mini_topology_search.py`, applying Sakarovitch weighted-automaton framing and Dragon Book compiler-cliff discipline. The script scans existing Phi `.mlmodelc` layer-range artifacts, Swift profile logs, residency JSON, and golden JSON. It treats layer indices as states and compiled shards as weighted edges, with known rejected edges `[0,24)` and `[24,32)` excluded.
@@ -842,7 +842,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_topology_search.py; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-28 — Phi 20+5+5+2 Tail Probe
+## 2026-04-28 — Phi 20+5+5+2 Tail Probe {#journal-077}
 
 **Intent**: Test whether the public `20+4+6+2` baseline can be improved by using a more even post-20 tail split with already-built 5-layer shards.
 **Setup**: Gated `phi4mini_layer20_25_q8.mlmodelc` and `phi4mini_layer25_30_q8.mlmodelc`, then generated `phi4mini_runtime_meta_20_5_5_2.json` and profiled 100 generation steps with 20 warmup calls.
@@ -852,7 +852,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_20_5_5_2.json; tmp/ane_private_api/phi4_public_runtime_20_5_5_2_profile_100.log
 
 ---
-## 2026-04-28 — Phi-4-mini Next Public Optimization Direction Intent
+## 2026-04-28 — Phi-4-mini Next Public Optimization Direction Intent {#journal-078}
 
 **Intent**: After establishing the public Phi-4-mini baseline topology `20+4+6+2` and rejecting `20+5+5+2` as slower, start the next book-shaped ANE optimization direction. The two likely probes are Iverson/APL-style fatter token shapes (`T>1` layer-shard inputs, treating more token work as one array operation) and Stepanov-style hierarchical LM-head reduction (using associative reduction structure to reduce projection/result handling depth).
 **Setup**: Planning note only. Existing public CoreML Phi-4-mini topology comparison is the starting point; proposed probes must use CoreML `.mlpackage` artifacts targeting ANE for compute-heavy work. Host work remains limited to permitted bookkeeping/sampling/string/file tasks; no CPU/GPU matmul, projection, norm, attention, FFN, or LM-head compute shortcut is acceptable.
@@ -863,7 +863,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Iverson, *A Programming Language*: array operators, inner/outer product, reduction operators; Stepanov & McJones, *Elements of Programming*: associative operations and semigroups); local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-28 — Phi LM-Head Top-K Shard Residency Failed
+## 2026-04-28 — Phi LM-Head Top-K Shard Residency Failed {#journal-079}
 
 **Intent**: Verify the existing Phi LM-head top-k shard before any scale-out, following the ANE-only mandate and BOOK_ANALYSIS.md validation-before-scale discipline.
 **Setup**: Checked compiled artifact `Phi4MiniLMHead_top1_s0_q8.mlmodelc` with strict residency validation.
@@ -874,7 +874,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: .github/copilot-instructions.md; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-28 — Phi Batch-4 LM-Head Shape Probe Passed
+## 2026-04-28 — Phi Batch-4 LM-Head Shape Probe Passed {#journal-080}
 
 **Intent**: Test the Iverson/APL-style fatter-array direction on the LM head before attempting any full runtime migration: score multiple hidden vectors with one ANE 1x1 conv instead of issuing one CoreML prediction per token.
 **Setup**: Extended `python/phi4_mini_lm_head_shards.py` with opt-in `--batch-tokens` while preserving the single-token default. Built only representative shard 0 with `--batch-tokens 4` into `lm_head_shards_bt4`, then extended `python/phi4_mini_lm_head_golden.py` for batched validation and added `python/phi4_mini_lm_head_batch_bench.py` for a shard-local microbench.
@@ -885,7 +885,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_lm_head_shards.py; python/phi4_mini_lm_head_golden.py; python/phi4_mini_lm_head_batch_bench.py; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-28 — Phi Batch-4 LM-Head Full Set Gated
+## 2026-04-28 — Phi Batch-4 LM-Head Full Set Gated {#journal-081}
 
 **Intent**: Scale the passed representative batch-4 LM-head shape to the remaining vocab shards after checking disk headroom and before any runtime integration.
 **Setup**: Built shards 1-3 into `local-artifacts/phi4_mini_ane/lm_head_shards_bt4`, preserving shard 0. Free disk fell from `9.1 GiB` to `6.2 GiB`; no cleanup or deletion was performed.
@@ -895,7 +895,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane/lm_head_shards_bt4/lm_head_bt4_manifest.json; tmp/ane_private_api/residency_phi4_lm_head_bt4_s1_q8.json; tmp/ane_private_api/lm_head_bt4_golden_s1.json
 
 ---
-## 2026-04-29 — Phi Dead Artifact Cleanup Approval Intent
+## 2026-04-29 — Phi Dead Artifact Cleanup Approval Intent {#journal-082}
 
 **Intent**: Record the user's explicit approval to delete strong dead Phi artifacts and reclaim disk while preserving small tracked manifests where possible; this follows BOOK_ANALYSIS.md measurement discipline by removing only paths already ruled out by residency or slower-profile evidence.
 **Setup**: Approved targets are the rejected `phi4_mini_ane_24layer_probe` [0,24) CPU-fallback artifact; generated top-k LM-head artifacts that failed ANE residency because `ios18.topk`/`ios18.cast` lowered to CPU; generated 3-way and 8-way LM-head artifacts that profiled slower than the 4-way head; and known slower 5-layer tail artifacts [20,25), [25,30), plus duplicate [30,32).
@@ -906,7 +906,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; docs/ane_book/JOURNAL.md
 
 ---
-## 2026-04-29 — Phi Dead Artifact Cleanup Outcome
+## 2026-04-29 — Phi Dead Artifact Cleanup Outcome {#journal-083}
 
 **Intent**: Reclaim disk by deleting only the approved Phi dead artifacts already ruled out by CPU fallback, slower profiling, or duplication, following BOOK_ANALYSIS.md measurement discipline.
 **Setup**: Deleted `local-artifacts/phi4_mini_ane_24layer_probe`; generated top-k LM-head top1 s0 `.mlmodelc`/`.mlpackage`; generated 3-way and 8-way LM-head `.mlmodelc`/`.mlpackage` artifacts while preserving their manifests; and slower 5-layer tail generated artifacts [20,25), [25,30), plus duplicate [30,32).
@@ -917,7 +917,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; docs/ane_book/JOURNAL.md
 
 ---
-## 2026-04-29 — Phi Public Algorithmic Perf Direction Intent
+## 2026-04-29 — Phi Public Algorithmic Perf Direction Intent {#journal-084}
 
 **Intent**: Pivot away from private ANE APIs for small wins; pursue public, ANE-only algorithmic performance via n-gram acceptance, speculative decoding, prompt-lookup decoding, and related public-runtime approaches, following BOOK_ANALYSIS.md measurement-before-optimization discipline.
 **Setup**: Planning note only. Current Phi Swift runtime uses mutable `MLState` with single-token layer shards and the preserved 20+4+6+2 baseline plus batch-4 LM-head artifacts. No command run, no conversion, no benchmark, no cleanup/deletion.
@@ -928,7 +928,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; docs/ane_book/JOURNAL.md; speculative decoding (Leviathan et al., 2023); prompt-lookup decoding
 
 ---
-## 2026-04-29 — Phi N-Gram Proposal Probe Added
+## 2026-04-29 — Phi N-Gram Proposal Probe Added {#journal-085}
 
 **Intent**: Try a public n-gram/prompt-lookup direction without resorting to private E5 APIs and without changing exact greedy decode behavior.
 **Setup**: Added `--ngram-probe`, `--ngram-min`, and `--ngram-max` to `local-artifacts/phi4_mini_ane.swift`. The probe runs normal greedy decode and records whether the current token history has a prior suffix match whose following token would have proposed the model's actual next token.
@@ -939,7 +939,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane.swift; tmp/ane_private_api/phi4_ngram_probe_smoke.log; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-29 — Phi Code-Shaped N-Gram Suite Measured
+## 2026-04-29 — Phi Code-Shaped N-Gram Suite Measured {#journal-086}
 
 **Intent**: Measure n-gram/prompt-lookup acceptance on more coding-like token histories, not just the degenerate repetitive smoke prompt.
 **Setup**: Added `--prompt-ids-file` support to `local-artifacts/phi4_mini_ane.swift` so multiple prompts can reuse one loaded runtime. Added `python/phi4_mini_ngram_prompt_suite.py` to regenerate a small code-shaped prompt-ID suite from the local Phi GGUF tokenizer metadata. Ran 5 prompts with `--max-new 24 --ngram-probe --ngram-min 2 --ngram-max 8` on the `20+4+6+2` manifest.
@@ -950,7 +950,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_ngram_prompt_suite.py; local-artifacts/phi4_mini_ane.swift; tmp/ane_private_api/phi4_ngram_probe_code_prompts_v2.log
 
 ---
-## 2026-04-29 — Phi N-Gram Speculative Upper Bound Simulated
+## 2026-04-29 — Phi N-Gram Speculative Upper Bound Simulated {#journal-087}
 
 **Intent**: Convert n-gram acceptance counts into an upper-bound target for a future public verifier, without claiming a runtime speedup yet.
 **Setup**: Added `python/phi4_mini_ngram_spec_sim.py`, which replays `Prompt IDs` and `Generated IDs` from the runtime log and simulates prompt-lookup draft blocks with configurable `--max-draft`.
@@ -961,7 +961,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_ngram_spec_sim.py; tmp/ane_private_api/phi4_ngram_spec_sim_code_draft4.json; tmp/ane_private_api/phi4_ngram_spec_sim_code_draft8.json
 
 ---
-## 2026-04-29 — Structured CoT Grammar Decoding Investigation
+## 2026-04-29 — Structured CoT Grammar Decoding Investigation {#journal-088}
 
 **Intent**: Investigate Kaya Omer's Structured CoT / grammar-constrained scratchpad post as a possible Phi-4-mini ANE optimization, using Sakarovitch weighted automata and Dragon Book syntax-analysis framing to classify the technique before implementation.
 **Setup**: Desk review only; target would be Phi-4-mini decode with CoreML/ANE layer and LM-head compute unchanged, plus a host-side FSM or grammar mask applied during sampling.
@@ -972,7 +972,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: Kaya Omer Structured CoT / grammar-constrained scratchpad post; BOOK_ANALYSIS.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-29 — Structured CoT Phi/ANE Applicability Decision
+## 2026-04-29 — Structured CoT Phi/ANE Applicability Decision {#journal-089}
 
 **Intent**: Turn the Structured CoT investigation into a concrete yes/no implementation decision for the Phi-4-mini public ANE runtime.
 **Setup**: Checked the current Swift sampling path and the local Phi GGUF tokenizer metadata. The runtime already performs ANE layer execution and ANE LM-head projection, then chooses the argmax on host. The tokenizer has newline and punctuation tokens, but structured literals such as `<think>` and `GOAL:` are not single tokens.
@@ -983,7 +983,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane.swift; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; https://andthattoo.dev/blog/structured_cot
 
 ---
-## 2026-04-29 — Phi Structured CoT Runtime Slice Implemented
+## 2026-04-29 — Phi Structured CoT Runtime Slice Implemented {#journal-090}
 
 **Intent**: Ship a minimal public Phi-4-mini structured-decoding feature quickly, without touching model artifacts or the default greedy path.
 **Setup**: Added `python/phi4_mini_structured_cot_manifest.py`, generated `local-artifacts/phi4_mini_ane/phi4mini_structured_cot_plan.json`, and wired `--structured-cot` / `--structured-cot-manifest` into `local-artifacts/phi4_mini_ane.swift`.
@@ -995,7 +995,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_structured_cot_manifest.py; local-artifacts/phi4_mini_ane/phi4mini_structured_cot_plan.json; local-artifacts/phi4_mini_ane.swift; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-29 — Phi N-Gram Force Mode Tried
+## 2026-04-29 — Phi N-Gram Force Mode Tried {#journal-091}
 
 **Intent**: Try the public n-gram idea as an actual runtime speed experiment, not just an acceptance probe.
 **Setup**: First checked public CoreML state access. Python `MLState` exposes `read_state`/`write_state`; Swift exposes `withMultiArray(for:)`. State copy is therefore possible, but copying the full Phi KV cache plus single-token verification would not reduce ANE target passes. Added experimental `--ngram-force` to `local-artifacts/phi4_mini_ane.swift` instead.
@@ -1007,7 +1007,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: local-artifacts/phi4_mini_ane.swift; tmp/ane_private_api/phi4_ngram_probe_code_prompts_after_force.log; tmp/ane_private_api/phi4_ngram_force_code_prompts.log; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-29 — Phi Multi-Token Verifier Feasibility Insight
+## 2026-04-29 — Phi Multi-Token Verifier Feasibility Insight {#journal-092}
 
 **Intent**: Refine the public Phi-4-mini speculative verifier design after n-gram simulations showed a draft-4 pass-count target near 2x, using Knuth string matching and Concrete Mathematics amortization framing from BOOK_ANALYSIS.md plus speculative decoding (Leviathan et al., 2023).
 **Setup**: Design note only; no command run. Target implementation is a public CoreML stateful block layer shard with `T=4`: `x [1,d,T,1]`, `rope [T,d_half]`, `attn_mask [1,1,T,max_seq]`, `kv_write_mask [1,1,max_seq,T]`, and output hidden `[1,d,T,1]`, paired with the existing batch-4 LM-head shards.
@@ -1018,7 +1018,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md Experiment 23 and Experiment 25; docs/ane_book/JOURNAL.md Phi Batch-4 LM-Head Shape Probe Passed; local-artifacts/ANE_CHAIN_SCHEMA.md; CoreML `MLState.withMultiArray(for:)`; speculative decoding (Leviathan et al., 2023)
 
 ---
-## 2026-04-29 — Phi T=4 Verifier Op-Pattern Probe Passed
+## 2026-04-29 — Phi T=4 Verifier Op-Pattern Probe Passed {#journal-093}
 
 **Intent**: Test the riskiest public multi-token verifier compiler pattern before spending disk/RAM on real Phi block artifacts.
 **Setup**: Added `python/phi4_mini_t4_verifier_probe.py`, a synthetic CoreML probe that builds a stateful T=4 transformer-like block with multi-row KV write, causal block attention, FFN, INT8 weight quantization, CoreML compilation, numerical block-vs-sequential check, and `MLComputePlan` residency report. Artifacts are under `tmp/phi4_mini_verifier_probe/`.
@@ -1029,7 +1029,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_t4_verifier_probe.py; tmp/phi4_mini_verifier_probe/phi4_t4_kvscatter_probe_d1024_s005.json; tmp/phi4_mini_verifier_probe/phi4_t4_kvscatter_probe_phi_dims.json; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-29 — Phi-4-mini Real-Weight T=4 Verifier Intent
+## 2026-04-29 — Phi-4-mini Real-Weight T=4 Verifier Intent {#journal-094}
 
 **Intent**: After checkpoint `b366672` was committed and tagged as `phi4-mini-ane-v0-spec-2026-04-29`, start the next public Phi-4-mini ANE experiment: implement and test a real-weight one-layer `T=4` verifier shard. The hypothesis follows BOOK_ANALYSIS.md Experiment 26, combining Dragon Book data-flow invariants, Knuth sequential verification, and the speculative decoding verifier framing from Leviathan et al. (2023): one target pass should verify several draft tokens only if the block graph exactly matches four sequential single-token target calls.
 **Setup**: Planned path is public CoreML/ANE only, with no private API and no CPU/GPU compute fallback. Build only one real Phi-4-mini layer first to conserve disk/RAM. Target verifier shape keeps compute-heavy work inside a CoreML `.mlpackage`: `x [1,d,T,1]`, per-token RoPE rows, causal `attn_mask [1,1,T,max_seq]`, `kv_write_mask [1,1,max_seq,T]`, stateful multi-row KV write, and hidden output `[1,d,T,1]` for `T=4`. Acceptance gates are: compile one real layer, compare its block output/state behavior against four sequential single-token Phi calls, then run strict MLComputePlan residency.
@@ -1040,7 +1040,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: checkpoint `b366672`; tag `phi4-mini-ane-v0-spec-2026-04-29`; BOOK_ANALYSIS.md Experiment 26; python/phi4_mini_t4_verifier_probe.py; tmp/phi4_mini_verifier_probe/phi4_t4_kvscatter_probe_phi_dims.json; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md; speculative decoding (Leviathan et al., 2023)
 
 ---
-## 2026-04-29 — Phi-4-mini Real-Weight T=4 Verifier Layer Passed
+## 2026-04-29 — Phi-4-mini Real-Weight T=4 Verifier Layer Passed {#journal-095}
 
 **Intent**: Execute the next gate for the public max-performance speculative runtime: one real Phi-4-mini layer, four draft positions, exact sequential-vs-block parity, and strict ANE residency.
 **Setup**: Added `python/phi4_mini_t4_layer_probe.py`. It builds layer 0 from `models/Phi-4-mini-instruct.Q8_0.gguf`, uses `T=4`, `S=2048`, real token embeddings `[199999, 200021, 14350, 200019]`, converts to CoreML INT8, compiles to `.mlmodelc`, runs compiled prediction, and writes reports under `tmp/phi4_mini_t4_real_probe/`.
@@ -1052,7 +1052,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_t4_layer_probe.py; python/phi4_mini_t4_verifier_probe.py; tmp/phi4_mini_t4_real_probe/phi4mini_layer0_t4_q8_layoutfix.json; tmp/phi4_mini_t4_real_probe/phi4mini_layer0_t4_q8_layoutfix_residency.json; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-29 — Phi-4-mini T=4 Verifier Scale-Out Intent
+## 2026-04-29 — Phi-4-mini T=4 Verifier Scale-Out Intent {#journal-096}
 
 **Intent**: Move from the one-layer real-weight `T=4` verifier pass to export plumbing for the production speculative-verifier topology, while preserving the public CoreML/ANE-only boundary. This follows BOOK_ANALYSIS.md Experiment 26: Dragon Book data-flow invariants for block-vs-sequential equivalence, Knuth sequential verification for exact accept/reject semantics, and Leviathan et al. (2023) speculative decoding framing. Checkpoint anchors are `phi4-mini-ane-v0-spec-2026-04-29` at `b366672` and `phi4-mini-t4-layer0-pass-2026-04-29` at `290e3d3`.
 **Setup**: Planning note before implementation. Target topology is the production public CoreML path with `T=4` multi-layer shards and manifest references, aligned with the existing `20+4+6+2` layer layout. Build order starts with the smallest tail shard first, expected tail range `[30,32)`, to minimize disk/RAM risk before larger verifier shards. Disk is tight at roughly 11 GiB free and existing artifacts are large, so no `.mlpackage`, `.mlmodelc`, `.npz`, `python/moe/out/`, `models/`, or other large artifact cleanup may occur without explicit user confirmation.
@@ -1063,7 +1063,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: checkpoint `b366672`; tag `phi4-mini-ane-v0-spec-2026-04-29`; checkpoint `290e3d3`; tag `phi4-mini-t4-layer0-pass-2026-04-29`; BOOK_ANALYSIS.md Experiment 26; docs/ane_book/JOURNAL.md Phi-4-mini Real-Weight T=4 Verifier Layer Passed; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md; speculative decoding (Leviathan et al., 2023)
 
 ---
-## 2026-04-29 — Phi-4-mini T=4 Verifier Scale-Out Outcome
+## 2026-04-29 — Phi-4-mini T=4 Verifier Scale-Out Outcome {#journal-097}
 
 **Intent**: Record the full production-topology `T=4` verifier scale-out outcome for public CoreML speculative decoding, following BOOK_ANALYSIS.md Experiment 26, Knuth sequential verification, Dragon Book data-flow invariants, and Leviathan et al. (2023) speculative decoding. The goal was to test whether four-token verifier passes could preserve exact greedy behavior while improving decode throughput on the existing `20+4+6+2` Phi topology.
 **Setup**: Built all four production-topology `T=4` verifier shards under `local-artifacts/phi4_mini_ane_t4_verifier`: `[0,20)`, `[20,24)`, `[24,30)`, and `[30,32)`. Added runtime manifest `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_20_4_6_2_t4.json` with `speculative_verifier` entries and batch-4 LM-head references. Added an opt-in Swift `--speculative` path using separate `T=4` verifier states plus the batch-4 LM head. Suite command used `--ngram-min 1 --ngram-max 8`.
@@ -1074,7 +1074,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md Experiment 26; speculative decoding (Leviathan et al., 2023); local-artifacts/phi4_mini_ane_t4_verifier; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_20_4_6_2_t4.json; local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-29 — Phi-4-mini T=4 Speculative Exactness Comparison Intent
+## 2026-04-29 — Phi-4-mini T=4 Speculative Exactness Comparison Intent {#journal-098}
 
 **Intent**: After committing tag `phi4-mini-t4-spec-runtime-exp-2026-04-29`, compare public-API Phi-4-mini speculative-runtime strategies because the current `T=4` path is faster on code-shaped prompts but not exact on all prompts. The comparison follows the ANE-only mandate, BOOK_ANALYSIS.md Experiment 26, Knuth-style sequential verification, and Leviathan et al. (2023) speculative decoding: throughput gains are useful only if exact greedy output is preserved or the deviation is explicitly diagnosed.
 **Setup**: Planned strategies: (1) the currently implemented `T=4`-only speculative runtime; (2) hybrid exact-prefill plus `T=4` speculative decode; and possibly an exact-check diagnostic mode that measures `T=4` agreement against the canonical single-token exact path. Scope is public CoreML/runtime APIs on the existing Phi-4-mini ANE artifacts and `T=4` verifier topology. Heavy compute remains on ANE; no CPU/GPU compute fallback and no destructive artifact cleanup are planned.
@@ -1085,7 +1085,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md Experiment 26; speculative decoding (Leviathan et al., 2023); tag `phi4-mini-t4-spec-runtime-exp-2026-04-29`; local-artifacts/phi4_mini_ane.swift; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_20_4_6_2_t4.json; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-29 — Phi Full-Stack GGUF Reference Gate Blocks Q8 Chat
+## 2026-04-29 — Phi Full-Stack GGUF Reference Gate Blocks Q8 Chat {#journal-099}
 
 **Intent**: Record the full-stack Phi-4-mini GGUF reference result as a validation gate only, not an inference shortcut, following BOOK_ANALYSIS.md validation-before-performance discipline and Knuth-style end-to-end sequential verification.
 **Setup**: Added and ran `python/phi4_mini_fullstack_reference.py` as a CPU/PyTorch GGUF fp16 reference for Phi-4-mini validation. Prompt: `<|system|>You are a helpful assistant. Answer briefly.<|end|><|user|>write hello world in Erlang<|end|><|assistant|>`. Prompt IDs: `[200022,3575,553,261,10297,29186,13,30985,51088,13,200020,200021,9566,40617,2375,306,101038,516,200020,200019]`.
@@ -1096,7 +1096,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: python/phi4_mini_fullstack_reference.py; local-artifacts/phi4_mini_ane.swift; BOOK_ANALYSIS.md; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md
 
 ---
-## 2026-04-29 — Phi-4-mini Partial-RoPE Patch and Probe Passed
+## 2026-04-29 — Phi-4-mini Partial-RoPE Patch and Probe Passed {#journal-100}
 
 **Intent**: Record the confirmed root cause and code patch for bad Phi-4-mini chat output, following BOOK_ANALYSIS.md validation discipline: preserve the official model contract before optimizing or rebuilding production artifacts. The specific contract is partial RoPE from the official `microsoft/Phi-4-mini-instruct` config and matching GGUF metadata.
 **Setup**: Local weights: `models/Phi-4-mini-instruct.Q8_0.gguf`. Official HF config has `partial_rotary_factor=0.75`, and GGUF metadata has `phi3.rope.dimension_count=96`; the previous conversion/runtime/reference stack incorrectly rotated the full `d_head=128`. Code was patched to carry `rope_dim` and use `rope_dim//2` cos/sin in `local-artifacts/gguf_to_ane.py`, `local-artifacts/phi4_mini_ane.swift`, `python/phi4_mini_export_runtime.py`, `python/phi4_mini_fullstack_reference.py`, `python/phi4_mini_layer0_golden.py`, and `python/phi4_mini_multitoken_layer_golden.py`. User-approved probe directory: `tmp/phi4_mini_rope96_probe_l0_20260429_221441`; scope was single-layer only.
@@ -1107,7 +1107,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; models/Phi-4-mini-instruct.Q8_0.gguf; local-artifacts/gguf_to_ane.py; local-artifacts/phi4_mini_ane.swift; python/phi4_mini_export_runtime.py; python/phi4_mini_fullstack_reference.py; python/phi4_mini_layer0_golden.py; python/phi4_mini_multitoken_layer_golden.py; tmp/phi4_mini_rope96_probe_l0_20260429_221441; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-30 — Phi-4-mini Rope96 Fast Fused Rebuild Intent
+## 2026-04-30 — Phi-4-mini Rope96 Fast Fused Rebuild Intent {#journal-101}
 
 **Intent**: Rebuild the Phi-4-mini fast fused runtime topology with the already-fixed partial RoPE contract (`rope_dim=96`) so the old fastest public path can be tested with correct model semantics. This follows BOOK_ANALYSIS.md validation-before-performance discipline plus Dragon Book call-hoisting/strength-reduction and Iverson whole-operation fusion: keep the fused topology for lower CoreML call count, but require the corrected RoPE metadata contract before trusting throughput or chat behavior.
 **Setup**: Planned source artifact: `models/Phi-4-mini-instruct.Q8_0.gguf`. Planned output: `local-artifacts/phi4_mini_ane` with INT8 per-tensor stateful CoreML shards for topology [0,20)+[20,24)+[24,30)+[30,32). Per fused shard gates: compile, strict ANE placement via `python/phi4_mini_residency_check.py`, and range golden via `python/phi4_mini_range_golden.py`. After shard gates pass, planned runtime export is `phi4mini_runtime_meta_rope96_fast_20_4_6_2.json`, followed by compile/use of the existing rope96 Swift runtime and an Erlang hello-world smoke test.
@@ -1118,7 +1118,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; models/Phi-4-mini-instruct.Q8_0.gguf; local-artifacts/gguf_to_ane.py; python/phi4_mini_residency_check.py; python/phi4_mini_range_golden.py; python/phi4_mini_export_runtime.py; local-artifacts/phi4_mini_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-04-30 — Phi-4-mini Rope96 Fast Fused Rebuild Outcome
+## 2026-04-30 — Phi-4-mini Rope96 Fast Fused Rebuild Outcome {#journal-102}
 
 **Intent**: Record completion of the Phi-4-mini Rope96 fast fused rebuild so the fastest public topology is available with the corrected partial-RoPE contract. This follows BOOK_ANALYSIS.md validation-before-performance discipline plus Dragon Book call-hoisting/strength-reduction and Iverson whole-operation fusion: reduce CoreML layer-call count only after the rebuilt shards re-pass ANE residency and range golden.
 **Setup**: Rebuilt the fixed `rope_dim=96` INT8 fused topology [0,20)+[20,24)+[24,30)+[30,32). Runtime manifest: `local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_rope96_fast_20_4_6_2.json`. Swift runtime rebuilt as `local-artifacts/phi4_mini_ane_runtime_rope96`, and defaults now point to the fast manifest. The CLI now prints startup, prefill, and decode timing and uses one warmup call by default. `.mlpackage` intermediates were removed after the compiled runtime artifacts were gated.
@@ -1129,7 +1129,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md (Dragon Book call-hoisting/strength-reduction; Iverson whole-operation fusion); local-artifacts/ANE_CHAIN_SCHEMA.md; local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_rope96_fast_20_4_6_2.json; local-artifacts/phi4_mini_ane_runtime_rope96; local-artifacts/phi4_mini_ane.swift; python/phi4_mini_residency_check.py; python/phi4_mini_range_golden.py; .github/copilot-instructions.md
 
 ---
-## 2026-04-30 — Hy-MT1.5 2-bit GGUF ANE Conversion Intent
+## 2026-04-30 — Hy-MT1.5 2-bit GGUF ANE Conversion Intent {#journal-103}
 
 **Intent**: Before any expensive conversion, record the intent to convert the Hugging Face model `AngelSlim/Hy-MT1.5-1.8B-2bit-GGUF` to CoreML shards that run 100% on Apple Neural Engine in this repo. The base model is `tencent/HY-MT1.5-1.8B`; Hugging Face reports architecture `hunyuan-dense`, about 1.8B parameters, and a 574MB 2-bit GGUF. The plan follows the ANE-only mandate and BOOK_ANALYSIS.md validation-before-scale discipline: prove architecture support, compiler placement, and golden quality before treating any compression format as usable.
 **Setup**: Planning note only; no model download, conversion, compilation, residency check, golden validation, latency run, energy benchmark, cleanup, or deletion has been run for this entry. Source quantization is 2-bit GGUF, but target production shard baseline remains INT8 per-tensor CoreML unless a smaller representative alternative passes ANE residency and golden quality gates. Linear INT4 per-block remains known risky for sharded Conv/Linear graphs; 2-bit GGUF compression is not accepted as proof of ANE residency.
@@ -1140,7 +1140,7 @@ title: "Chapter 9 - Decision Journal"
 **Refs**: BOOK_ANALYSIS.md; .github/copilot-instructions.md; python/moe/GEMMA_ANE_RESEARCH.md; local-artifacts/ANE_CHAIN_SCHEMA.md; Hugging Face `AngelSlim/Hy-MT1.5-1.8B-2bit-GGUF`; base model `tencent/HY-MT1.5-1.8B`
 
 ---
-## 2026-05-12 — Speculative Decode Prompt-Density Validation
+## 2026-05-12 — Speculative Decode Prompt-Density Validation {#journal-104}
 
 **Intent**: Determine whether the previously measured +1.7% speculative decode speedup (Exp 25, 39-token code prompt) was a prompt-density floor rather than a fundamental ceiling of n-gram speculative decoding on ANE. Per Knuth TAOCP §6.1, n-gram match distance scales as ∝ 1/collision_frequency — a low-repetition prompt suppresses the drafter, so we need a far denser context to stress-test the T=4 verifier path.
 **Setup**: Phi-4-mini RangeDim unified shards (`phi4mini_runtime_meta_rope96_rangedim_20_4_6_2.json`), `--speculative --ngram-min 1`, daemon benchmark (`python/phi4_mini_rangedim_bench.py`). New dense prompt: 372-token Swift CoreML code snippet (`tmp/swift_code_prompt_ids.txt`) with heavy repetition of `MLMultiArray`, `MLModel`, `MLState`, `makeInputDict`, `forwardLayer`, `rope_cos`, `rope_sin`, `attn_mask`, `kv_write_mask`. Both prompts run for 5 reps, 20 new tokens (39-token) and 80 new tokens (372-token). JIT warmup: T=1=113.4s, T=4=136s.
@@ -1158,7 +1158,7 @@ Decode reps for the 372-token run: 26.8, 26.7, 26.6, 26.7, 26.7 — variance ≤
 **Refs**: BOOK_ANALYSIS.md Exp 26; python/phi4_mini_rangedim_bench.py; python/phi4_mini_ngram_spec_sim.py; tmp/swift_code_prompt_ids.txt; /memories/repo/phi4-cli-runtime.md; Knuth TAOCP §6.1 (string matching / collision frequency)
 
 ---
-## 2026-05-12 — Exp 26 Follow-Up: Prompt-Length Sweep for N-Gram Speculative Decode
+## 2026-05-12 — Exp 26 Follow-Up: Prompt-Length Sweep for N-Gram Speculative Decode {#journal-105}
 
 **Intent**: Characterise how n-gram speculative decode speedup scales with context length by running a 4-point sweep (100 → 200 → 372 → 800 tokens), working toward the 2.04× simulated upper bound established in Exp 23. Per Knuth TAOCP §6.1, match-collision frequency grows with context density, predicting a monotone but sublinear acceptance-rate curve; the sweep is the empirical trace of that curve.
 **Setup**: Runtime `local-artifacts/phi4_mini_ane_runtime_rope96 --serve --speculative --ngram-min 1`; shards `local-artifacts/phi4_mini_ane_rangedim/` (RangeDim T=1..4, 100% ANE residency, topology 20+4+6+2); manifest `phi4mini_runtime_meta_rope96_rangedim_20_4_6_2.json`. Prompts tiled from `tmp/swift_code_prompt_ids.txt` (dense Swift CoreML code: `MLMultiArray`, `MLModel`, etc.). 5 reps per length, 80 new tokens per request. Single daemon session; JIT paid once (T=1 JIT 113.4s, T=4 JIT 140.8s). Sweep script: `python/phi4_mini_ngram_sweep.py`. Raw log: `tmp/ngram_sweep_results.log`.
@@ -1178,7 +1178,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: BOOK_ANALYSIS.md Exp 26; python/phi4_mini_ngram_sweep.py; tmp/ngram_sweep_results.log; python/phi4_mini_ngram_spec_sim.py; python/phi4_mini_rangedim_bench.py; /memories/repo/phi4-cli-runtime.md; Knuth TAOCP §6.1 (string matching / collision frequency); local-artifacts/ANE_CHAIN_SCHEMA.md
 
 ---
-## 2026-05-13 — Exp 35: ZAYA1-8B MoE INT4 Per-Grouped-Channel Palettization Intent
+## 2026-05-13 — Exp 35: ZAYA1-8B MoE INT4 Per-Grouped-Channel Palettization Intent {#journal-106}
 
 **Intent**: Replace the INT8 per-tensor quantized ZAYA1-8B MoE shards (Exp 34, 202 MB compiled each) with INT4 per-grouped-channel palettized shards (`constexpr_lut_to_dense`, `group_size=32`) to halve shard size (~101 MB target) and halve per-token FFN compute. Hypothesis: the halved verifier cost (~250–300 ms/call vs. current ~500 ms) will push the speculative decode break-even acceptance rate below the real n-gram acceptance rate on code prompts (~60–80%), yielding net throughput improvement over the 8.59 tok/s INT8 baseline. The LUT palettization approach maps 32-channel groups to 4-bit indices into a 16-entry codebook — analogous to Iverson APL §2 inner-product reduction over a finite alphabet — which is architecturally distinct from the linear INT4 per-block path (`constexpr_blockwise_shift_scale`) that is known to cause CPU fallback on small sharded MoE graphs.
 **Setup**: ZAYA1-8B (Zyphra, 80-layer MoE, alternating attn/MoE layers, 40 MoE shards). Target quant: `constexpr_lut_to_dense` palettization, `group_size=32`, 4-bit per grouped channel. Baseline artifact: INT8 per-tensor MoE shards at 202 MB compiled each (`tmp/zaya_shards/moe/`). Env: Xcode `python3` / coremltools 9. Gate sequence (per ANE_CHAIN_SCHEMA.md): (1) ane-validator on L01 INT4 palettized shard — must be 100% ANE, no CPU fallback on any matmul/norm; (2) golden-validator — cosine ≥ 0.97 vs. `tmp/zaya_golden.npz`; only after both gates pass: build all 40 shards + benchmark.
@@ -1189,7 +1189,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: BOOK_ANALYSIS.md Exp 34 (INT8 baseline, 202 MB, 8.59 tok/s); BOOK_ANALYSIS.md Exp 35; local-artifacts/ANE_CHAIN_SCHEMA.md (INT4 LUT palettization path, ~250 MB shard limit, G=8 sweet spot); python/moe/GEMMA_ANE_RESEARCH.md; tmp/zaya_golden.npz; Iverson APL §2 (inner-product reduction / finite alphabet); .github/copilot-instructions.md (ANE-only mandate, quality-before-perf, INT4 LUT vs. per-block distinction)
 
 ---
-## 2026-05-13 — Exp 35 COMPLETE: ZAYA1-8B INT4pal T=1 Win, Speculative Decode Loss
+## 2026-05-13 — Exp 35 COMPLETE: ZAYA1-8B INT4pal T=1 Win, Speculative Decode Loss {#journal-107}
 
 **Intent**: Validate INT4 palettization (`constexpr_lut_to_dense`, `group_size=32`) on ZAYA1-8B MoE FFN shards as a bandwidth-reduction upgrade from the INT8 baseline, then test whether speculative decode (T=4 MoE verifier + T=1 draft) converts the halved shard size into throughput gains. Full intent logged in prior session (Exp 35 intent entry above). Citations: EoP §4 (semigroup element size reduction); TAOCP Vol. 2 §4.3 (arithmetic vs. memory bottleneck identification).
 **Setup**: ZAYA1-8B MoE (40 alternating MoE layers). INT4pal shards built to `<external-scratch>/zaya_shards/` (40 × `.mlmodelc`). T=1 baseline timing: wall-clock tok/s measured on warm-cache decode runs. Speculative decode setup: T=4 verifier (processes 4 candidate tokens per call) using full MoE shards; T=1 draft using same model. Acceptance rate measured on synthetic prompts and code-completion prompts. Break-even formula: `p_break_even = 1 − t1 / (tv / vbt)` where `t1 = 109 ms` (T=1 step), `tv = 483 ms` (T=4 verifier call), `vbt = 4` (verifier batch size).
@@ -1200,7 +1200,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: BOOK_ANALYSIS.md Exp 35; local-artifacts/ANE_CHAIN_SCHEMA.md; TAOCP Vol. 2 §4.3 (arithmetic vs. memory bottleneck); EoP §4 (semigroup element size / bandwidth reduction); python/moe/GEMMA_ANE_RESEARCH.md; .github/copilot-instructions.md (ANE-only mandate, quality-before-perf)
 
 ---
-## 2026-05-13 — Exp 36 Intent: Gemma 4 T4.3 Root Cause Identified, Rebuild to INT4pal
+## 2026-05-13 — Exp 36 Intent: Gemma 4 T4.3 Root Cause Identified, Rebuild to INT4pal {#journal-108}
 
 **Intent**: After exhausting ZAYA speculative decode, pivot to the unresolved Gemma 4 ANE full-stack quality failure (T4.3: per-position logit cosine dropped to 0.5654 at pos 2 for the 8-token golden prompt). All 90 Gemma ANE shards deleted (source GGUF intact); weights reside on the unmounted T9 volume. The goal is to identify the root cause without new probes and decide the rebuild quantization strategy for all 30 layers.
 **Setup**: Root cause analysis via code inspection of the T4.1.3 rebuild artifacts and the ANE_CHAIN_SCHEMA.md INT4 vs. INT8 documentation. Single-layer quality validation data from T4.1.3: `cos(hidden)` range 0.9555–0.9999 across 7 sampled layers. Full-stack failure: 8-token golden prompt failed (cos = 0.5654 at pos 2); 6-token REAP prompt passed (cos ≥ 0.9875). MoE expert bank weight shape: 45056×704 (31M params per bank).
@@ -1211,7 +1211,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: local-artifacts/ANE_CHAIN_SCHEMA.md (INT4 LUT vs. per-block distinction, ~250 MB shard limit); python/moe/GEMMA_ANE_RESEARCH.md (T4.1.2 cos=0.992 reference, T4.1.3 per-tensor INT8); docs/INT4_SHARD_ANE_BUG.md; BOOK_ANALYSIS.md (T4.1–T4.3 history); ZAYA INT4pal validation (this session, Exp 35); .github/copilot-instructions.md (quality-before-perf, ANE-only mandate)
 
 ---
-## 2026-05-14 — T4.3 CLOSED: All-FP16 ANE inference passes golden gate
+## 2026-05-14 — T4.3 CLOSED: All-FP16 ANE inference passes golden gate {#journal-109}
 
 **Intent recorded before this session:** Move all Gemma-4-26B-A4B FFN shards from GPU to ANE by splitting from 2 sub-shards to 8 sub-shards at FP16.
 
@@ -1243,7 +1243,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: local-artifacts/ANE_CHAIN_SCHEMA.md (~250 MB empirical shard limit, FP16 production baseline for shards); python/moe/GEMMA_ANE_RESEARCH.md; python/moe/out/gemma_swift_head_meta_allfp16.json; .github/copilot-instructions.md (ANE-only mandate, quality-before-perf, silent GPU fallback risk)
 
 ---
-## 2026-05-14 — T4.1.5 CLOSED: Full 16-token decode exact match on all-FP16 ANE stack
+## 2026-05-14 — T4.1.5 CLOSED: Full 16-token decode exact match on all-FP16 ANE stack {#journal-110}
 
 **Intent**: Verify that the all-FP16 ANE stack (T4.3, all 270 shards on ANE) produces correct output across a full 16-token autoregressive decode, closing the T4 correctness milestone.
 **Setup**: Runtime: `gemma_swift_head_meta_allfp16.json`, 270 shards (30 attn + 30×8 FFN, all FP16, all ANE). Prompt: `[3689, 563, 506, 5279, 529, 7001, 236881]` (7 tokens). Decode: `--n-new 16`. Reference: `gemma_golden.npz[next_token_ids]`. Hardware: M4 Max, no sudo, unoptimised sequential shard-reload path.
@@ -1254,7 +1254,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: local-artifacts/ANE_CHAIN_SCHEMA.md (Rounds 2–3, ~250 MB shard limit); python/moe/out/gemma_swift_head_meta_allfp16.json; gemma_golden.npz; scripts/gemma_swift_closedform_parity.sh; .github/copilot-instructions.md (ANE-only mandate)
 
 ---
-## 2026-05-14 — O2: Concurrent FFN Partial Fan-Out
+## 2026-05-14 — O2: Concurrent FFN Partial Fan-Out {#journal-111}
 
 **Intent**: The 7 FFN partial shards per layer (p0–p6) are independent — same input `x`, additive `partial_moe` outputs. Prior implementation dispatched them sequentially in a for-loop. Replaced with `DispatchGroup` + concurrent `DispatchQueue` fan-out in `local-artifacts/gemma_ane.swift`. Pre-allocated a stable `MLMultiArray` scratch buffer `[nPartials × dModel, Float16]` with non-overlapping row writes (row offset = `pi * dModel`) to avoid data races. After `group.wait()`: reduce scratch rows into `moeAccumF32`, then run `ffnLastModels` sequentially (depends on full sum). Motivation: eliminate the dominant per-layer latency for the 7 independent additions before the final combiner step, with zero correctness risk from the non-overlapping layout. Optimization discipline reference: BOOK_ANALYSIS.md — measure parallelism headroom before introducing synchronisation overhead.
 **Setup**: Hardware: M4 Max. Binary compiled as `/tmp/gemma_ane_smoke` (critical: must reuse the existing 32 GB ANE compilation cache — a new binary name forces a fresh 32 GB cache build that fills the local SSD). Runtime: all-FP16 ANE stack, 270 shards. Language: Swift. Key invariant: `nPartials = 7`, row stride = `dModel` (Float16), non-overlapping by construction.
@@ -1265,7 +1265,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 **Refs**: local-artifacts/gemma_ane.swift; local-artifacts/ANE_CHAIN_SCHEMA.md; .github/copilot-instructions.md (ANE-only mandate, binary-name cache rule); BOOK_ANALYSIS.md (measure-before-optimise discipline)
 
 ---
-## 2026-05-14 — INT4 Palettize L0 FFN Probe: All Gates Pass
+## 2026-05-14 — INT4 Palettize L0 FFN Probe: All Gates Pass {#journal-112}
 
 **Intent**: Test whether INT4 per-grouped-channel palettization (`constexpr_lut_to_dense`, nbits=4, k-means, group_size=32) lands on ANE and meets the 0.97 cosine quality gate. This path is explicitly distinct from the previously-failed linear INT4 per-block path (`constexpr_blockwise_shift_scale`), which causes GPU fallback. The distinction is critical: LUT palettization bakes cluster centroids into the model at export time; block-wise shift-scale relies on runtime dequant that the ANE compiler cannot fuse. Prior failure documented in docs/INT4_SHARD_ANE_BUG.md; new path documented in local-artifacts/ANE_CHAIN_SCHEMA.md. Motivation: 75% compression vs FP16 baseline would cut the ~250 MB shard limit impact and reduce external scratch storage storage for the 30-layer × 8-shard matrix. Reference: BOOK_ANALYSIS.md (validate representative sample before scale-out).
 **Setup**: Scope: L0 FFN only (8 shards: p0–p6 + p7/last+combiner). Quant: `constexpr_lut_to_dense`, nbits=4, k-means, group_size=32 (`coremltools.optimize.coreml.palettize_weights`). Residency check: `MLComputePlan.load_from_path`, `CPU_AND_NE` target. Quality check: 5 unit-norm random seeds vs FP16 reference, shard p0of8, cosine similarity. Env: Xcode `python3` (coremltools 9 only — not `.venv` or `.venv313`). Artifacts: `external scratch storage:<external-scratch>/models/gemma4-ane-q8c/` with suffix `_q4_pal`.
