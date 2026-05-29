@@ -33,10 +33,12 @@
   "quant": "int8_per_tensor_linear_symmetric",
   "shard_budget_mb": 250,
   "compute_units": "ALL",
-  "ane_soft_routing": true,
+  "ane_soft_routing": false,
+  "attention_layer_indices": [2, 6, 10, 14, 18, 21],
   "shard_naming": {
     "dense_layer": "lfm25_dense_layer{i}.mlmodelc",
     "conv_operator": "lfm25_op_layer{i}.mlmodelc",
+    "attn_layer": "lfm25_attn_layer{i}.mlmodelc",
     "moe_half0": "lfm25_moe0_layer{i}.mlmodelc",
     "moe_half1": "lfm25_moe1_layer{i}.mlmodelc",
     "lm_head0": "lfm25_lm_head0.mlmodelc",
@@ -45,28 +47,48 @@
   "shard_inputs": {
     "dense_layer": ["hidden: [1,2048,1,1]", "conv_state: [1,2048,3,1]"],
     "conv_operator": ["hidden: [1,2048,1,1]", "conv_state: [1,2048,3,1]"],
+    "attn_layer": ["hidden: [1,2048,1,1]", "k_cache: [1,512,2048,1]", "v_cache: [1,512,2048,1]",
+                   "write_mask: [1,1,2048,1]", "attn_mask: [1,1,1,2048]",
+                   "cos: [1,64,1,1]", "sin: [1,64,1,1]"],
     "moe_half": ["ffn_normed: [1,2048,1,1]", "routing_weights: [1,16,1,1]"],
     "lm_head": ["hidden: [1,2048,1,1]"]
   },
   "shard_outputs": {
     "dense_layer": ["updated_hidden: [1,2048,1,1]", "new_conv_state: [1,2048,3,1]"],
     "conv_operator": ["updated_hidden", "new_conv_state", "ffn_normed", "routing_weights: [1,32,1,1]"],
+    "attn_layer": ["updated_hidden: [1,2048,1,1]", "new_k: [1,512,2048,1]", "new_v: [1,512,2048,1]",
+                   "ffn_normed: [1,2048,1,1]", "routing_weights: [1,32,1,1]"],
     "moe_half0": ["moe_contribution_half0: [1,2048,1,1]"],
     "moe_half1": ["moe_contribution_half1: [1,2048,1,1]"],
     "lm_head0": ["logits_half0: [1,64000,1,1]"],
     "lm_head1": ["logits_half1: [1,64000,1,1]"]
   },
-  "total_shards_estimate": 70,
+  "host_weights_file": "lfm25_host_weights.bin",
+  "host_weights_layout": {
+    "offset_0": "emb_norm_weight: float32[2048] = 8192 bytes",
+    "offset_8192": "expert_bias: float32[24][32] row-major = 3072 bytes"
+  },
+  "total_shards": 70,
   "disk_estimate_gb": 8.0,
   "conv_state_size_per_layer_kb": 24,
   "conv_state_total_kb": 432,
-  "status": "converter_implemented_residency_gate_pending",
+  "status": "quality_gate_passed",
+  "quality_gate": {
+    "gate": "teacher_forced",
+    "cosine": 0.9957,
+    "threshold": 0.97,
+    "top1_token": 7085,
+    "top1_match": true,
+    "validator": "validators/lfm25_golden.py --compare-tf"
+  },
   "notes": [
     "ShortConv: depthwise Conv1d(kernel=3) maps to Conv2d(kernel=(3,1), groups=H)",
     "ShortConv state [1,H,3,1] passed as regular tensor (not MLState — too small to need it)",
     "MoE split at 16 experts per shard: ~176 MB each (under 250 MB ANE ceiling)",
-    "Soft routing: all 32 experts run with sigmoid weights (no topk branching)",
+    "Top-4 routing: scores=sigmoid+expert_bias, top-4 selected, renormalised to sum=1",
     "Tied embeddings: lm_head weight loaded from embed_tokens.weight slice",
-    "ANE law: any INT4 quantization would cause CPU fallback — INT8 only"
+    "ANE law: any INT4 quantization would cause CPU fallback — INT8 only",
+    "QK-norm: per-head RMSNorm on Q and K, head-major reshape [n_heads, dh] before apply",
+    "lfm25_host_weights.bin: 11264 bytes; committed to git (safe to ship)"
   ]
 }

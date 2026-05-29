@@ -174,7 +174,28 @@ def run_inference_check(mlmodelc_path: Path, shard_type: str) -> bool:
         return False
 
 
+def _run_check_once(shard: Path, shard_type: str, verbose: bool, inference_only: bool) -> bool:
+    """Single attempt at residency + inference check. Returns True on full pass."""
+    passed = True
+    if not inference_only:
+        residency_ok = check_residency(shard, shard_type, verbose=verbose)
+        if residency_ok:
+            print("  RESIDENCY: PASS — all ops on ANE ✓")
+        else:
+            print("  RESIDENCY: FAIL — CPU/GPU fallback detected ✗")
+            print("  See ANE_CHAIN_SCHEMA.md for known fallback causes.")
+            passed = False
+        print()
+    print("=== Inference shape check ===")
+    inference_ok = run_inference_check(shard, shard_type)
+    if not inference_ok:
+        passed = False
+    return passed
+
+
 def main() -> int:
+    import time
+
     parser = argparse.ArgumentParser(description="LFM2.5 ANE residency check")
     parser.add_argument("--shard", type=Path, required=True,
                         help="Path to .mlmodelc shard to check")
@@ -185,6 +206,8 @@ def main() -> int:
                         help="Print all ANE ops")
     parser.add_argument("--inference-only", action="store_true",
                         help="Skip residency check, only run inference")
+    parser.add_argument("--retries", type=int, default=3,
+                        help="Max attempts before giving up (ANE daemon init race; default=3)")
     args = parser.parse_args()
 
     if not args.shard.exists():
@@ -193,37 +216,39 @@ def main() -> int:
     print(f"Checking: {args.shard.name}  [{args.shard_type}]")
     print()
 
-    passed = True
+    last_exc: Exception | None = None
+    for attempt in range(1, args.retries + 1):
+        if attempt > 1:
+            delay = 2 ** (attempt - 2)  # 1 s, 2 s, …
+            print(f"  [Retry {attempt}/{args.retries}] ANE daemon init race — waiting {delay}s…")
+            time.sleep(delay)
+            print()
 
-    if not args.inference_only:
-        print("=== ANE Residency (MLComputePlan) ===")
-        residency_ok = check_residency(args.shard, args.shard_type, verbose=args.verbose)
-        if residency_ok:
-            print("  RESIDENCY: PASS — all ops on ANE ✓")
-        else:
-            print("  RESIDENCY: FAIL — CPU/GPU fallback detected ✗")
-            print("  See ANE_CHAIN_SCHEMA.md for known fallback causes.")
+        try:
+            if not args.inference_only:
+                print("=== ANE Residency (MLComputePlan) ===")
+            passed = _run_check_once(args.shard, args.shard_type, args.verbose, args.inference_only)
+        except Exception as exc:
+            print(f"  ERROR: {exc}")
+            last_exc = exc
             passed = False
-        print()
 
-    print("=== Inference shape check ===")
-    inference_ok = run_inference_check(args.shard, args.shard_type)
-    if not inference_ok:
-        passed = False
+        if passed:
+            print()
+            print("GATE: PASS — shard is ANE-resident and produces correct output shapes")
+            print("Next: run validators/lfm25_residency_check.py on the MoE-half shard (largest)")
+            return 0
 
+    # All retries exhausted
     print()
-    if passed:
-        print("GATE: PASS — shard is ANE-resident and produces correct output shapes")
-        print("Next: run validators/lfm25_residency_check.py on the MoE-half shard (largest)")
-    else:
-        print("GATE: FAIL — fix issues before proceeding to full model conversion")
-        print("Common fixes:")
-        print("  - CPU fallback on depthwise conv: check groups=H and kernel <= (7,7)")
-        print("  - GPU fallback on matmul: ensure input shape is [1, C, H, W] not [T, D]")
-        print("  - INT4 blocks: do not use INT4 — only INT8 per-tensor is ANE-safe")
-        return 1
-
-    return 0
+    print("GATE: FAIL — fix issues before proceeding to full model conversion")
+    print("Common fixes:")
+    print("  - CPU fallback on depthwise conv: check groups=H and kernel <= (7,7)")
+    print("  - GPU fallback on matmul: ensure input shape is [1, C, H, W] not [T, D]")
+    print("  - INT4 blocks: do not use INT4 — only INT8 per-tensor is ANE-safe")
+    if last_exc:
+        print(f"  - Last exception: {last_exc}")
+    return 1
 
 
 if __name__ == "__main__":

@@ -5,6 +5,8 @@ models/**/*.gguf
 models/**/*.safetensors
 models/**/*.bin
 models/**/model-*.safetensors
+# Exception: small host-side weights committed to git (emb_norm + expert_bias, 11 KB)
+!models/lfm25/ane/lfm25_host_weights.bin
 
 # CoreML compiled artifacts (rebuilt locally)
 **/*.mlmodelc/

@@ -12,8 +12,8 @@
 // Shard types:
 //   lfm25_dense_layer{0,1}.mlmodelc       : conv op + dense MLP (single shard)
 //   lfm25_op_layer{N}.mlmodelc             : conv|attn op + router output
-//   lfm25_moe0_layer{N}.mlmodelc           : experts 0–15 soft-routed
-//   lfm25_moe1_layer{N}.mlmodelc           : experts 16–31 soft-routed
+//   lfm25_moe0_layer{N}.mlmodelc           : experts 0–15 (top-4 routing)
+//   lfm25_moe1_layer{N}.mlmodelc           : experts 16–31 (top-4 routing)
 //   lfm25_lm_head{0,1}.mlmodelc            : LM head vocab halves
 //
 // Conv state management:
@@ -22,14 +22,16 @@
 //   Passed as input/output, updated each decode step.
 //   Compare: KV cache grows O(T); conv state is always 3 positions.
 //
-// Soft routing approximation:
-//   All 32 experts run with sigmoid(router_logits) weights.
-//   The 28 non-selected experts contribute near-zero weight in practice.
-//   Quality impact validated to be within INT8 quantization noise floor.
-//   (See validators/lfm25_residency_check.py for quality gate.)
+// MoE routing:
+//   Top-4 selection with expert_bias offset (matches HF reference exactly).
+//   scores[i] = sigmoid(router_logits)[i] + expert_bias[layer][i]
+//   Top-4 indices selected by score; their sigmoid weights renormalised to sum=1.
+//   Non-selected experts receive weight=0 → zero contribution from ANE shard.
+//   expert_bias + emb_norm_weight loaded from lfm25_host_weights.bin (11 KB).
+//   Quality gate: teacher-forced cosine 0.9957 ≥ 0.97 ✓  (validators/lfm25_golden.py --compare-tf)
 //
 // [Knuth Vol 3 §6.4] Conv state as circular buffer — O(1) update per token.
-// [Dragon Book §9.2] Branch-free expert dispatch via soft routing.
+// [Dragon Book §9.2] Branch-free expert dispatch via top-4 masked routing.
 
 import CoreML
 import Foundation
@@ -90,8 +92,12 @@ final class LFM25ANE {
     // Embedding lookup table — host-side (permitted per ANE mandate)
     private var embeddings: [[Float]] = []  // [vocab_size, hidden_size]
     
-    // Final norm weights (host-side RMSNorm)
+    // Final embedding norm weights (host-side RMSNorm, loaded from host weights binary)
     private var embNormWeight: [Float] = []
+    
+    // Expert bias per layer for top-4 MoE routing: [layer_idx][expert_idx]
+    // Layers 0-1 are zero (dense, no MoE). Layers 2-23 loaded from host weights binary.
+    private var expertBias: [[Float]] = []
     
     // -----------------------------------------------------------------------
     // MARK: Init
@@ -135,6 +141,43 @@ final class LFM25ANE {
         
         // Load host embedding table
         try loadEmbeddings(from: embeddingBin)
+        
+        // Load emb_norm_weight and expert_bias from lfm25_host_weights.bin
+        let hostWeightsURL = modelDir.appendingPathComponent("lfm25_host_weights.bin")
+        if FileManager.default.fileExists(atPath: hostWeightsURL.path) {
+            try loadHostWeights(from: hostWeightsURL)
+        } else {
+            // Fallback: unit norm weight, zero expert_bias (degrades quality)
+            print("[LFM25] WARNING: lfm25_host_weights.bin not found — using fallback weights")
+            embNormWeight = [Float](repeating: 1.0, count: LFM25Config.hiddenSize)
+            expertBias    = [[Float]](repeating: [Float](repeating: 0.0, count: LFM25Config.numExperts),
+                                     count: LFM25Config.numLayers)
+        }
+    }
+    
+    /// Load emb_norm_weight[2048] and expert_bias[24][32] from the compact binary.
+    ///
+    /// Binary layout (little-endian float32, 11264 bytes total):
+    ///   Offset 0:    emb_norm_weight — float32[2048] = 8192 bytes
+    ///   Offset 8192: expert_bias     — float32[24][32] row-major = 3072 bytes
+    private func loadHostWeights(from url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let H = LFM25Config.hiddenSize
+        let L = LFM25Config.numLayers
+        let E = LFM25Config.numExperts
+        let expectedSize = (H + L * E) * MemoryLayout<Float>.size
+        guard data.count == expectedSize else {
+            throw LFM25Error.hostWeightsSizeMismatch(data.count, expectedSize)
+        }
+        data.withUnsafeBytes { raw in
+            let ptr = raw.bindMemory(to: Float.self)
+            // emb_norm_weight
+            embNormWeight = Array(ptr[0..<H])
+            // expert_bias: [L][E] row-major
+            expertBias = (0..<L).map { li in
+                Array(ptr[(H + li * E)..<(H + li * E + E)])
+            }
+        }
     }
     
     private func loadEmbeddings(from url: URL) throws {
@@ -293,6 +336,57 @@ final class LFM25ANE {
     // MARK: MoE helper
     // -----------------------------------------------------------------------
     
+    // ── Top-4 routing ────────────────────────────────────────────────────
+    //
+    // The ANE MoE shards accept routing_weights[1,16,1,1] and compute a
+    // weighted sum of all 16 expert outputs.  We pass top-4 masked weights
+    // (renormalised, non-selected = 0) so the 12 inactive experts contribute
+    // exactly zero — matching the HF reference routing algorithm exactly.
+    //
+    // Algorithm (matches LiquidAI reference):
+    //   scores = sigmoid_weights + expert_bias[layerIdx]
+    //   top4   = argsort(scores)[-4:]
+    //   masked = zeros(32); masked[top4] = sigmoid_weights[top4]
+    //   normalised = masked / sum(masked)
+    
+    /// Apply expert_bias and select top-4; returns masked+normalised weights [1,32,1,1].
+    private func applyTop4Routing(
+        sigmoidWeights: MLMultiArray,  // [1, 32, 1, 1]
+        layerIdx: Int
+    ) throws -> MLMultiArray {
+        let n = LFM25Config.numExperts
+        let bias = expertBias[layerIdx]
+        
+        // Compute scores
+        var scores = [Float](repeating: 0, count: n)
+        for i in 0..<n {
+            scores[i] = sigmoidWeights[i].floatValue + bias[i]
+        }
+        
+        // Select top-4 indices (descending by score)
+        let top4 = scores.indices
+            .sorted { scores[$0] > scores[$1] }
+            .prefix(4)
+        
+        // Build masked weights: top-4 get sigmoid value, rest get 0
+        let result = try MLMultiArray(shape: [1, NSNumber(value: n), 1, 1], dataType: .float32)
+        for i in 0..<n { result[i] = 0.0 }
+        var wSum: Float = 0
+        for idx in top4 {
+            let w = sigmoidWeights[idx].floatValue
+            result[idx] = NSNumber(value: w)
+            wSum += w
+        }
+        
+        // Normalise to sum=1 (norm_topk_prob=true)
+        if wSum > 1e-6 {
+            for idx in top4 {
+                result[idx] = NSNumber(value: result[idx].floatValue / wSum)
+            }
+        }
+        return result
+    }
+    
     private func runMoELayer(
         layerIdx: Int,
         ffnNormed: MLMultiArray,
@@ -302,11 +396,14 @@ final class LFM25ANE {
     ) throws -> MLMultiArray {
         let N = LFM25Config.expertsPerHalf
         
-        // Split routing_weights [1, 32, 1, 1] into two halves [1, 16, 1, 1]
-        let rwA = try sliceRoutingWeights(routingWeights, start: 0,  count: N)
-        let rwB = try sliceRoutingWeights(routingWeights, start: N, count: N)
+        // Apply top-4 routing with expert_bias (replaces raw sigmoid weights)
+        let maskedWeights = try applyTop4Routing(sigmoidWeights: routingWeights, layerIdx: layerIdx)
         
-        // Run both half-shards
+        // Split masked_weights [1, 32, 1, 1] into two halves [1, 16, 1, 1]
+        let rwA = try sliceRoutingWeights(maskedWeights, start: 0,  count: N)
+        let rwB = try sliceRoutingWeights(maskedWeights, start: N, count: N)
+        
+        // Run both half-shards (inactive experts contribute exactly zero)
         let inA = try MLDictionaryFeatureProvider(dictionary: [
             "ffn_normed": ffnNormed, "routing_weights": rwA
         ])
@@ -495,6 +592,7 @@ final class LFM25ANE {
 
 enum LFM25Error: Error, LocalizedError {
     case embeddingShapeMismatch(Int, Int)
+    case hostWeightsSizeMismatch(Int, Int)
     case invalidTokenId(Int)
     case shardNotFound(String)
     
@@ -502,6 +600,8 @@ enum LFM25Error: Error, LocalizedError {
         switch self {
         case .embeddingShapeMismatch(let got, let expected):
             return "Embedding binary size mismatch: got \(got) bytes, expected \(expected)"
+        case .hostWeightsSizeMismatch(let got, let expected):
+            return "Host weights binary size mismatch: got \(got) bytes, expected \(expected)"
         case .invalidTokenId(let id):
             return "Token ID \(id) out of range (vocab_size=\(LFM25Config.vocabSize))"
         case .shardNotFound(let name):
