@@ -74,10 +74,20 @@ a {
   top: 58px;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 0.2rem;
   max-height: calc(100vh - 58px);
   padding: 1.25rem 1rem;
   overflow-y: auto;
+}
+
+.toc-root,
+.toc-section,
+.toc-section summary,
+.toc-subnav,
+.toc-subnav a {
+  width: 100%;
+  min-width: 0;
 }
 
 .toc-heading {
@@ -132,6 +142,7 @@ a {
 .toc-subnav a {
   padding: 0.28rem 0.45rem;
   font-size: 0.84rem;
+  overflow-wrap: anywhere;
 }
 
 .page-content {
@@ -230,14 +241,10 @@ code {
 
   .toc-nav {
     position: static;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    display: flex;
+    flex-direction: column;
     max-height: none;
     padding: 0.9rem 1rem;
-  }
-
-  .toc-heading {
-    grid-column: 1 / -1;
   }
 
   .page-content {
