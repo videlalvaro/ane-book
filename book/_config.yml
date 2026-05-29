@@ -1,6 +1,12 @@
 title: The ANE LLM Inference Book
 description: A practitioner's guide to production LLM inference on the Apple Neural Engine
 markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
 defaults:
   - scope:
       path: ""

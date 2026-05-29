@@ -8,6 +8,13 @@
   --accent: #0f9f6e;
   --link: #2563eb;
   --code-bg: #eef3f8;
+  --code-surface: #f6f8fb;
+  --code-text: #203040;
+  --code-comment: #6b7b8c;
+  --code-keyword: #8b3fd1;
+  --code-string: #0f766e;
+  --code-number: #b45309;
+  --code-name: #1d4ed8;
 }
 
 * {
@@ -233,15 +240,114 @@ th {
   background: #f1f5f9;
 }
 
-pre {
+pre,
+.highlight {
   overflow-x: auto;
-  padding: 1rem;
   border-radius: 8px;
-  background: var(--code-bg);
+  background: var(--code-surface);
+}
+
+pre {
+  padding: 1rem;
+  color: var(--code-text);
+}
+
+.highlight {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+}
+
+.highlight pre {
+  margin: 0;
+  background: transparent;
 }
 
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.highlight code {
+  background: transparent;
+}
+
+.highlight .c,
+.highlight .cm,
+.highlight .cp,
+.highlight .c1,
+.highlight .cs {
+  color: var(--code-comment);
+  font-style: italic;
+}
+
+.highlight .k,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .ow {
+  color: var(--code-keyword);
+  font-weight: 650;
+}
+
+.highlight .s,
+.highlight .sa,
+.highlight .sb,
+.highlight .sc,
+.highlight .dl,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .sr,
+.highlight .s1,
+.highlight .ss {
+  color: var(--code-string);
+}
+
+.highlight .m,
+.highlight .mb,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo,
+.highlight .il {
+  color: var(--code-number);
+}
+
+.highlight .na,
+.highlight .nb,
+.highlight .nc,
+.highlight .nd,
+.highlight .ne,
+.highlight .nf,
+.highlight .nl,
+.highlight .nn,
+.highlight .nt,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi,
+.highlight .vm {
+  color: var(--code-name);
+}
+
+.highlight .o,
+.highlight .p {
+  color: #334155;
+}
+
+.highlight .gd {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.highlight .gi {
+  color: #166534;
+  background: #dcfce7;
 }
 
 :not(pre) > code {
