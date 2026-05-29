@@ -34,7 +34,6 @@
         <nav class="toc-nav">
           <div class="toc-heading">Contents</div>
           <a class="toc-root{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}" href="{{ '/' | relative_url }}">Cover</a>
-          <a class="toc-root{% if page.url == '/glossary.html' %} active{% endif %}" href="{{ '/glossary.html' | relative_url }}">Glossary</a>
           <details class="toc-section{% if page.url == '/00-why-ane.html' %} active{% endif %}"{% if page.url == '/00-why-ane.html' %} open{% endif %}>
             <summary>00 - Modern Inference</summary>
             <div class="toc-subnav">
@@ -334,6 +333,16 @@
                   <a href="{{ '/journal/112-int4-palettize-l0-ffn-probe-all-gates-pass.html' | relative_url }}">112 - INT4 Palettize L0 FFN Probe: All Gates Pass</a>
                 </div>
               </details>
+            </div>
+          </details>
+          <details class="toc-section{% if page.url == '/glossary.html' %} active{% endif %}"{% if page.url == '/glossary.html' %} open{% endif %}>
+            <summary>Glossary</summary>
+            <div class="toc-subnav">
+              <a href="{{ '/glossary.html' | relative_url }}">Glossary start</a>
+              <a href="{{ '/glossary.html#inference-basics' | relative_url }}">Inference basics</a>
+              <a href="{{ '/glossary.html#ane-and-coreml' | relative_url }}">ANE and CoreML</a>
+              <a href="{{ '/glossary.html#porting-and-validation' | relative_url }}">Porting and validation</a>
+              <a href="{{ '/glossary.html#model-architecture' | relative_url }}">Model architecture</a>
             </div>
           </details>
         </nav>
