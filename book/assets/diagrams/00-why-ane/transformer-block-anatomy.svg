@@ -5,10 +5,10 @@
   <rect class="bg" width="900" height="420"/>
   <text class="text" x="42" y="42">One decoder block: the repeated unit of LLM inference</text>
   <rect class="box" x="50" y="92" width="94" height="62"/><text class="text" x="77" y="128">x</text><text class="small" x="66" y="146">hidden</text>
-  <rect class="norm" x="184" y="92" width="110" height="62"/><text class="text" x="205" y="128">RMSNorm</text>
+  <rect class="norm" x="184" y="92" width="110" height="62"/><text class="text" x="205" y="122">RMSNorm</text><text class="small" x="198" y="144">before attn</text>
   <rect class="proj" x="334" y="70" width="150" height="106"/><text class="text" x="365" y="106">Attention</text><text class="small" x="358" y="130">Q, K, V, O</text><text class="small" x="358" y="150">linear projections</text>
   <rect class="res" x="524" y="92" width="100" height="62"/><text class="text" x="550" y="128">+ x</text><text class="small" x="542" y="146">residual</text>
-  <rect class="norm" x="664" y="92" width="110" height="62"/><text class="text" x="685" y="128">RMSNorm</text>
+  <rect class="norm" x="664" y="92" width="110" height="62"/><text class="text" x="685" y="122">RMSNorm</text><text class="small" x="683" y="144">before FFN</text>
   <path class="arrow" d="M144 123 H178"/><path class="arrow" d="M294 123 H328"/><path class="arrow" d="M484 123 H518"/><path class="arrow" d="M624 123 H658"/>
   <rect class="proj" x="212" y="254" width="180" height="92"/><text class="text" x="269" y="291">FFN</text><text class="small" x="246" y="316">gate, up, down</text><text class="small" x="246" y="334">linear projections</text>
   <rect class="res" x="438" y="270" width="100" height="62"/><text class="text" x="464" y="306">+ x</text><text class="small" x="456" y="324">residual</text>

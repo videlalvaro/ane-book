@@ -30,6 +30,13 @@ In a decoder-only transformer, the repeated unit looks like this:
 
 ![Decoder transformer block anatomy](assets/diagrams/00-why-ane/transformer-block-anatomy.svg)
 
+RMSNorm appears twice because the block has two main sublayers. In a common
+pre-norm decoder block, the hidden state is normalized before attention, then the
+post-attention residual stream is normalized again before the feed-forward
+network. These are separate learned scale vectors with different weights, not the
+same operation accidentally drawn twice. Some models also add a final RMSNorm
+after the last transformer layer and before the LM head.
+
 A few terms show up everywhere in this book:
 
 - **Token**: an integer ID representing a text fragment.
