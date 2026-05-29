@@ -3,7 +3,7 @@ layout: default
 title: "Diagram Plan"
 ---
 
-# Diagram Plan for The ANE LLM Inference Book
+# Diagram Plan for The Apple Neural Engine Inference Book
 
 The book needs visuals that make the ANE mental model concrete: tensor shapes,
 compile gates, shard topology, KV state, and speculative decoding. Prefer clean

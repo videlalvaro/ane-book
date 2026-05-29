@@ -3,9 +3,9 @@ layout: default
 title: "Book README"
 ---
 
-# The ANE LLM Inference Book
+# The Apple Neural Engine Inference Book
 
-A practitioner's guide to production LLM inference on the Apple Neural Engine.
+A practitioner's guide to production inference on the Apple Neural Engine.
 The book documents the practical path from model weights to ANE-resident CoreML
 graphs, Swift runtimes, validation gates, and the engineering tradeoffs found
 while porting real LLMs.

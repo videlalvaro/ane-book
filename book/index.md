@@ -1,11 +1,11 @@
 ---
 layout: default
-title: The ANE LLM Inference Book
+title: The Apple Neural Engine Inference Book
 ---
 
-# The ANE LLM Inference Book
+# The Apple Neural Engine Inference Book
 
-A practitioner's guide to production LLM inference on the Apple Neural Engine
+A practitioner's guide to production inference on the Apple Neural Engine
 with CoreML, Swift runtimes, ANE-only residency checks, and validated model
 manifests.
 

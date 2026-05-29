@@ -59,9 +59,9 @@ bash demo/demo_redact.sh demo/pii_examples.txt
 
 ---
 
-## The ANE LLM Inference Book
+## The Apple Neural Engine Inference Book
 
-The ANE LLM Inference Book in `book/` is a chapter-by-chapter porting guide for
+The Apple Neural Engine Inference Book in `book/` is a chapter-by-chapter porting guide for
 practitioners who want to port their own models to ANE:
 
 | Chapter | Topic |

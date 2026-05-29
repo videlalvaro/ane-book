@@ -1,5 +1,5 @@
-title: The ANE LLM Inference Book
-description: A practitioner's guide to production LLM inference on the Apple Neural Engine
+title: The Apple Neural Engine Inference Book
+description: A practitioner's guide to production inference on the Apple Neural Engine
 markdown: kramdown
 highlighter: rouge
 kramdown:
