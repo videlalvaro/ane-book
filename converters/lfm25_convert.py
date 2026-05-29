@@ -427,8 +427,11 @@ class ANEAttnDecodeFixed(nn.Module):
         v = self.v_proj(normed)   # [1, KV_DIM, 1, 1]
 
         # Per-head QK-norm (LFM2 applies RMSNorm per head before RoPE)
-        q_h = q.reshape(1, dh, self.n_heads,    1)   # [1, 64, 32, 1]
-        k_h = k.reshape(1, dh, self.n_kv_heads, 1)   # [1, 64,  8, 1]
+        # q_proj output is head-major: q[h*dh + d] = head h, dim d
+        # Reshape to [1, dh, n_heads, 1] for per-head norm — requires permute to
+        # get correct head grouping (otherwise dim=1 normalizes across heads, not per-head).
+        q_h = q.reshape(1, self.n_heads,    dh, 1).permute(0, 2, 1, 3)  # [1, 64, 32, 1]
+        k_h = k.reshape(1, self.n_kv_heads, dh, 1).permute(0, 2, 1, 3)  # [1, 64,  8, 1]
         q_h = self.q_layernorm(q_h)
         k_h = self.k_layernorm(k_h)
 
@@ -437,8 +440,9 @@ class ANEAttnDecodeFixed(nn.Module):
         k1, k2 = k_h[:, :dh2, :, :], k_h[:, dh2:, :, :]
         q_rot = q_h * cos + torch.cat([-q2, q1], dim=1) * sin   # [1, 64, 32, 1]
         k_rot = k_h * cos + torch.cat([-k2, k1], dim=1) * sin   # [1, 64,  8, 1]
-        q_rot = q_rot.reshape(1, H,      1, 1)                   # [1, 2048, 1, 1]
-        k_rot = k_rot.reshape(1, KV_DIM, 1, 1)                   # [1,  512, 1, 1]
+        # Convert back to head-major for KV cache storage and GQA attention loop
+        q_rot = q_rot.permute(0, 2, 1, 3).reshape(1, H,      1, 1)   # [1, 2048, 1, 1] head-major
+        k_rot = k_rot.permute(0, 2, 1, 3).reshape(1, KV_DIM, 1, 1)   # [1,  512, 1, 1] head-major
 
         # KV cache scatter-write: one-hot write_mask broadcasts over KV_DIM
         # All shapes fixed → no RangeDim needed, purely static ANE graph

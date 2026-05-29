@@ -27,3 +27,8 @@ cml_tmp/
 # Build outputs
 target/
 build/
+
+# Large derived artifacts — regenerate from safetensors with --generate
+models/lfm25/ane/lfm25_golden.npz
+models/lfm25/ane/lfm25_hidden_states.npz
+models/lfm25/ane/lfm25_single_token_golden.npz
