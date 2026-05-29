@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">The Apple Neural Engine Inference Book repository card</title>
+  <desc id="desc">Social preview card for ane-book, a practitioner's guide to production inference on the Apple Neural Engine.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7faf8"/>
+      <stop offset="0.52" stop-color="#eef5f7"/>
+      <stop offset="1" stop-color="#f8f1e6"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#17313f" flood-opacity="0.16"/>
+    </filter>
+    <style>
+      .title{font:800 64px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#17252e;letter-spacing:0}
+      .subtitle{font:500 28px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#465b64;letter-spacing:0}
+      .label{font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#5d6b72;text-transform:uppercase;letter-spacing:1.8px}
+      .metric{font:800 34px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#17252e;letter-spacing:0}
+      .metricSmall{font:600 19px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52636b;letter-spacing:0}
+      .chipText{font:700 19px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1e3b45;letter-spacing:0}
+      .footer{font:650 24px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#233942;letter-spacing:0}
+      .tiny{font:600 17px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#607078;letter-spacing:0}
+    </style>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect x="40" y="40" width="1200" height="560" rx="26" fill="#ffffff" opacity="0.86" filter="url(#softShadow)"/>
+  <rect x="40" y="40" width="1200" height="560" rx="26" fill="none" stroke="#d2dee1" stroke-width="2"/>
+
+  <g transform="translate(88 82)">
+    <text class="label" x="0" y="0">ane-book</text>
+    <text class="title" x="0" y="82">The Apple Neural</text>
+    <text class="title" x="0" y="158">Engine Inference Book</text>
+    <text class="subtitle" x="4" y="220">Production LLM inference on Apple Silicon</text>
+    <text class="subtitle" x="4" y="258">from CoreML shards to Swift runtimes.</text>
+  </g>
+
+  <g transform="translate(88 376)">
+    <rect x="0" y="0" width="228" height="112" rx="18" fill="#e9f5ef" stroke="#b9d9ca"/>
+    <text class="metric" x="24" y="45">17 tok/s</text>
+    <text class="metricSmall" x="24" y="78">Phi-4-mini decode</text>
+    <text class="tiny" x="24" y="101">M4 Max</text>
+
+    <rect x="252" y="0" width="228" height="112" rx="18" fill="#eef4ff" stroke="#c3d1ee"/>
+    <text class="metric" x="276" y="45">9 tok/s</text>
+    <text class="metricSmall" x="276" y="78">ZAYA1-8B MoE</text>
+    <text class="tiny" x="276" y="101">ANE-resident</text>
+
+    <rect x="504" y="0" width="248" height="112" rx="18" fill="#fff5df" stroke="#e7cf9d"/>
+    <text class="metric" x="528" y="45">24.6 sent/s</text>
+    <text class="metricSmall" x="528" y="78">Privacy Filter</text>
+    <text class="tiny" x="528" y="101">MoE NER / PII</text>
+  </g>
+
+  <g transform="translate(872 116)">
+    <rect x="0" y="0" width="300" height="300" rx="28" fill="#f7fbfc" stroke="#ccdadd" stroke-width="2"/>
+    <text class="chipText" x="45" y="36">CoreML + MLComputePlan</text>
+    <rect x="62" y="58" width="176" height="176" rx="24" fill="#203b46"/>
+    <rect x="88" y="84" width="124" height="124" rx="18" fill="#f4faf8"/>
+    <rect x="114" y="110" width="72" height="72" rx="12" fill="#67b890"/>
+    <path d="M150 55 V24 M150 268 v-31 M55 150 H24 M268 150 h-31 M89 55 V32 M211 55 V32 M89 268 v-31 M211 268 v-31 M55 89 H32 M55 211 H32 M268 89 h-31 M268 211 h-31" stroke="#203b46" stroke-width="9" stroke-linecap="round"/>
+    <path d="M132 146 h36 M150 128 v36" stroke="#f4faf8" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(88 548)">
+    <text class="footer" x="0" y="0">35+ experiments · 5 model families · 100% ANE residency gates · INT8, MLState, RangeDim, MoE</text>
+  </g>
+</svg>
