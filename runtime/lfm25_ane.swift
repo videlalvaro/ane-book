@@ -33,6 +33,7 @@
 // [Knuth Vol 3 §6.4] Conv state as circular buffer — O(1) update per token.
 // [Dragon Book §9.2] Branch-free expert dispatch via top-4 masked routing.
 
+import Accelerate
 import CoreML
 import Foundation
 
@@ -98,6 +99,25 @@ final class LFM25ANE {
     // Expert bias per layer for top-4 MoE routing: [layer_idx][expert_idx]
     // Layers 0-1 are zero (dense, no MoE). Layers 2-23 loaded from host weights binary.
     private var expertBias: [[Float]] = []
+
+    // -----------------------------------------------------------------------
+    // MARK: Pre-allocated decode buffers (avoids per-token heap churn)
+    // -----------------------------------------------------------------------
+    // All 8 KB arrays below are allocated once and reused every decode step.
+    // This eliminates ~200 K NSNumber box/unbox operations and ~30 heap
+    // allocations per token — the dominant overhead at 1.9 tok/s.
+    private var embedBuf: MLMultiArray!        // [1, H, 1, 1]
+    private var writeMaskBuf: MLMultiArray!    // [1, 1, SEQ, 1]  — memset+set per step
+    private var attnMaskBuf: MLMultiArray!     // [1, 1, 1, SEQ]  — incremental per step
+    private var ropeCosBuf: MLMultiArray!      // [1, dh, 1, 1]   — filled from table
+    private var ropeSinBuf: MLMultiArray!      // [1, dh, 1, 1]   — filled from table
+    private var routingBuf: MLMultiArray!      // [1, 32, 1, 1]   — top-4 routing
+    private var rwABuf: MLMultiArray!          // [1, 16, 1, 1]   — moe0 slice
+    private var rwBBuf: MLMultiArray!          // [1, 16, 1, 1]   — moe1 slice
+    // Pre-computed RoPE table (row-major: [pos * dh + dim], SEQ × dh entries).
+    // Computed once at init — eliminates 384 trigonometric calls per token.
+    private var ropeCosTable: [Float] = []
+    private var ropeSinTable: [Float] = []
     
     // -----------------------------------------------------------------------
     // MARK: Init
@@ -153,6 +173,9 @@ final class LFM25ANE {
             expertBias    = [[Float]](repeating: [Float](repeating: 0.0, count: LFM25Config.numExperts),
                                      count: LFM25Config.numLayers)
         }
+
+        // Allocate decode-time buffers and pre-compute static tables
+        try initCaches()
     }
     
     /// Load emb_norm_weight[2048] and expert_bias[24][32] from the compact binary.
@@ -180,6 +203,59 @@ final class LFM25ANE {
         }
     }
     
+    // -----------------------------------------------------------------------
+    // MARK: Cache init + reset
+    // -----------------------------------------------------------------------
+
+    /// Allocate reusable MLMultiArrays and pre-compute the RoPE table.
+    /// Called once at the end of `init()`. Cost: ~2 ms, 1 MB heap.
+    private func initCaches() throws {
+        let H    = LFM25Config.hiddenSize
+        let SEQ  = LFM25Config.maxSeq
+        let dh   = LFM25Config.headDim
+        let N    = LFM25Config.numExperts
+        let Nh   = LFM25Config.expertsPerHalf
+
+        embedBuf     = try MLMultiArray(shape: [1, H,   1, 1] as [NSNumber], dataType: .float32)
+        writeMaskBuf = try MLMultiArray(shape: [1, 1, SEQ, 1] as [NSNumber], dataType: .float32)
+        attnMaskBuf  = try MLMultiArray(shape: [1, 1,   1, SEQ] as [NSNumber], dataType: .float32)
+        ropeCosBuf   = try MLMultiArray(shape: [1, dh,  1, 1] as [NSNumber], dataType: .float32)
+        ropeSinBuf   = try MLMultiArray(shape: [1, dh,  1, 1] as [NSNumber], dataType: .float32)
+        routingBuf   = try MLMultiArray(shape: [1, N,   1, 1] as [NSNumber], dataType: .float32)
+        rwABuf       = try MLMultiArray(shape: [1, Nh,  1, 1] as [NSNumber], dataType: .float32)
+        rwBBuf       = try MLMultiArray(shape: [1, Nh,  1, 1] as [NSNumber], dataType: .float32)
+
+        // attnMaskBuf starts fully masked; resetAttnMask() restores this between runs.
+        resetAttnMask()
+
+        // Pre-compute RoPE cosine/sine table for all SEQ positions.
+        let ropeTheta = Float(5_000_000.0)
+        let halfDh    = dh / 2
+        let tableSize = SEQ * dh
+        ropeCosTable  = [Float](repeating: 0, count: tableSize)
+        ropeSinTable  = [Float](repeating: 0, count: tableSize)
+        for pos in 0..<SEQ {
+            for i in 0..<halfDh {
+                let freq  = 1.0 / pow(ropeTheta, Float(2 * i) / Float(dh))
+                let angle = Float(pos) * freq
+                let c = Foundation.cos(angle)
+                let s = Foundation.sin(angle)
+                // rotate_half layout: duplicate into both halves
+                ropeCosTable[pos * dh + i]          = c
+                ropeCosTable[pos * dh + halfDh + i] = c
+                ropeSinTable[pos * dh + i]          = s
+                ropeSinTable[pos * dh + halfDh + i] = s
+            }
+        }
+    }
+
+    /// Reset attnMaskBuf to all -1e4 (called at the start of each new generation).
+    private func resetAttnMask() {
+        let p = attnMaskBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        var v: Float = -1e4
+        vDSP_vfill(&v, p, 1, vDSP_Length(LFM25Config.maxSeq))
+    }
+
     private func loadEmbeddings(from url: URL) throws {
         let data = try Data(contentsOf: url)
         // Expect raw Float32: [vocab_size × hidden_size]
@@ -245,16 +321,18 @@ final class LFM25ANE {
     // MARK: Token embedding (host-side, permitted)
     // -----------------------------------------------------------------------
     
-    /// Embed token → [1, H, 1, 1] MLMultiArray for ANE input.
+    /// Embed token → pre-allocated [1, H, 1, 1] MLMultiArray for ANE input.
+    /// Returns the shared `embedBuf` — callers must consume it before the next embed().
     func embed(tokenId: Int) throws -> MLMultiArray {
         guard tokenId < LFM25Config.vocabSize else {
             throw LFM25Error.invalidTokenId(tokenId)
         }
-        let H = LFM25Config.hiddenSize
-        let arr = try MLMultiArray(shape: [1, H, 1, 1] as [NSNumber], dataType: .float32)
         let emb = embeddings[tokenId]
-        for i in 0..<H { arr[i] = NSNumber(value: emb[i]) }
-        return arr
+        let dst = embedBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        emb.withUnsafeBytes { src in
+            memcpy(dst, src.baseAddress!, LFM25Config.hiddenSize * 4)
+        }
+        return embedBuf
     }
     
     // -----------------------------------------------------------------------
@@ -296,8 +374,8 @@ final class LFM25ANE {
                 let moeOut = try runMoELayer(
                     layerIdx: layerIdx, ffnNormed: ffnNormed,
                     routingWeights: routingWeights, moe0: moe0, moe1: moe1)
-                hidden = try addTensors(hidden, moeOut)
-                
+                addTensors(hidden, moeOut)
+
             } else {
                 // ── Conv layer with MoE ───────────────────────────────────
                 let opModel = opShards[layerIdx]!
@@ -318,13 +396,13 @@ final class LFM25ANE {
                 let moeOut = try runMoELayer(
                     layerIdx: layerIdx, ffnNormed: ffnNormed,
                     routingWeights: routingWeights, moe0: moe0, moe1: moe1)
-                
-                hidden = try addTensors(hidden, moeOut)
+
+                addTensors(hidden, moeOut)
             }
         }
         
-        // Final embedding norm (host-side RMSNorm, trivial)
-        hidden = try applyFinalNorm(hidden)
+        // Final embedding norm (host-side RMSNorm, in-place)
+        applyFinalNorm(hidden)
         
         // LM head: run both halves, concatenate logits, argmax
         let nextToken = try computeNextToken(hidden: hidden)
@@ -349,42 +427,44 @@ final class LFM25ANE {
     //   masked = zeros(32); masked[top4] = sigmoid_weights[top4]
     //   normalised = masked / sum(masked)
     
-    /// Apply expert_bias and select top-4; returns masked+normalised weights [1,32,1,1].
+    /// Apply expert_bias and select top-4; writes into `routingBuf` (no allocation).
     private func applyTop4Routing(
         sigmoidWeights: MLMultiArray,  // [1, 32, 1, 1]
         layerIdx: Int
-    ) throws -> MLMultiArray {
-        let n = LFM25Config.numExperts
+    ) {
+        let n    = LFM25Config.numExperts
         let bias = expertBias[layerIdx]
-        
-        // Compute scores
+        let sigP = sigmoidWeights.dataPointer.assumingMemoryBound(to: Float.self)
+
+        // Compute scores = sigmoid + bias into stack buffer
         var scores = [Float](repeating: 0, count: n)
+        bias.withUnsafeBytes { bRaw in
+            let bp = bRaw.baseAddress!.assumingMemoryBound(to: Float.self)
+            vDSP_vadd(sigP, 1, bp, 1, &scores, 1, vDSP_Length(n))
+        }
+
+        // Select top-4 by descending score
+        var top4 = (-1, -1, -1, -1)
+        var t4s  = (-Float.infinity, -Float.infinity, -Float.infinity, -Float.infinity)
         for i in 0..<n {
-            scores[i] = sigmoidWeights[i].floatValue + bias[i]
+            let v = scores[i]
+            if      v > t4s.0 { t4s.3=t4s.2; top4.3=top4.2; t4s.2=t4s.1; top4.2=top4.1; t4s.1=t4s.0; top4.1=top4.0; t4s.0=v; top4.0=i }
+            else if v > t4s.1 { t4s.3=t4s.2; top4.3=top4.2; t4s.2=t4s.1; top4.2=top4.1; t4s.1=v; top4.1=i }
+            else if v > t4s.2 { t4s.3=t4s.2; top4.3=top4.2; t4s.2=v; top4.2=i }
+            else if v > t4s.3 { t4s.3=v; top4.3=i }
         }
-        
-        // Select top-4 indices (descending by score)
-        let top4 = scores.indices
-            .sorted { scores[$0] > scores[$1] }
-            .prefix(4)
-        
-        // Build masked weights: top-4 get sigmoid value, rest get 0
-        let result = try MLMultiArray(shape: [1, NSNumber(value: n), 1, 1], dataType: .float32)
-        for i in 0..<n { result[i] = 0.0 }
+
+        // Write masked + normalised weights into routingBuf
+        let rp = routingBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        var z: Float = 0
+        vDSP_vfill(&z, rp, 1, vDSP_Length(n))
+        let idxs = [top4.0, top4.1, top4.2, top4.3]
         var wSum: Float = 0
-        for idx in top4 {
-            let w = sigmoidWeights[idx].floatValue
-            result[idx] = NSNumber(value: w)
-            wSum += w
-        }
-        
-        // Normalise to sum=1 (norm_topk_prob=true)
+        for idx in idxs where idx >= 0 { let w = sigP[idx]; rp[idx] = w; wSum += w }
         if wSum > 1e-6 {
-            for idx in top4 {
-                result[idx] = NSNumber(value: result[idx].floatValue / wSum)
-            }
+            let inv = 1.0 / wSum
+            for idx in idxs where idx >= 0 { rp[idx] *= inv }
         }
-        return result
     }
     
     private func runMoELayer(
@@ -396,19 +476,19 @@ final class LFM25ANE {
     ) throws -> MLMultiArray {
         let N = LFM25Config.expertsPerHalf
         
-        // Apply top-4 routing with expert_bias (replaces raw sigmoid weights)
-        let maskedWeights = try applyTop4Routing(sigmoidWeights: routingWeights, layerIdx: layerIdx)
-        
-        // Split masked_weights [1, 32, 1, 1] into two halves [1, 16, 1, 1]
-        let rwA = try sliceRoutingWeights(maskedWeights, start: 0,  count: N)
-        let rwB = try sliceRoutingWeights(maskedWeights, start: N, count: N)
-        
+        // Apply top-4 routing with expert_bias — writes into routingBuf (no alloc)
+        applyTop4Routing(sigmoidWeights: routingWeights, layerIdx: layerIdx)
+
+        // Split masked_weights into rwABuf / rwBBuf via memcpy (no alloc)
+        sliceRoutingWeights(routingBuf, start: 0, into: rwABuf)
+        sliceRoutingWeights(routingBuf, start: N, into: rwBBuf)
+
         // Run both half-shards (inactive experts contribute exactly zero)
         let inA = try MLDictionaryFeatureProvider(dictionary: [
-            "ffn_normed": ffnNormed, "routing_weights": rwA
+            "ffn_normed": ffnNormed, "routing_weights": rwABuf
         ])
         let inB = try MLDictionaryFeatureProvider(dictionary: [
-            "ffn_normed": ffnNormed, "routing_weights": rwB
+            "ffn_normed": ffnNormed, "routing_weights": rwBBuf
         ])
         
         let outA = try moe0.prediction(from: inA)
@@ -418,7 +498,8 @@ final class LFM25ANE {
         let contB = outB.featureValue(for: "moe_contribution_half1")!.multiArrayValue!
         
         // Sum contributions (host-side add: 1×H floats, trivial)
-        return try addTensors(contA, contB)
+        addTensors(contA, contB)
+        return contA
     }
     
     // -----------------------------------------------------------------------
@@ -436,43 +517,34 @@ final class LFM25ANE {
         let SEQ = LFM25Config.maxSeq
         let dh  = LFM25Config.headDim
         
-        // write_mask: one-hot at current decode position [1, 1, MAX_SEQ, 1]
-        let writeMask = try MLMultiArray(shape: [1, 1, SEQ, 1] as [NSNumber], dataType: .float32)
-        for j in 0..<SEQ { writeMask[j] = 0.0 }
-        writeMask[min(pos, SEQ - 1)] = 1.0
-        
-        // attn_mask: 0 for positions 0..pos, -1e4 for future positions [1, 1, 1, MAX_SEQ]
-        let attnMask = try MLMultiArray(shape: [1, 1, 1, SEQ] as [NSNumber], dataType: .float32)
-        for j in 0..<SEQ {
-            attnMask[j] = NSNumber(value: j <= pos ? Float(0) : Float(-1e4))
+        // write_mask: one-hot at current position — memset 0 then set one element.
+        let wmp = writeMaskBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        memset(wmp, 0, SEQ * 4)
+        wmp[min(pos, SEQ - 1)] = 1.0
+
+        // attn_mask: mark current position as unmasked (0); init fills -1e4 everywhere.
+        let amp = attnMaskBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        amp[min(pos, SEQ - 1)] = 0.0
+
+        // RoPE cos/sin — copy pre-computed table row for current position.
+        let rowOffset = min(pos, SEQ - 1) * dh
+        let cp = ropeCosBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        ropeCosTable.withUnsafeBytes { src in
+            memcpy(cp, src.baseAddress!.advanced(by: rowOffset * 4), dh * 4)
         }
-        
-        // RoPE cos/sin for current position [1, head_dim, 1, 1]
-        // theta = 5_000_000.0 (LFM2.5 rope_theta)
-        let cos = try MLMultiArray(shape: [1, dh, 1, 1] as [NSNumber], dataType: .float32)
-        let sin = try MLMultiArray(shape: [1, dh, 1, 1] as [NSNumber], dataType: .float32)
-        let ropeTheta = Float(5_000_000.0)
-        let halfDh = dh / 2
-        for i in 0..<halfDh {
-            let freq = 1.0 / pow(ropeTheta, Float(2 * i) / Float(dh))
-            let angle = Float(pos) * freq
-            let c = Foundation.cos(angle)
-            let s = Foundation.sin(angle)
-            // rotate_half layout: first half = cos, second half = cos (same for both)
-            cos[i]          = NSNumber(value: c)
-            cos[halfDh + i] = NSNumber(value: c)
-            sin[i]          = NSNumber(value: s)
-            sin[halfDh + i] = NSNumber(value: s)
+        let sp = ropeSinBuf.dataPointer.assumingMemoryBound(to: Float.self)
+        ropeSinTable.withUnsafeBytes { src in
+            memcpy(sp, src.baseAddress!.advanced(by: rowOffset * 4), dh * 4)
         }
-        
+
         let inputs = try MLDictionaryFeatureProvider(dictionary: [
             "hidden":     hidden,
             "k_cache":    kCache,
             "v_cache":    vCache,
-            "write_mask": writeMask,
-            "attn_mask":  attnMask,
-            "cos":        cos,
-            "sin":        sin,
+            "write_mask": writeMaskBuf,
+            "attn_mask":  attnMaskBuf,
+            "cos":        ropeCosBuf,
+            "sin":        ropeSinBuf,
         ])
         let out = try model.prediction(from: inputs)
         
@@ -501,19 +573,14 @@ final class LFM25ANE {
         let logits0 = out0.featureValue(for: "logits_half0")!.multiArrayValue!
         let logits1 = out1.featureValue(for: "logits_half1")!.multiArrayValue!
         
-        // Argmax across both halves (host-side, O(vocab) trivial)
+        // Argmax across both halves — raw pointer, no NSNumber bridging
         var bestIdx = 0
         var bestVal = Float(-Float.infinity)
-        let V2 = LFM25Config.vocabHalf
-        
-        for i in 0..<V2 {
-            let v = logits0[i].floatValue
-            if v > bestVal { bestVal = v; bestIdx = i }
-        }
-        for i in 0..<V2 {
-            let v = logits1[i].floatValue
-            if v > bestVal { bestVal = v; bestIdx = V2 + i }
-        }
+        let V2  = LFM25Config.vocabHalf
+        let p0  = logits0.dataPointer.assumingMemoryBound(to: Float.self)
+        let p1  = logits1.dataPointer.assumingMemoryBound(to: Float.self)
+        for i in 0..<V2 { if p0[i] > bestVal { bestVal = p0[i]; bestIdx = i } }
+        for i in 0..<V2 { if p1[i] > bestVal { bestVal = p1[i]; bestIdx = V2 + i } }
         return bestIdx
     }
     
@@ -521,41 +588,42 @@ final class LFM25ANE {
     // MARK: Tensor utilities (host-side, O(small) — not on compute path)
     // -----------------------------------------------------------------------
     
-    /// Element-wise add two [1, H, 1, 1] arrays.
-    private func addTensors(_ a: MLMultiArray, _ b: MLMultiArray) throws -> MLMultiArray {
-        let H = LFM25Config.hiddenSize
-        let result = try MLMultiArray(shape: [1, H, 1, 1] as [NSNumber], dataType: .float32)
-        for i in 0..<H {
-            result[i] = NSNumber(value: a[i].floatValue + b[i].floatValue)
-        }
-        return result
+    /// In-place element-wise add: a += b. Returns `a`.
+    /// No allocation — eliminates the dominant per-token heap pressure.
+    @discardableResult
+    private func addTensors(_ a: MLMultiArray, _ b: MLMultiArray) -> MLMultiArray {
+        let ap = a.dataPointer.assumingMemoryBound(to: Float.self)
+        let bp = b.dataPointer.assumingMemoryBound(to: Float.self)
+        vDSP_vadd(ap, 1, bp, 1, ap, 1, vDSP_Length(LFM25Config.hiddenSize))
+        return a
     }
     
-    /// Apply final RMSNorm on the host (tiny, last layer only).
-    private func applyFinalNorm(_ hidden: MLMultiArray) throws -> MLMultiArray {
+    /// Apply final RMSNorm in-place on `hidden`. No allocation.
+    private func applyFinalNorm(_ hidden: MLMultiArray) {
         let H = LFM25Config.hiddenSize
-        // Compute variance, rsqrt, scale
+        let p = hidden.dataPointer.assumingMemoryBound(to: Float.self)
         var sumSq: Float = 0
-        for i in 0..<H { let v = hidden[i].floatValue; sumSq += v * v }
+        vDSP_svesq(p, 1, &sumSq, vDSP_Length(H))
         let scale = 1.0 / sqrt(sumSq / Float(H) + 1e-5)
-        let result = try MLMultiArray(shape: [1, H, 1, 1] as [NSNumber], dataType: .float32)
-        for i in 0..<H {
-            let normed = hidden[i].floatValue * scale
-            let w = embNormWeight.isEmpty ? 1.0 : embNormWeight[i]
-            result[i] = NSNumber(value: normed * w)
+        if embNormWeight.isEmpty {
+            vDSP_vsmul(p, 1, [scale], p, 1, vDSP_Length(H))
+        } else {
+            embNormWeight.withUnsafeBytes { wRaw in
+                let wp = wRaw.baseAddress!.assumingMemoryBound(to: Float.self)
+                vDSP_vsmul(p, 1, [scale], p, 1, vDSP_Length(H))
+                vDSP_vmul(p, 1, wp, 1, p, 1, vDSP_Length(H))
+            }
         }
-        return result
     }
     
-    /// Slice routing_weights [1, 32, 1, 1] → [1, 16, 1, 1] for one expert half.
+    /// Slice routing_weights into rwABuf or rwBBuf using memcpy (no allocation).
     private func sliceRoutingWeights(
-        _ rw: MLMultiArray, start: Int, count: Int
-    ) throws -> MLMultiArray {
-        let out = try MLMultiArray(shape: [1, NSNumber(value: count), 1, 1], dataType: .float32)
-        for i in 0..<count {
-            out[i] = rw[start + i]
-        }
-        return out
+        _ rw: MLMultiArray, start: Int, into dest: MLMultiArray
+    ) {
+        let count = LFM25Config.expertsPerHalf
+        let sp = rw.dataPointer.assumingMemoryBound(to: Float.self).advanced(by: start)
+        let dp = dest.dataPointer.assumingMemoryBound(to: Float.self)
+        memcpy(dp, sp, count * 4)
     }
     
     // -----------------------------------------------------------------------
@@ -570,6 +638,8 @@ final class LFM25ANE {
         eosTokenId: Int = 2,
         state: inout DecodeState
     ) throws -> (tokens: [Int], prefillSec: Double, decodeSec: Double) {
+        // Reset attnMask to all-masked for a fresh decode sequence
+        resetAttnMask()
         var generated: [Int] = []
         
         // Prefill: run through prompt tokens (building KV/conv state)
