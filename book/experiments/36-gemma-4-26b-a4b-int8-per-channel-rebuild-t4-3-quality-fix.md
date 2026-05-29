@@ -25,7 +25,11 @@ dominant weights in Gemma 4's MoE FFN are the stacked expert matrices:
 - `down` stacked shape: `(45056, 704)` → 31.7 M elements → quantized (above threshold)
 
 Per-tensor quantization assigns ONE global scale to the entire 31.7 M element matrix:
-`scale = max(|W|) / 127`. If any element is an outlier at 5× the typical magnitude,
+\[
+	ext{scale} = \frac{\max(|W|)}{127}
+\]
+
+If any element is an outlier at 5× the typical magnitude,
 the scale is 5× too large for the remaining weights, losing ~7 bits of effective precision
 on the normal-magnitude weights. The cosine-0.9555 layers are those where this outlier
 contamination was worst.
@@ -41,10 +45,22 @@ bounded per-channel rather than globally. EoP §4 formalizes this as: *reducing 
 domain under the same semigroup operation gives a tighter bound on the accumulated error.*
 
 [Concrete Mathematics Ch. 9, Graham–Knuth–Patashnik] — Quantization error propagation
-through N transformer layers is O((1+δ)^N) where δ is the per-layer normalized error.
-With INT8 per-tensor giving δ ≈ 0.045 at worst (cos=0.9555), after N=30 layers:
-`(1+0.045)^30 ≈ 3.75×` relative error amplification. Per-channel targets δ ≤ 0.003
-(cos ≥ 0.997 per layer), giving `(1+0.003)^30 ≈ 1.09×` — within the T4.3 logit gate.
+through \(N\) transformer layers is \(O((1 + \delta)^N)\), where \(\delta\) is the
+per-layer normalized error. With INT8 per-tensor giving \(\delta \approx 0.045\)
+at worst (cos=0.9555), after \(N = 30\) layers:
+
+\[
+(1 + 0.045)^{30} \approx 3.75\times
+\]
+
+relative error amplification. Per-channel targets \(\delta \le 0.003\) (cos ≥ 0.997
+per layer), giving:
+
+\[
+(1 + 0.003)^{30} \approx 1.09\times
+\]
+
+which is within the T4.3 logit gate.
 
 [TAOCP Vol. 2 §4.2, Knuth] — Floating-point error analysis: the condition number of the
 quantization map scales as `max(|W|) / RMS(|W|)`. Per-tensor condition number grows with
@@ -54,18 +70,18 @@ proportional to the weight matrix's inter-row magnitude variation.
 **Plan**:
 
 1. **Gate T4.1 (single-layer per-channel quality)**: Rebuild layer 0 with
-   `--quant-bits 8 --granularity per_channel`. Target: `cos(hidden) ≥ 0.997`.
+   `--quant-bits 8 --granularity per_channel`. Target: \(\cos(\text{hidden}) \ge 0.997\).
    Uses Xcode `python3` (coremltools 9), TMPDIR on external scratch storage.
 
 2. **Gate T4.1 batch (all 30 layers)**: Run `scripts/gemma_rebuild_int8pc.sh`
    (new script). Output: `python/moe/out/gemma4_shard*_q8c.{mlpackage,mlmodelc}`.
-   Validate: cos(hidden) ≥ 0.997 ALL 30 layers (vs 0.9555 floor in T4.1.3).
+   Validate: \(\cos(\text{hidden}) \ge 0.997\) for all 30 layers (vs 0.9555 floor in T4.1.3).
 
 3. **Gate T4.3a (prompt-prefill)**: Run `python/moe/gemma_swift_logit_gate.py`
    with 8-token golden (`--prompt-ids 2,3689,563,506,5279,529,7001,236881`).
-   Target: min cos ≥ 0.97 at all 8 positions (vs 0.5654 min in T4.1.3).
+   Target: \(\min \cos \ge 0.97\) at all 8 positions (vs 0.5654 min in T4.1.3).
 
-4. **Gate T4.3b (decode)**: Run bounded 2-step decode. Target: cos ≥ 0.97 (same
+4. **Gate T4.3b (decode)**: Run bounded 2-step decode. Target: \(\cos \ge 0.97\) (same
    gate as T4.2 bounded test — if per-channel fixes the prompt-prefill, decode
    should follow).
 
@@ -76,8 +92,8 @@ proportional to the weight matrix's inter-row magnitude variation.
 **Prerequisites**: Gemma 4-26B-A4B weights. Must download to external scratch storage.
 Options: download to `models/gemma-4-26b-a4b/` via HuggingFace Hub (`google/gemma-4-26b-a4b-it`, ~48 GB).
 
-**Expected Outcome**: INT8 per-channel should bring all 30 layers to cos ≥ 0.997 per layer,
-cutting the compounded full-stack error from 3.75× down to 1.09× (EoP §4 bound). This
+**Expected Outcome**: INT8 per-channel should bring all 30 layers to \(\cos \ge 0.997\) per layer,
+cutting the compounded full-stack error from \(3.75\times\) down to \(1.09\times\) (EoP §4 bound). This
 should allow T4.3 to pass, unblocking T4.4 and the final paper numbers for Gemma 4 on ANE.
 
 

@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [['\\[', '\\]']],
+          processEscapes: true
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -159,122 +172,162 @@
               <a href="{{ '/08-experiments.html#references' | relative_url }}">References</a>
             </div>
           </details>
-          <details class="toc-section{% if page.url == '/09-journal.html' %} active{% endif %}"{% if page.url == '/09-journal.html' %} open{% endif %}>
+          <details class="toc-section{% if page.url == '/09-journal.html' or page.url contains '/journal/' %} active{% endif %}"{% if page.url == '/09-journal.html' or page.url contains '/journal/' %} open{% endif %}>
             <summary>09 - Journal</summary>
             <div class="toc-subnav toc-subnav-long">
-              <a href="{{ '/09-journal.html' | relative_url }}">Chapter start</a>
-              <a href="{{ '/09-journal.html#journal-001' | relative_url }}">2026-04-26 - FP16 Gemma ANE Rebuild Retry Requested</a>
-              <a href="{{ '/09-journal.html#journal-002' | relative_url }}">2026-04-27 - Phi-4-mini-instruct ANE Support Scaffolding Intent</a>
-              <a href="{{ '/09-journal.html#journal-003' | relative_url }}">2026-04-27 - Phi-4-mini-instruct Layer-0 Gate Residency Passed</a>
-              <a href="{{ '/09-journal.html#journal-004' | relative_url }}">2026-04-27 - Phi-4-mini Layer-0 Numerical Smoke Passed</a>
-              <a href="{{ '/09-journal.html#journal-005' | relative_url }}">2026-04-27 - Phi-4-mini Layer-1 Guarded Smoke Intent</a>
-              <a href="{{ '/09-journal.html#journal-006' | relative_url }}">2026-04-27 - Phi-4-mini Layer-1 Guarded Smoke Passed</a>
-              <a href="{{ '/09-journal.html#journal-007' | relative_url }}">2026-04-27 - Phi-4-mini Layers 2–3 Bounded Smoke Intent</a>
-              <a href="{{ '/09-journal.html#journal-008' | relative_url }}">2026-04-27 - Phi-4-mini Layers 2–3 Bounded Smoke Passed</a>
-              <a href="{{ '/09-journal.html#journal-009' | relative_url }}">2026-04-27 - Phi-4-mini Bounded Run-Range Orchestration Intent</a>
-              <a href="{{ '/09-journal.html#journal-010' | relative_url }}">2026-04-27 - Phi-4-mini Bounded Run-Range Orchestration Landed</a>
-              <a href="{{ '/09-journal.html#journal-011' | relative_url }}">2026-04-27 - Phi-4-mini Layers 4–7 Bounded Run-Range Intent</a>
-              <a href="{{ '/09-journal.html#journal-012' | relative_url }}">2026-04-27 - Phi-4-mini Layers 4–7 Bounded Run-Range Passed</a>
-              <a href="{{ '/09-journal.html#journal-013' | relative_url }}">2026-04-27 - Phi-4-mini Four-Layer Batch Runner Intent</a>
-              <a href="{{ '/09-journal.html#journal-014' | relative_url }}">2026-04-27 - Phi-4-mini Layers 8–11 Run-Batches Intent</a>
-              <a href="{{ '/09-journal.html#journal-015' | relative_url }}">2026-04-27 - Phi-4-mini Run-Batches Landed and Layers 8–11 Passed</a>
-              <a href="{{ '/09-journal.html#journal-016' | relative_url }}">2026-04-27 - Phi-4-mini Layers 12–15 Run-Batches Intent</a>
-              <a href="{{ '/09-journal.html#journal-017' | relative_url }}">2026-04-27 - Phi-4-mini Layers 12–15 Run-Batches Passed</a>
-              <a href="{{ '/09-journal.html#journal-018' | relative_url }}">2026-04-27 - Phi-4-mini Remaining Layers 16–31 Run-Batches Intent</a>
-              <a href="{{ '/09-journal.html#journal-019' | relative_url }}">2026-04-27 - Phi-4-mini All 32 Layer Shards Completed</a>
-              <a href="{{ '/09-journal.html#journal-020' | relative_url }}">2026-04-27 - Phi-4-mini LM Head Shard Builder Intent</a>
-              <a href="{{ '/09-journal.html#journal-021' | relative_url }}">2026-04-27 - Phi-4-mini LM Head Shards Passed</a>
-              <a href="{{ '/09-journal.html#journal-022' | relative_url }}">2026-04-27 - Phi-4-mini Runtime Scaffolding Smoke Passed</a>
-              <a href="{{ '/09-journal.html#journal-023' | relative_url }}">2026-04-27 - Phi-4-mini Tok/s Timing Smoke Intent</a>
-              <a href="{{ '/09-journal.html#journal-024' | relative_url }}">2026-04-27 - Phi-4-mini Provisional Tok/s Timing Smoke</a>
-              <a href="{{ '/09-journal.html#journal-025' | relative_url }}">2026-04-27 - Phi-4-mini Lean ANE Runtime Optimization Intent</a>
-              <a href="{{ '/09-journal.html#journal-026' | relative_url }}">2026-04-27 - Phi-4-mini Lean ANE Runtime Optimization Outcome</a>
-              <a href="{{ '/09-journal.html#journal-027' | relative_url }}">2026-04-27 - Phi-4-mini Decode Profile Intent</a>
-              <a href="{{ '/09-journal.html#journal-028' | relative_url }}">2026-04-27 - Phi-4-mini Two-Layer Full-Shard Probe Intent</a>
-              <a href="{{ '/09-journal.html#journal-029' | relative_url }}">2026-04-27 - Phi-4-mini Decode Profile and Two-Layer Probe Outcome</a>
-              <a href="{{ '/09-journal.html#journal-030' | relative_url }}">2026-04-27 - Phi-4-mini Three-Layer Full-Shard Probe Intent</a>
-              <a href="{{ '/09-journal.html#journal-031' | relative_url }}">2026-04-27 - Phi-4-mini Three-Layer Full-Shard Probe Passed</a>
-              <a href="{{ '/09-journal.html#journal-032' | relative_url }}">2026-04-27 - Phi-4-mini Full 3-Layer Shard Strategy Validation Intent</a>
-              <a href="{{ '/09-journal.html#journal-033' | relative_url }}">2026-04-27 - LLM.int8() ANE Conv2D Adaptation Review Intent</a>
-              <a href="{{ '/09-journal.html#journal-034' | relative_url }}">2026-04-27 - Phi-4-mini Full 3-Layer Shard Strategy Validated</a>
-              <a href="{{ '/09-journal.html#journal-035' | relative_url }}">2026-04-27 - Phi-4-mini Fused Runtime Migration Intent</a>
-              <a href="{{ '/09-journal.html#journal-036' | relative_url }}">2026-04-27 - Phi-4-mini Fused Runtime Migration Outcome</a>
-              <a href="{{ '/09-journal.html#journal-037' | relative_url }}">2026-04-27 - Phi-4-mini Four-Layer Fused Shard Intent</a>
-              <a href="{{ '/09-journal.html#journal-038' | relative_url }}">2026-04-27 - Phi-4-mini Four-Layer Fused Shard Residency Passed</a>
-              <a href="{{ '/09-journal.html#journal-039' | relative_url }}">2026-04-27 - Phi-4-mini Four-Layer Fused Shard Golden Passed</a>
-              <a href="{{ '/09-journal.html#journal-040' | relative_url }}">2026-04-27 - Phi-4-mini Full 4-Layer Fused Strategy Intent</a>
-              <a href="{{ '/09-journal.html#journal-041' | relative_url }}">2026-04-27 - Phi-4-mini Full 4-Layer Fused Strategy Completed</a>
-              <a href="{{ '/09-journal.html#journal-042' | relative_url }}">2026-04-27 - Phi-4-mini Isolated Warm Cache Outcome</a>
-              <a href="{{ '/09-journal.html#journal-043' | relative_url }}">2026-04-28 - ANE Internals Synthesis Before Phi Daemon</a>
-              <a href="{{ '/09-journal.html#journal-044' | relative_url }}">2026-04-28 - Phi-4-mini Resident Serve Mode Landed</a>
-              <a href="{{ '/09-journal.html#journal-045' | relative_url }}">2026-04-28 - Phi-4-mini Five-Layer Fused Strategy Intent</a>
-              <a href="{{ '/09-journal.html#journal-046' | relative_url }}">2026-04-28 - Phi-4-mini Six-Layer Fused Strategy Intent</a>
-              <a href="{{ '/09-journal.html#journal-047' | relative_url }}">2026-04-28 - Phi-4-mini Five- and Six-Layer Fusion Outcome</a>
-              <a href="{{ '/09-journal.html#journal-048' | relative_url }}">2026-04-28 - Phi-4-mini LM-Head Optimization Outcome</a>
-              <a href="{{ '/09-journal.html#journal-049' | relative_url }}">2026-04-28 - Phi-4-mini Eight-Layer Fused Shard Intent</a>
-              <a href="{{ '/09-journal.html#journal-050' | relative_url }}">2026-04-28 - Phi-4-mini Eight-Layer Asymmetric Fusion Outcome</a>
-              <a href="{{ '/09-journal.html#journal-051' | relative_url }}">2026-04-28 - Phi-4-mini Twelve-Layer Front Shard Intent</a>
-              <a href="{{ '/09-journal.html#journal-052' | relative_url }}">2026-04-28 - Phi-4-mini Sixteen-Layer Front Shard Intent</a>
-              <a href="{{ '/09-journal.html#journal-053' | relative_url }}">2026-04-28 - Phi-4-mini Twenty-Four-Layer Front Shard Intent</a>
-              <a href="{{ '/09-journal.html#journal-054' | relative_url }}">2026-04-28 - Phi-4-mini Twenty-Layer Front Shard Intent</a>
-              <a href="{{ '/09-journal.html#journal-055' | relative_url }}">2026-04-28 - Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome</a>
-              <a href="{{ '/09-journal.html#journal-056' | relative_url }}">2026-04-28 - Private ANE Chaining Investigation Intent</a>
-              <a href="{{ '/09-journal.html#journal-057' | relative_url }}">2026-04-28 - Private ANE API Bridge Outcome</a>
-              <a href="{{ '/09-journal.html#journal-058' | relative_url }}">2026-04-28 - CoreML E5 Bridge Operation Handles Recovered</a>
-              <a href="{{ '/09-journal.html#journal-059' | relative_url }}">2026-04-28 - CoreML E5 Two-Operation Stream Binder Outcome</a>
-              <a href="{{ '/09-journal.html#journal-060' | relative_url }}">2026-04-28 - Tiny E5 Execution Controls Outcome</a>
-              <a href="{{ '/09-journal.html#journal-061' | relative_url }}">2026-04-28 - E5 Binder Timing Controls Outcome</a>
-              <a href="{{ '/09-journal.html#journal-062' | relative_url }}">2026-04-28 - E5 setupOperationForInputFeatures Replaces Pool</a>
-              <a href="{{ '/09-journal.html#journal-063' | relative_url }}">2026-04-28 - Raw E5RT Two-Model Chain Breakthrough</a>
-              <a href="{{ '/09-journal.html#journal-064' | relative_url }}">2026-04-28 - Phi Stateful Raw E5RT Chain Smoke</a>
-              <a href="{{ '/09-journal.html#journal-065' | relative_url }}">2026-04-28 - Phi Public Two-Call Reference and E5 Event Probe</a>
-              <a href="{{ '/09-journal.html#journal-066' | relative_url }}">2026-04-28 - Phi E5 ObjC Sync-Point Experiment</a>
-              <a href="{{ '/09-journal.html#journal-067' | relative_url }}">2026-04-28 - Phi E5 Direct ObjC Event Bind Outcome</a>
-              <a href="{{ '/09-journal.html#journal-068' | relative_url }}">2026-04-28 - Phi E5 Second-Operation Boundary Narrowed</a>
-              <a href="{{ '/09-journal.html#journal-069' | relative_url }}">2026-04-28 - Phi E5 Raw Memory Bridge Breakthrough</a>
-              <a href="{{ '/09-journal.html#journal-070' | relative_url }}">2026-04-28 - Phi Full Fused Topology Runs in One E5 Stream</a>
-              <a href="{{ '/09-journal.html#journal-071' | relative_url }}">2026-04-28 - Phi Private E5 One-Stream Timing Reality Check</a>
-              <a href="{{ '/09-journal.html#journal-072' | relative_url }}">2026-04-29 - Phi-4-mini Partial-RoPE Root Cause Intent</a>
-              <a href="{{ '/09-journal.html#journal-073' | relative_url }}">2026-04-28 - Phi LM-Head Shard Count Sweep on Best Topology</a>
-              <a href="{{ '/09-journal.html#journal-074' | relative_url }}">2026-04-28 - Phi Long-Decode Topology Baseline Moves to 20+4+6+2</a>
-              <a href="{{ '/09-journal.html#journal-075' | relative_url }}">2026-04-28 - Phi Private E5 Timing on 20+4+6+2</a>
-              <a href="{{ '/09-journal.html#journal-076' | relative_url }}">2026-04-28 - Phi Weighted Topology Search Starts</a>
-              <a href="{{ '/09-journal.html#journal-077' | relative_url }}">2026-04-28 - Phi 20+5+5+2 Tail Probe</a>
-              <a href="{{ '/09-journal.html#journal-078' | relative_url }}">2026-04-28 - Phi-4-mini Next Public Optimization Direction Intent</a>
-              <a href="{{ '/09-journal.html#journal-079' | relative_url }}">2026-04-28 - Phi LM-Head Top-K Shard Residency Failed</a>
-              <a href="{{ '/09-journal.html#journal-080' | relative_url }}">2026-04-28 - Phi Batch-4 LM-Head Shape Probe Passed</a>
-              <a href="{{ '/09-journal.html#journal-081' | relative_url }}">2026-04-28 - Phi Batch-4 LM-Head Full Set Gated</a>
-              <a href="{{ '/09-journal.html#journal-082' | relative_url }}">2026-04-29 - Phi Dead Artifact Cleanup Approval Intent</a>
-              <a href="{{ '/09-journal.html#journal-083' | relative_url }}">2026-04-29 - Phi Dead Artifact Cleanup Outcome</a>
-              <a href="{{ '/09-journal.html#journal-084' | relative_url }}">2026-04-29 - Phi Public Algorithmic Perf Direction Intent</a>
-              <a href="{{ '/09-journal.html#journal-085' | relative_url }}">2026-04-29 - Phi N-Gram Proposal Probe Added</a>
-              <a href="{{ '/09-journal.html#journal-086' | relative_url }}">2026-04-29 - Phi Code-Shaped N-Gram Suite Measured</a>
-              <a href="{{ '/09-journal.html#journal-087' | relative_url }}">2026-04-29 - Phi N-Gram Speculative Upper Bound Simulated</a>
-              <a href="{{ '/09-journal.html#journal-088' | relative_url }}">2026-04-29 - Structured CoT Grammar Decoding Investigation</a>
-              <a href="{{ '/09-journal.html#journal-089' | relative_url }}">2026-04-29 - Structured CoT Phi/ANE Applicability Decision</a>
-              <a href="{{ '/09-journal.html#journal-090' | relative_url }}">2026-04-29 - Phi Structured CoT Runtime Slice Implemented</a>
-              <a href="{{ '/09-journal.html#journal-091' | relative_url }}">2026-04-29 - Phi N-Gram Force Mode Tried</a>
-              <a href="{{ '/09-journal.html#journal-092' | relative_url }}">2026-04-29 - Phi Multi-Token Verifier Feasibility Insight</a>
-              <a href="{{ '/09-journal.html#journal-093' | relative_url }}">2026-04-29 - Phi T=4 Verifier Op-Pattern Probe Passed</a>
-              <a href="{{ '/09-journal.html#journal-094' | relative_url }}">2026-04-29 - Phi-4-mini Real-Weight T=4 Verifier Intent</a>
-              <a href="{{ '/09-journal.html#journal-095' | relative_url }}">2026-04-29 - Phi-4-mini Real-Weight T=4 Verifier Layer Passed</a>
-              <a href="{{ '/09-journal.html#journal-096' | relative_url }}">2026-04-29 - Phi-4-mini T=4 Verifier Scale-Out Intent</a>
-              <a href="{{ '/09-journal.html#journal-097' | relative_url }}">2026-04-29 - Phi-4-mini T=4 Verifier Scale-Out Outcome</a>
-              <a href="{{ '/09-journal.html#journal-098' | relative_url }}">2026-04-29 - Phi-4-mini T=4 Speculative Exactness Comparison Intent</a>
-              <a href="{{ '/09-journal.html#journal-099' | relative_url }}">2026-04-29 - Phi Full-Stack GGUF Reference Gate Blocks Q8 Chat</a>
-              <a href="{{ '/09-journal.html#journal-100' | relative_url }}">2026-04-29 - Phi-4-mini Partial-RoPE Patch and Probe Passed</a>
-              <a href="{{ '/09-journal.html#journal-101' | relative_url }}">2026-04-30 - Phi-4-mini Rope96 Fast Fused Rebuild Intent</a>
-              <a href="{{ '/09-journal.html#journal-102' | relative_url }}">2026-04-30 - Phi-4-mini Rope96 Fast Fused Rebuild Outcome</a>
-              <a href="{{ '/09-journal.html#journal-103' | relative_url }}">2026-04-30 - Hy-MT1.5 2-bit GGUF ANE Conversion Intent</a>
-              <a href="{{ '/09-journal.html#journal-104' | relative_url }}">2026-05-12 - Speculative Decode Prompt-Density Validation</a>
-              <a href="{{ '/09-journal.html#journal-105' | relative_url }}">2026-05-12 - Exp 26 Follow-Up: Prompt-Length Sweep for N-Gram Speculative Decode</a>
-              <a href="{{ '/09-journal.html#journal-106' | relative_url }}">2026-05-13 - Exp 35: ZAYA1-8B MoE INT4 Per-Grouped-Channel Palettization Intent</a>
-              <a href="{{ '/09-journal.html#journal-107' | relative_url }}">2026-05-13 - Exp 35 COMPLETE: ZAYA1-8B INT4pal T=1 Win, Speculative Decode Loss</a>
-              <a href="{{ '/09-journal.html#journal-108' | relative_url }}">2026-05-13 - Exp 36 Intent: Gemma 4 T4.3 Root Cause Identified, Rebuild to INT4pal</a>
-              <a href="{{ '/09-journal.html#journal-109' | relative_url }}">2026-05-14 - T4.3 CLOSED: All-FP16 ANE inference passes golden gate</a>
-              <a href="{{ '/09-journal.html#journal-110' | relative_url }}">2026-05-14 - T4.1.5 CLOSED: Full 16-token decode exact match on all-FP16 ANE stack</a>
-              <a href="{{ '/09-journal.html#journal-111' | relative_url }}">2026-05-14 - O2: Concurrent FFN Partial Fan-Out</a>
-              <a href="{{ '/09-journal.html#journal-112' | relative_url }}">2026-05-14 - INT4 Palettize L0 FFN Probe: All Gates Pass</a>
+              <a href="{{ '/09-journal.html' | relative_url }}">Journal index</a>
+              <details class="toc-subsection">
+                <summary>2026-04-26</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/001-fp16-gemma-ane-rebuild-retry-requested.html' | relative_url }}">001 - FP16 Gemma ANE Rebuild Retry Requested</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-04-27</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/002-phi-4-mini-instruct-ane-support-scaffolding-intent.html' | relative_url }}">002 - Phi-4-mini-instruct ANE Support Scaffolding Intent</a>
+                  <a href="{{ '/journal/003-phi-4-mini-instruct-layer-0-gate-residency-passed.html' | relative_url }}">003 - Phi-4-mini-instruct Layer-0 Gate Residency Passed</a>
+                  <a href="{{ '/journal/004-phi-4-mini-layer-0-numerical-smoke-passed.html' | relative_url }}">004 - Phi-4-mini Layer-0 Numerical Smoke Passed</a>
+                  <a href="{{ '/journal/005-phi-4-mini-layer-1-guarded-smoke-intent.html' | relative_url }}">005 - Phi-4-mini Layer-1 Guarded Smoke Intent</a>
+                  <a href="{{ '/journal/006-phi-4-mini-layer-1-guarded-smoke-passed.html' | relative_url }}">006 - Phi-4-mini Layer-1 Guarded Smoke Passed</a>
+                  <a href="{{ '/journal/007-phi-4-mini-layers-2-3-bounded-smoke-intent.html' | relative_url }}">007 - Phi-4-mini Layers 2–3 Bounded Smoke Intent</a>
+                  <a href="{{ '/journal/008-phi-4-mini-layers-2-3-bounded-smoke-passed.html' | relative_url }}">008 - Phi-4-mini Layers 2–3 Bounded Smoke Passed</a>
+                  <a href="{{ '/journal/009-phi-4-mini-bounded-run-range-orchestration-intent.html' | relative_url }}">009 - Phi-4-mini Bounded Run-Range Orchestration Intent</a>
+                  <a href="{{ '/journal/010-phi-4-mini-bounded-run-range-orchestration-landed.html' | relative_url }}">010 - Phi-4-mini Bounded Run-Range Orchestration Landed</a>
+                  <a href="{{ '/journal/011-phi-4-mini-layers-4-7-bounded-run-range-intent.html' | relative_url }}">011 - Phi-4-mini Layers 4–7 Bounded Run-Range Intent</a>
+                  <a href="{{ '/journal/012-phi-4-mini-layers-4-7-bounded-run-range-passed.html' | relative_url }}">012 - Phi-4-mini Layers 4–7 Bounded Run-Range Passed</a>
+                  <a href="{{ '/journal/013-phi-4-mini-four-layer-batch-runner-intent.html' | relative_url }}">013 - Phi-4-mini Four-Layer Batch Runner Intent</a>
+                  <a href="{{ '/journal/014-phi-4-mini-layers-8-11-run-batches-intent.html' | relative_url }}">014 - Phi-4-mini Layers 8–11 Run-Batches Intent</a>
+                  <a href="{{ '/journal/015-phi-4-mini-run-batches-landed-and-layers-8-11-passed.html' | relative_url }}">015 - Phi-4-mini Run-Batches Landed and Layers 8–11 Passed</a>
+                  <a href="{{ '/journal/016-phi-4-mini-layers-12-15-run-batches-intent.html' | relative_url }}">016 - Phi-4-mini Layers 12–15 Run-Batches Intent</a>
+                  <a href="{{ '/journal/017-phi-4-mini-layers-12-15-run-batches-passed.html' | relative_url }}">017 - Phi-4-mini Layers 12–15 Run-Batches Passed</a>
+                  <a href="{{ '/journal/018-phi-4-mini-remaining-layers-16-31-run-batches-intent.html' | relative_url }}">018 - Phi-4-mini Remaining Layers 16–31 Run-Batches Intent</a>
+                  <a href="{{ '/journal/019-phi-4-mini-all-32-layer-shards-completed.html' | relative_url }}">019 - Phi-4-mini All 32 Layer Shards Completed</a>
+                  <a href="{{ '/journal/020-phi-4-mini-lm-head-shard-builder-intent.html' | relative_url }}">020 - Phi-4-mini LM Head Shard Builder Intent</a>
+                  <a href="{{ '/journal/021-phi-4-mini-lm-head-shards-passed.html' | relative_url }}">021 - Phi-4-mini LM Head Shards Passed</a>
+                  <a href="{{ '/journal/022-phi-4-mini-runtime-scaffolding-smoke-passed.html' | relative_url }}">022 - Phi-4-mini Runtime Scaffolding Smoke Passed</a>
+                  <a href="{{ '/journal/023-phi-4-mini-tok-s-timing-smoke-intent.html' | relative_url }}">023 - Phi-4-mini Tok/s Timing Smoke Intent</a>
+                  <a href="{{ '/journal/024-phi-4-mini-provisional-tok-s-timing-smoke.html' | relative_url }}">024 - Phi-4-mini Provisional Tok/s Timing Smoke</a>
+                  <a href="{{ '/journal/025-phi-4-mini-lean-ane-runtime-optimization-intent.html' | relative_url }}">025 - Phi-4-mini Lean ANE Runtime Optimization Intent</a>
+                  <a href="{{ '/journal/026-phi-4-mini-lean-ane-runtime-optimization-outcome.html' | relative_url }}">026 - Phi-4-mini Lean ANE Runtime Optimization Outcome</a>
+                  <a href="{{ '/journal/027-phi-4-mini-decode-profile-intent.html' | relative_url }}">027 - Phi-4-mini Decode Profile Intent</a>
+                  <a href="{{ '/journal/028-phi-4-mini-two-layer-full-shard-probe-intent.html' | relative_url }}">028 - Phi-4-mini Two-Layer Full-Shard Probe Intent</a>
+                  <a href="{{ '/journal/029-phi-4-mini-decode-profile-and-two-layer-probe-outcome.html' | relative_url }}">029 - Phi-4-mini Decode Profile and Two-Layer Probe Outcome</a>
+                  <a href="{{ '/journal/030-phi-4-mini-three-layer-full-shard-probe-intent.html' | relative_url }}">030 - Phi-4-mini Three-Layer Full-Shard Probe Intent</a>
+                  <a href="{{ '/journal/031-phi-4-mini-three-layer-full-shard-probe-passed.html' | relative_url }}">031 - Phi-4-mini Three-Layer Full-Shard Probe Passed</a>
+                  <a href="{{ '/journal/032-phi-4-mini-full-3-layer-shard-strategy-validation-intent.html' | relative_url }}">032 - Phi-4-mini Full 3-Layer Shard Strategy Validation Intent</a>
+                  <a href="{{ '/journal/033-llm-int8-ane-conv2d-adaptation-review-intent.html' | relative_url }}">033 - LLM.int8() ANE Conv2D Adaptation Review Intent</a>
+                  <a href="{{ '/journal/034-phi-4-mini-full-3-layer-shard-strategy-validated.html' | relative_url }}">034 - Phi-4-mini Full 3-Layer Shard Strategy Validated</a>
+                  <a href="{{ '/journal/035-phi-4-mini-fused-runtime-migration-intent.html' | relative_url }}">035 - Phi-4-mini Fused Runtime Migration Intent</a>
+                  <a href="{{ '/journal/036-phi-4-mini-fused-runtime-migration-outcome.html' | relative_url }}">036 - Phi-4-mini Fused Runtime Migration Outcome</a>
+                  <a href="{{ '/journal/037-phi-4-mini-four-layer-fused-shard-intent.html' | relative_url }}">037 - Phi-4-mini Four-Layer Fused Shard Intent</a>
+                  <a href="{{ '/journal/038-phi-4-mini-four-layer-fused-shard-residency-passed.html' | relative_url }}">038 - Phi-4-mini Four-Layer Fused Shard Residency Passed</a>
+                  <a href="{{ '/journal/039-phi-4-mini-four-layer-fused-shard-golden-passed.html' | relative_url }}">039 - Phi-4-mini Four-Layer Fused Shard Golden Passed</a>
+                  <a href="{{ '/journal/040-phi-4-mini-full-4-layer-fused-strategy-intent.html' | relative_url }}">040 - Phi-4-mini Full 4-Layer Fused Strategy Intent</a>
+                  <a href="{{ '/journal/041-phi-4-mini-full-4-layer-fused-strategy-completed.html' | relative_url }}">041 - Phi-4-mini Full 4-Layer Fused Strategy Completed</a>
+                  <a href="{{ '/journal/042-phi-4-mini-isolated-warm-cache-outcome.html' | relative_url }}">042 - Phi-4-mini Isolated Warm Cache Outcome</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-04-28</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/043-ane-internals-synthesis-before-phi-daemon.html' | relative_url }}">043 - ANE Internals Synthesis Before Phi Daemon</a>
+                  <a href="{{ '/journal/044-phi-4-mini-resident-serve-mode-landed.html' | relative_url }}">044 - Phi-4-mini Resident Serve Mode Landed</a>
+                  <a href="{{ '/journal/045-phi-4-mini-five-layer-fused-strategy-intent.html' | relative_url }}">045 - Phi-4-mini Five-Layer Fused Strategy Intent</a>
+                  <a href="{{ '/journal/046-phi-4-mini-six-layer-fused-strategy-intent.html' | relative_url }}">046 - Phi-4-mini Six-Layer Fused Strategy Intent</a>
+                  <a href="{{ '/journal/047-phi-4-mini-five-and-six-layer-fusion-outcome.html' | relative_url }}">047 - Phi-4-mini Five- and Six-Layer Fusion Outcome</a>
+                  <a href="{{ '/journal/048-phi-4-mini-lm-head-optimization-outcome.html' | relative_url }}">048 - Phi-4-mini LM-Head Optimization Outcome</a>
+                  <a href="{{ '/journal/049-phi-4-mini-eight-layer-fused-shard-intent.html' | relative_url }}">049 - Phi-4-mini Eight-Layer Fused Shard Intent</a>
+                  <a href="{{ '/journal/050-phi-4-mini-eight-layer-asymmetric-fusion-outcome.html' | relative_url }}">050 - Phi-4-mini Eight-Layer Asymmetric Fusion Outcome</a>
+                  <a href="{{ '/journal/051-phi-4-mini-twelve-layer-front-shard-intent.html' | relative_url }}">051 - Phi-4-mini Twelve-Layer Front Shard Intent</a>
+                  <a href="{{ '/journal/052-phi-4-mini-sixteen-layer-front-shard-intent.html' | relative_url }}">052 - Phi-4-mini Sixteen-Layer Front Shard Intent</a>
+                  <a href="{{ '/journal/053-phi-4-mini-twenty-four-layer-front-shard-intent.html' | relative_url }}">053 - Phi-4-mini Twenty-Four-Layer Front Shard Intent</a>
+                  <a href="{{ '/journal/054-phi-4-mini-twenty-layer-front-shard-intent.html' | relative_url }}">054 - Phi-4-mini Twenty-Layer Front Shard Intent</a>
+                  <a href="{{ '/journal/055-phi-4-mini-12-16-20-24-layer-fusion-sweep-outcome.html' | relative_url }}">055 - Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome</a>
+                  <a href="{{ '/journal/056-private-ane-chaining-investigation-intent.html' | relative_url }}">056 - Private ANE Chaining Investigation Intent</a>
+                  <a href="{{ '/journal/057-private-ane-api-bridge-outcome.html' | relative_url }}">057 - Private ANE API Bridge Outcome</a>
+                  <a href="{{ '/journal/058-coreml-e5-bridge-operation-handles-recovered.html' | relative_url }}">058 - CoreML E5 Bridge Operation Handles Recovered</a>
+                  <a href="{{ '/journal/059-coreml-e5-two-operation-stream-binder-outcome.html' | relative_url }}">059 - CoreML E5 Two-Operation Stream Binder Outcome</a>
+                  <a href="{{ '/journal/060-tiny-e5-execution-controls-outcome.html' | relative_url }}">060 - Tiny E5 Execution Controls Outcome</a>
+                  <a href="{{ '/journal/061-e5-binder-timing-controls-outcome.html' | relative_url }}">061 - E5 Binder Timing Controls Outcome</a>
+                  <a href="{{ '/journal/062-e5-setupoperationforinputfeatures-replaces-pool.html' | relative_url }}">062 - E5 setupOperationForInputFeatures Replaces Pool</a>
+                  <a href="{{ '/journal/063-raw-e5rt-two-model-chain-breakthrough.html' | relative_url }}">063 - Raw E5RT Two-Model Chain Breakthrough</a>
+                  <a href="{{ '/journal/064-phi-stateful-raw-e5rt-chain-smoke.html' | relative_url }}">064 - Phi Stateful Raw E5RT Chain Smoke</a>
+                  <a href="{{ '/journal/065-phi-public-two-call-reference-and-e5-event-probe.html' | relative_url }}">065 - Phi Public Two-Call Reference and E5 Event Probe</a>
+                  <a href="{{ '/journal/066-phi-e5-objc-sync-point-experiment.html' | relative_url }}">066 - Phi E5 ObjC Sync-Point Experiment</a>
+                  <a href="{{ '/journal/067-phi-e5-direct-objc-event-bind-outcome.html' | relative_url }}">067 - Phi E5 Direct ObjC Event Bind Outcome</a>
+                  <a href="{{ '/journal/068-phi-e5-second-operation-boundary-narrowed.html' | relative_url }}">068 - Phi E5 Second-Operation Boundary Narrowed</a>
+                  <a href="{{ '/journal/069-phi-e5-raw-memory-bridge-breakthrough.html' | relative_url }}">069 - Phi E5 Raw Memory Bridge Breakthrough</a>
+                  <a href="{{ '/journal/070-phi-full-fused-topology-runs-in-one-e5-stream.html' | relative_url }}">070 - Phi Full Fused Topology Runs in One E5 Stream</a>
+                  <a href="{{ '/journal/071-phi-private-e5-one-stream-timing-reality-check.html' | relative_url }}">071 - Phi Private E5 One-Stream Timing Reality Check</a>
+                  <a href="{{ '/journal/073-phi-lm-head-shard-count-sweep-on-best-topology.html' | relative_url }}">073 - Phi LM-Head Shard Count Sweep on Best Topology</a>
+                  <a href="{{ '/journal/074-phi-long-decode-topology-baseline-moves-to-20-4-6-2.html' | relative_url }}">074 - Phi Long-Decode Topology Baseline Moves to 20+4+6+2</a>
+                  <a href="{{ '/journal/075-phi-private-e5-timing-on-20-4-6-2.html' | relative_url }}">075 - Phi Private E5 Timing on 20+4+6+2</a>
+                  <a href="{{ '/journal/076-phi-weighted-topology-search-starts.html' | relative_url }}">076 - Phi Weighted Topology Search Starts</a>
+                  <a href="{{ '/journal/077-phi-20-5-5-2-tail-probe.html' | relative_url }}">077 - Phi 20+5+5+2 Tail Probe</a>
+                  <a href="{{ '/journal/078-phi-4-mini-next-public-optimization-direction-intent.html' | relative_url }}">078 - Phi-4-mini Next Public Optimization Direction Intent</a>
+                  <a href="{{ '/journal/079-phi-lm-head-top-k-shard-residency-failed.html' | relative_url }}">079 - Phi LM-Head Top-K Shard Residency Failed</a>
+                  <a href="{{ '/journal/080-phi-batch-4-lm-head-shape-probe-passed.html' | relative_url }}">080 - Phi Batch-4 LM-Head Shape Probe Passed</a>
+                  <a href="{{ '/journal/081-phi-batch-4-lm-head-full-set-gated.html' | relative_url }}">081 - Phi Batch-4 LM-Head Full Set Gated</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-04-29</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/072-phi-4-mini-partial-rope-root-cause-intent.html' | relative_url }}">072 - Phi-4-mini Partial-RoPE Root Cause Intent</a>
+                  <a href="{{ '/journal/082-phi-dead-artifact-cleanup-approval-intent.html' | relative_url }}">082 - Phi Dead Artifact Cleanup Approval Intent</a>
+                  <a href="{{ '/journal/083-phi-dead-artifact-cleanup-outcome.html' | relative_url }}">083 - Phi Dead Artifact Cleanup Outcome</a>
+                  <a href="{{ '/journal/084-phi-public-algorithmic-perf-direction-intent.html' | relative_url }}">084 - Phi Public Algorithmic Perf Direction Intent</a>
+                  <a href="{{ '/journal/085-phi-n-gram-proposal-probe-added.html' | relative_url }}">085 - Phi N-Gram Proposal Probe Added</a>
+                  <a href="{{ '/journal/086-phi-code-shaped-n-gram-suite-measured.html' | relative_url }}">086 - Phi Code-Shaped N-Gram Suite Measured</a>
+                  <a href="{{ '/journal/087-phi-n-gram-speculative-upper-bound-simulated.html' | relative_url }}">087 - Phi N-Gram Speculative Upper Bound Simulated</a>
+                  <a href="{{ '/journal/088-structured-cot-grammar-decoding-investigation.html' | relative_url }}">088 - Structured CoT Grammar Decoding Investigation</a>
+                  <a href="{{ '/journal/089-structured-cot-phi-ane-applicability-decision.html' | relative_url }}">089 - Structured CoT Phi/ANE Applicability Decision</a>
+                  <a href="{{ '/journal/090-phi-structured-cot-runtime-slice-implemented.html' | relative_url }}">090 - Phi Structured CoT Runtime Slice Implemented</a>
+                  <a href="{{ '/journal/091-phi-n-gram-force-mode-tried.html' | relative_url }}">091 - Phi N-Gram Force Mode Tried</a>
+                  <a href="{{ '/journal/092-phi-multi-token-verifier-feasibility-insight.html' | relative_url }}">092 - Phi Multi-Token Verifier Feasibility Insight</a>
+                  <a href="{{ '/journal/093-phi-t-4-verifier-op-pattern-probe-passed.html' | relative_url }}">093 - Phi T=4 Verifier Op-Pattern Probe Passed</a>
+                  <a href="{{ '/journal/094-phi-4-mini-real-weight-t-4-verifier-intent.html' | relative_url }}">094 - Phi-4-mini Real-Weight T=4 Verifier Intent</a>
+                  <a href="{{ '/journal/095-phi-4-mini-real-weight-t-4-verifier-layer-passed.html' | relative_url }}">095 - Phi-4-mini Real-Weight T=4 Verifier Layer Passed</a>
+                  <a href="{{ '/journal/096-phi-4-mini-t-4-verifier-scale-out-intent.html' | relative_url }}">096 - Phi-4-mini T=4 Verifier Scale-Out Intent</a>
+                  <a href="{{ '/journal/097-phi-4-mini-t-4-verifier-scale-out-outcome.html' | relative_url }}">097 - Phi-4-mini T=4 Verifier Scale-Out Outcome</a>
+                  <a href="{{ '/journal/098-phi-4-mini-t-4-speculative-exactness-comparison-intent.html' | relative_url }}">098 - Phi-4-mini T=4 Speculative Exactness Comparison Intent</a>
+                  <a href="{{ '/journal/099-phi-full-stack-gguf-reference-gate-blocks-q8-chat.html' | relative_url }}">099 - Phi Full-Stack GGUF Reference Gate Blocks Q8 Chat</a>
+                  <a href="{{ '/journal/100-phi-4-mini-partial-rope-patch-and-probe-passed.html' | relative_url }}">100 - Phi-4-mini Partial-RoPE Patch and Probe Passed</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-04-30</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/101-phi-4-mini-rope96-fast-fused-rebuild-intent.html' | relative_url }}">101 - Phi-4-mini Rope96 Fast Fused Rebuild Intent</a>
+                  <a href="{{ '/journal/102-phi-4-mini-rope96-fast-fused-rebuild-outcome.html' | relative_url }}">102 - Phi-4-mini Rope96 Fast Fused Rebuild Outcome</a>
+                  <a href="{{ '/journal/103-hy-mt1-5-2-bit-gguf-ane-conversion-intent.html' | relative_url }}">103 - Hy-MT1.5 2-bit GGUF ANE Conversion Intent</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-05-12</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/104-speculative-decode-prompt-density-validation.html' | relative_url }}">104 - Speculative Decode Prompt-Density Validation</a>
+                  <a href="{{ '/journal/105-exp-26-follow-up-prompt-length-sweep-for-n-gram-speculative-decode.html' | relative_url }}">105 - Exp 26 Follow-Up: Prompt-Length Sweep for N-Gram Speculative Decode</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-05-13</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/106-exp-35-zaya1-8b-moe-int4-per-grouped-channel-palettization-intent.html' | relative_url }}">106 - Exp 35: ZAYA1-8B MoE INT4 Per-Grouped-Channel Palettization Intent</a>
+                  <a href="{{ '/journal/107-exp-35-complete-zaya1-8b-int4pal-t-1-win-speculative-decode-loss.html' | relative_url }}">107 - Exp 35 COMPLETE: ZAYA1-8B INT4pal T=1 Win, Speculative Decode Loss</a>
+                  <a href="{{ '/journal/108-exp-36-intent-gemma-4-t4-3-root-cause-identified-rebuild-to-int4pal.html' | relative_url }}">108 - Exp 36 Intent: Gemma 4 T4.3 Root Cause Identified, Rebuild to INT4pal</a>
+                </div>
+              </details>
+              <details class="toc-subsection">
+                <summary>2026-05-14</summary>
+                <div class="toc-subnav toc-subnav-nested">
+                  <a href="{{ '/journal/109-t4-3-closed-all-fp16-ane-inference-passes-golden-gate.html' | relative_url }}">109 - T4.3 CLOSED: All-FP16 ANE inference passes golden gate</a>
+                  <a href="{{ '/journal/110-t4-1-5-closed-full-16-token-decode-exact-match-on-all-fp16-ane-stack.html' | relative_url }}">110 - T4.1.5 CLOSED: Full 16-token decode exact match on all-FP16 ANE stack</a>
+                  <a href="{{ '/journal/111-o2-concurrent-ffn-partial-fan-out.html' | relative_url }}">111 - O2: Concurrent FFN Partial Fan-Out</a>
+                  <a href="{{ '/journal/112-int4-palettize-l0-ffn-probe-all-gates-pass.html' | relative_url }}">112 - INT4 Palettize L0 FFN Probe: All Gates Pass</a>
+                </div>
+              </details>
             </div>
           </details>
         </nav>

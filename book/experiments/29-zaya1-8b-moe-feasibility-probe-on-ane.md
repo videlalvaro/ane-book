@@ -70,9 +70,15 @@ KV scatter overhead (same pattern validated in Exp 26 for Phi).
 
 **Next step**: Build stateful attn shards with `max_seq_len=2048`, RoPE, and
 KV cache scatter. With d_model=2048, n_kv_heads=2, d_head=128, seq_len=2048 the
-KV state per attn layer is `2×2048×128×2 = 1MB` — 40 layers = 40MB total. This
-is well within ANE DRAM budget. The RangeDim T=1..4 pattern from Exp 28 applies
-directly: `ct.RangeDim(lower_bound=1, upper_bound=4, default=1)`.
+KV state per attention layer is:
+
+\[
+2 \times 2048 \times 128 \times 2\ \text{bytes} = 1\ \text{MB}
+\]
+
+Across 40 layers, that is \(40\ \text{MB}\) total, which is well within ANE DRAM
+budget. The RangeDim T=1..4 pattern from Exp 28 applies directly:
+`ct.RangeDim(lower_bound=1, upper_bound=4, default=1)`.
 
 **Artifacts**:
 - `local-artifacts/zaya_ane/attn/zaya_attn_L{00,02,...,78}.mlmodelc` — 40 simplified attn shards

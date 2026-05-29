@@ -19,7 +19,7 @@ run 8-billion-parameter MoE transformers at 9 tok/s.
 This book documents what it takes to get real LLMs running on the ANE, based on
 35+ experiments across five model families.
 
-## ANE vs GPU vs CPU — the Real Tradeoffs
+## ANE vs GPU vs CPU — the Real Tradeoffs {#ane-vs-gpu-vs-cpu--the-real-tradeoffs}
 
 | Property | ANE | GPU (Metal) | CPU |
 |----------|-----|-------------|-----|

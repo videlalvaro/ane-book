@@ -12,12 +12,19 @@ title: "Experiment 17 - Fused APL-Style Inner Product"
 **Mathematical basis**:
 APL treats `A +.× B` (matmul) as a single fused operator. For EML:
 
-    dot(a, b) = ln(Σ_j exp(ln(a_j) + ln(b_j)))
+\[
+\operatorname{dot}(a,b) = \ln\left(\sum_j \exp\left(\ln(a_j) + \ln(b_j)\right)\right)
+\]
 
 Using the log-sum-exp trick with a running max:
 
-    m = max_j(ln(a_j) + ln(b_j))
-    dot(a, b) = m + ln(Σ_j exp((ln(a_j) + ln(b_j)) - m))
+\[
+m = \max_j\left(\ln(a_j) + \ln(b_j)\right)
+\]
+
+\[
+\operatorname{dot}(a,b) = m + \ln\left(\sum_j \exp\left(\ln(a_j) + \ln(b_j) - m\right)\right)
+\]
 
 This is K exps + 1 ln for the whole dot product instead of K exps + K lns 
 for element-wise accumulation. Cuts lns by factor of K (896).
@@ -31,7 +38,7 @@ for element-wise accumulation. Cuts lns by factor of K (896).
 - The running-max numerically-stable variant is standard in ML (used in softmax), 
   but applying it to EML's log-domain matmul accumulation is novel.
 
-**Expected impact**: Potentially reduces lns from O(K) to O(1) per dot product.
+**Expected impact**: Potentially reduces lns from \(O(K)\) to \(O(1)\) per dot product.
 Combined with Exp 16, this is the most promising direction.
 
 ---

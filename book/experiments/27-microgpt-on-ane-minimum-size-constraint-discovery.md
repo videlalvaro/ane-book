@@ -58,9 +58,20 @@ rms = (xs.pow(2).mean(dim=1, keepdim=True) + eps/(K*K)).rsqrt()
 return (xs * rms).half()
 ```
 
-This is a textbook peephole: pattern `(x²_sum / d + ε)^{-½}` is rewritten as
-`((x/√d)²_sum + ε/d)^{-½}`, identical mathematically but numerically safe and
-preferred by the ANE cost model for norm ops.
+This is a textbook peephole. The unstable pattern:
+
+\[
+\left(\frac{\sum x^2}{d} + \varepsilon\right)^{-1/2}
+\]
+
+is rewritten as:
+
+\[
+\left(\sum \left(\frac{x}{\sqrt{d}}\right)^2 + \frac{\varepsilon}{d}\right)^{-1/2}
+\]
+
+The two forms are mathematically identical, but the second is numerically safe
+and preferred by the ANE cost model for norm ops.
 
 **Results**:
 

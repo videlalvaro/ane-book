@@ -95,7 +95,7 @@ Increasing block size from g32 to g64 did not help.
 
 ---
 
-## W8A8 (Weights + Activations): Future Direction
+## W8A8 (Weights + Activations): Future Direction {#w8a8-weights--activations-future-direction}
 
 W8A8 quantizes both weights and activations to INT8. This can reduce bandwidth
 further but requires:

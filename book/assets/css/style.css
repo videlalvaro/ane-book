@@ -83,7 +83,9 @@ a {
 
 .toc-root,
 .toc-section,
+.toc-subsection,
 .toc-section summary,
+.toc-subsection summary,
 .toc-subnav,
 .toc-subnav a {
   width: 100%;
@@ -101,6 +103,7 @@ a {
 
 .toc-root,
 .toc-section summary,
+.toc-subsection summary,
 .toc-subnav a {
   display: block;
   padding: 0.4rem 0.55rem;
@@ -111,17 +114,20 @@ a {
   text-decoration: none;
 }
 
-.toc-section summary {
+.toc-section summary,
+.toc-subsection summary {
   cursor: pointer;
   font-weight: 650;
 }
 
-.toc-section summary::marker {
+.toc-section summary::marker,
+.toc-subsection summary::marker {
   color: var(--muted);
 }
 
 .toc-section[open] summary,
 .toc-section.active summary,
+.toc-subsection[open] summary,
 .toc-root:hover,
 .toc-root.active,
 .toc-subnav a:hover,
@@ -143,6 +149,26 @@ a {
   padding: 0.28rem 0.45rem;
   font-size: 0.84rem;
   overflow-wrap: anywhere;
+}
+
+.toc-subsection summary {
+  padding: 0.28rem 0.45rem;
+  font-size: 0.84rem;
+}
+
+.toc-subnav-nested {
+  margin-left: 0.45rem;
+  padding-left: 0.5rem;
+}
+
+.toc-subnav-nested a {
+  font-size: 0.8rem;
+}
+
+.mjx-container[jax="SVG"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
 }
 
 .page-content {

@@ -120,7 +120,7 @@ the wrong slice shapes for the cache writes.
 
 ---
 
-## Stateful + RangeDim: Known Complication
+## Stateful + RangeDim: Known Complication {#stateful--rangedim-known-complication}
 
 Combining stateful KV cache with RangeDim is the trickiest configuration.
 
