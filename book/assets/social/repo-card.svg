@@ -53,12 +53,14 @@
 
   <g transform="translate(872 116)">
     <rect x="0" y="0" width="300" height="300" rx="28" fill="#f7fbfc" stroke="#ccdadd" stroke-width="2"/>
-    <text class="chipText" x="45" y="36">CoreML + MLComputePlan</text>
-    <rect x="62" y="58" width="176" height="176" rx="24" fill="#203b46"/>
-    <rect x="88" y="84" width="124" height="124" rx="18" fill="#f4faf8"/>
-    <rect x="114" y="110" width="72" height="72" rx="12" fill="#67b890"/>
-    <path d="M150 55 V24 M150 268 v-31 M55 150 H24 M268 150 h-31 M89 55 V32 M211 55 V32 M89 268 v-31 M211 268 v-31 M55 89 H32 M55 211 H32 M268 89 h-31 M268 211 h-31" stroke="#203b46" stroke-width="9" stroke-linecap="round"/>
-    <path d="M132 146 h36 M150 128 v36" stroke="#f4faf8" stroke-width="10" stroke-linecap="round"/>
+    <text class="chipText" x="38" y="42">CoreML + MLComputePlan</text>
+    <g transform="translate(36 68) scale(0.78)">
+      <rect x="62" y="58" width="176" height="176" rx="24" fill="#203b46"/>
+      <rect x="88" y="84" width="124" height="124" rx="18" fill="#f4faf8"/>
+      <rect x="114" y="110" width="72" height="72" rx="12" fill="#67b890"/>
+      <path d="M150 55 V24 M150 268 v-31 M55 150 H24 M268 150 h-31 M89 55 V32 M211 55 V32 M89 268 v-31 M211 268 v-31 M55 89 H32 M55 211 H32 M268 89 h-31 M268 211 h-31" stroke="#203b46" stroke-width="9" stroke-linecap="round"/>
+      <path d="M132 146 h36 M150 128 v36" stroke="#f4faf8" stroke-width="10" stroke-linecap="round"/>
+    </g>
   </g>
 
   <g transform="translate(88 548)">
