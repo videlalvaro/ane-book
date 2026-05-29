@@ -30,9 +30,6 @@ We need fundamentally new strategies, not incremental tuning.
 
 ![Experiment log timeline](assets/diagrams/08-experiments/experiment-timeline.svg)
 
-This chapter is split into one page per numbered experiment so the log is easier
-to search, link, and scan.
-
 ## Experiments
 
 | # | Experiment | Theme |

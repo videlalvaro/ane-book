@@ -10,13 +10,31 @@
     <header class="site-header">
       <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
       <nav class="site-nav" aria-label="Book navigation">
-        <a href="{{ '/' | relative_url }}">Chapters</a>
+        <a href="{{ '/' | relative_url }}">Cover</a>
         <a href="{{ '/README.html' | relative_url }}">README</a>
         <a href="https://github.com/videlalvaro/ane-models">Repository</a>
       </nav>
     </header>
-    <main class="page-content">
-      {{ content }}
-    </main>
+    <div class="book-shell">
+      <aside class="toc-sidebar" aria-label="Table of contents">
+        <nav class="toc-nav">
+          <div class="toc-heading">Contents</div>
+          <a href="{{ '/' | relative_url }}"{% if page.url == '/' or page.url == '/index.html' %} class="active"{% endif %}>Cover</a>
+          <a href="{{ '/00-why-ane.html' | relative_url }}"{% if page.url == '/00-why-ane.html' %} class="active"{% endif %}>00 - Why ANE</a>
+          <a href="{{ '/01-ane-laws.html' | relative_url }}"{% if page.url == '/01-ane-laws.html' %} class="active"{% endif %}>01 - ANE Laws</a>
+          <a href="{{ '/02-porting-recipe.html' | relative_url }}"{% if page.url == '/02-porting-recipe.html' %} class="active"{% endif %}>02 - Porting Recipe</a>
+          <a href="{{ '/03-quantization.html' | relative_url }}"{% if page.url == '/03-quantization.html' %} class="active"{% endif %}>03 - Quantization</a>
+          <a href="{{ '/04-shard-sizing.html' | relative_url }}"{% if page.url == '/04-shard-sizing.html' %} class="active"{% endif %}>04 - Shard Sizing</a>
+          <a href="{{ '/05-stateful-kv-cache.html' | relative_url }}"{% if page.url == '/05-stateful-kv-cache.html' %} class="active"{% endif %}>05 - Stateful KV Cache</a>
+          <a href="{{ '/06-rangedim-speculative.html' | relative_url }}"{% if page.url == '/06-rangedim-speculative.html' %} class="active"{% endif %}>06 - RangeDim + Speculative</a>
+          <a href="{{ '/07-moe-on-ane.html' | relative_url }}"{% if page.url == '/07-moe-on-ane.html' %} class="active"{% endif %}>07 - MoE on ANE</a>
+          <a href="{{ '/08-experiments.html' | relative_url }}"{% if page.url == '/08-experiments.html' or page.url contains '/experiments/' %} class="active"{% endif %}>08 - Experiment Index</a>
+          <a href="{{ '/09-journal.html' | relative_url }}"{% if page.url == '/09-journal.html' %} class="active"{% endif %}>09 - Journal</a>
+        </nav>
+      </aside>
+      <main class="page-content">
+        {{ content }}
+      </main>
+    </div>
   </body>
 </html>

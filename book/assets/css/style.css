@@ -58,12 +58,57 @@ a {
   text-decoration: none;
 }
 
+.book-shell {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  min-height: calc(100vh - 58px);
+}
+
+.toc-sidebar {
+  border-right: 1px solid var(--border);
+  background: #ffffff;
+}
+
+.toc-nav {
+  position: sticky;
+  top: 58px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-height: calc(100vh - 58px);
+  padding: 1.25rem 1rem;
+  overflow-y: auto;
+}
+
+.toc-heading {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc-nav a {
+  padding: 0.4rem 0.55rem;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.toc-nav a:hover,
+.toc-nav a.active {
+  background: #eef3f8;
+  color: var(--text);
+}
+
 .page-content {
-  width: min(100%, 920px);
+  width: min(100%, 980px);
   margin: 0 auto;
   padding: 2rem clamp(1rem, 4vw, 2.5rem) 4rem;
   background: var(--surface);
-  min-height: calc(100vh - 58px);
 }
 
 h1,
@@ -142,6 +187,27 @@ code {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .book-shell {
+    display: block;
+  }
+
+  .toc-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toc-nav {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: none;
+    padding: 0.9rem 1rem;
+  }
+
+  .toc-heading {
+    grid-column: 1 / -1;
   }
 
   .page-content {
