@@ -9,6 +9,8 @@ A practitioner's guide to production LLM inference on the Apple Neural Engine
 with CoreML, Swift runtimes, ANE-only residency checks, and validated model
 manifests.
 
+By Alvaro Videla - [@old_sound](https://x.com/old_sound)
+
 ## Chapters
 
 | Chapter | Topic |
