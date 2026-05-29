@@ -45,8 +45,9 @@
   <rect x="766" y="162" width="62" height="48" class="kernel" />
   <text x="797" y="156" text-anchor="middle" class="code">1x1</text>
   <path d="M742 186 H764" class="arrow" />
-  <path d="M828 186 H865" class="arrow" />
-  <rect x="866" y="150" width="28" height="72" class="kernel" />
-  <text x="880" y="247" text-anchor="middle" class="code">[1,C_out,T,1]</text>
+  <path d="M828 186 H850" class="arrow" />
+  <rect x="852" y="150" width="42" height="72" class="kernel" />
+  <text x="823" y="248" text-anchor="middle" class="code">output</text>
+  <text x="823" y="269" text-anchor="middle" class="code">[1, C_out, T, 1]</text>
   <text x="740" y="286" text-anchor="middle" class="small">Conv2d(C_in, C_out, kernel_size=1)</text>
 </svg>
