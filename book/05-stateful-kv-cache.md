@@ -5,6 +5,20 @@ title: "Chapter 5 - Stateful KV Cache"
 
 # Chapter 5 — Stateful KV Cache with MLState
 
+A KV cache is the model's memory of the prompt. It stores the key and value rows
+that attention needs from previous tokens. Without it, every generated token
+would force the model to rebuild attention state for the whole prefix.
+
+The normal decode step is therefore: read the existing cache, compute K/V for the
+new token, append those rows at the current position, attend over the prefix, and
+produce the next hidden state. The cache is not optional for practical LLM
+inference; it is what makes long decode linear in the number of new tokens rather
+than repeatedly recomputing old work.
+
+On CoreML, the public way to keep this state inside the model runtime is
+`MLState`. This chapter explains how to make that cache explicit enough for
+CoreML while keeping the hot path on ANE.
+
 ## Why MLState
 
 Without a stateful cache, every decode step must pass the entire KV prefix

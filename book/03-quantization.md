@@ -5,6 +5,20 @@ title: "Chapter 3 - Quantization on ANE"
 
 # Chapter 3 — Quantization on ANE
 
+Quantization shrinks model weights. During decode, the runtime repeatedly loads
+large projection matrices to produce one new token, so smaller weights can reduce
+memory bandwidth pressure and improve tokens per second.
+
+That benefit only counts if two gates still pass:
+
+1. **Residency**: the quantized graph must stay on ANE.
+2. **Quality**: the quantized output must stay close to the FP16 reference.
+
+This chapter is about the tension between those gates. A quantization format can
+look attractive on paper and still fail because CoreML lowers it into an op
+pattern the ANE compiler rejects, or because small numerical errors accumulate
+through many layers.
+
 ## The Only Safe Baseline: INT8 Per-Tensor
 
 After 35+ experiments across five model families, the only quantization format

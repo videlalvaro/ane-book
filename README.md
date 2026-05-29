@@ -66,7 +66,7 @@ practitioners who want to port their own models to ANE:
 
 | Chapter | Topic |
 |---------|-------|
-| [00 — Why ANE?](book/00-why-ane.md) | ANE vs GPU vs CPU; why CoreML; the Conv2d trick |
+| [00 — Modern Inference](book/00-why-ane.md) | Tokens, prefill/decode, KV cache, ANE vs GPU vs CPU, the Conv2d trick |
 | [01 — ANE Laws](book/01-ane-laws.md) | Empirical rules: shard limits, quantization, residency |
 | [02 — Porting Recipe](book/02-porting-recipe.md) | GGUF → CoreML, step by step |
 | [03 — Quantization](book/03-quantization.md) | INT8 production, INT4 tradeoffs, the silent CPU fallback |
@@ -76,6 +76,7 @@ practitioners who want to port their own models to ANE:
 | [07 — MoE on ANE](book/07-moe-on-ane.md) | Soft routing, per-expert dispatch, ZAYA & Privacy Filter |
 | [08 — Experiment Index](book/08-experiments.md) | Searchable index of experiment writeups |
 | [09 — Decision Journal](book/09-journal.md) | The thinking behind the hard calls |
+| [Glossary](book/glossary.md) | Definitions for inference, CoreML, ANE, and validation terms |
 
 ---
 

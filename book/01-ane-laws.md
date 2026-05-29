@@ -9,6 +9,16 @@ title: "Chapter 1 - ANE Empirical Laws"
 `ANECompiler.framework` on macOS (M4 Max, h16g, 16 ANE cores), plus 35+
 real-model conversion experiments.
 
+An empirical law is a rule learned from the compiler and hardware, not from an
+API promise. In normal inference engineering you can often change tensor layout,
+quantization, or model packaging and still get a working graph. On ANE, those
+choices decide whether the graph runs on the Neural Engine or silently falls back
+to CPU.
+
+Read this chapter as the boundary between the generic inference loop from
+Chapter 0 and the concrete CoreML implementation. The laws say which shapes,
+operators, quantization formats, and package sizes survived real placement checks.
+
 These are ground-truth rules, not speculation. Each one was verified with
 `MLComputePlan` placement checks or runtime measurement.
 

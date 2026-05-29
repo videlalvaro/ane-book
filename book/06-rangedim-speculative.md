@@ -5,6 +5,17 @@ title: "Chapter 6 - RangeDim and Speculative Decode"
 
 # Chapter 6 — RangeDim and Speculative Decode
 
+Decode is sequential, but not every part of inference has to be one token wide.
+Prefill can process many prompt tokens at once, and speculative decoding can ask
+the full model to verify a short draft span in one call. Both techniques depend
+on the model accepting a variable token dimension `T`.
+
+`RangeDim` is CoreML's way to declare that variability. Speculative decoding is
+the algorithmic use case: propose several likely next tokens cheaply, run the
+real model on that small batch, and accept the longest correct prefix. If the
+acceptance rate is high enough, the runtime gets more than one generated token
+per expensive verifier call.
+
 ## The Prefill/Decode Asymmetry
 
 LLM inference has two phases with opposite bottlenecks:

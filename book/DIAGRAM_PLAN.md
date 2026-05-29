@@ -24,7 +24,24 @@ where motion clarifies time, state, or repeated dispatch.
   `book/assets/diagrams/<chapter>/<name>.svg` and optionally
   `book/assets/diagrams/<chapter>/<name>.mmd`.
 
-## Chapter 0: Why ANE?
+## Chapter 0: Modern Inference and Why ANE?
+
+### 0.0 Modern Inference Primer
+
+Insert before `The Hardware You're Not Using`.
+
+Diagrams implemented:
+
+- `autoregressive-decode-loop.svg`: tokenization, embeddings, transformer, logits,
+  sampling, and feedback.
+- `prefill-vs-decode.svg`: prompt block processing vs one-token decode.
+- `transformer-block-anatomy.svg`: RMSNorm, attention, FFN, and residual flow.
+- `where-matmul-appears.svg`: Q/K/V/O, FFN, and LM-head projection hotspots.
+- `kv-cache-concept.svg`: append-only K/V rows and prefix reads.
+
+Format: static SVG.
+
+Priority: implemented. This is the didactic ramp before ANE-specific rules.
 
 ### 0.1 Hardware Tradeoff Overview
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-labelledby="title desc">
+  <title id="title">KV cache concept</title>
+  <desc id="desc">During decode, previous keys and values are kept in a cache. Each new token appends one K row and one V row, and attention reads the prefix.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#263746"/></marker><style>.bg{fill:#fbfcfd}.cache{fill:#fff;stroke:#2f4050;stroke-width:2;rx:8}.slot{fill:#eef4ff;stroke:#3867b7;stroke-width:1.5}.new{fill:#e8f7f1;stroke:#16845b;stroke-width:2}.text{font:700 18px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#1d2b36}.small{font:14px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#455866}.arrow{stroke:#263746;stroke-width:2;fill:none;marker-end:url(#arrow)}</style></defs>
+  <rect class="bg" width="900" height="360"/>
+  <text class="text" x="42" y="42">KV cache: do not recompute the whole prefix</text>
+  <rect class="cache" x="70" y="92" width="650" height="72"/>
+  <text class="text" x="86" y="80">K cache</text>
+  <g transform="translate(94 112)"><rect class="slot" x="0" y="0" width="70" height="34"/><rect class="slot" x="76" y="0" width="70" height="34"/><rect class="slot" x="152" y="0" width="70" height="34"/><rect class="slot" x="228" y="0" width="70" height="34"/><rect class="new" x="304" y="0" width="70" height="34"/><rect class="slot" x="380" y="0" width="70" height="34" opacity="0.35"/><rect class="slot" x="456" y="0" width="70" height="34" opacity="0.35"/></g>
+  <rect class="cache" x="70" y="214" width="650" height="72"/>
+  <text class="text" x="86" y="202">V cache</text>
+  <g transform="translate(94 234)"><rect class="slot" x="0" y="0" width="70" height="34"/><rect class="slot" x="76" y="0" width="70" height="34"/><rect class="slot" x="152" y="0" width="70" height="34"/><rect class="slot" x="228" y="0" width="70" height="34"/><rect class="new" x="304" y="0" width="70" height="34"/><rect class="slot" x="380" y="0" width="70" height="34" opacity="0.35"/><rect class="slot" x="456" y="0" width="70" height="34" opacity="0.35"/></g>
+  <path class="arrow" d="M792 178 C742 146 736 132 724 128"/>
+  <text class="small" x="752" y="184">attention reads</text><text class="small" x="752" y="204">slots 0..pos</text>
+  <path class="arrow" d="M402 54 V105"/>
+  <text class="small" x="428" y="86">new token appends at pos</text>
+  <text class="small" x="108" y="330">Without this cache, every decode step would redo K/V work for all previous tokens.</text>
+</svg>

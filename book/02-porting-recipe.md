@@ -9,6 +9,16 @@ This chapter walks you through converting a model from GGUF to a set of
 ANE-resident CoreML shards, from scratch. We use Qwen 2.5 as the worked example
 but the pattern applies to any dense transformer.
 
+Porting means preserving the model's math while changing its representation. The
+original checkpoint describes transformer weights and tensor operations in the
+format used by a training or CPU/GPU inference stack. The ANE version must expose
+the same projections as CoreML `mlprogram` operations, with 4D tensor shapes,
+compiled artifacts, residency checks, and numerical goldens.
+
+The goal is not merely to produce a `.mlmodelc`. A compileable model can still be
+wrong, slow, or CPU-bound. The port is finished only when the graph is resident on
+ANE and its outputs match a trusted reference closely enough to benchmark.
+
 ![GGUF to validated ANE runtime porting flow](assets/diagrams/02-porting-recipe/porting-flow.svg)
 
 ## Prerequisites

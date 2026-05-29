@@ -15,7 +15,7 @@ By Alvaro Videla - [@old_sound](https://x.com/old_sound)
 
 | Chapter | Topic |
 |---------|-------|
-| [00 - Why ANE?](00-why-ane.html) | ANE vs GPU vs CPU; why CoreML; the Conv2d trick |
+| [00 - Modern Inference](00-why-ane.html) | Tokens, prefill/decode, KV cache, ANE vs GPU vs CPU, the Conv2d trick |
 | [01 - ANE Laws](01-ane-laws.html) | Empirical rules: shard limits, quantization, residency |
 | [02 - Porting Recipe](02-porting-recipe.html) | GGUF to CoreML, step by step |
 | [03 - Quantization](03-quantization.html) | INT8 production, INT4 tradeoffs, the silent CPU fallback |
@@ -25,6 +25,7 @@ By Alvaro Videla - [@old_sound](https://x.com/old_sound)
 | [07 - MoE on ANE](07-moe-on-ane.html) | Soft routing, per-expert dispatch, ZAYA and Privacy Filter |
 | [08 - Experiment Index](08-experiments.html) | Searchable index of experiment writeups |
 | [09 - Decision Journal](09-journal.html) | The thinking behind the hard calls |
+| [Glossary](glossary.html) | Definitions for inference, CoreML, ANE, and validation terms |
 
 ## Repository
 

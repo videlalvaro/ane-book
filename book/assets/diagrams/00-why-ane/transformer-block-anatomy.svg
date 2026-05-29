@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-labelledby="title desc">
+  <title id="title">Transformer block anatomy</title>
+  <desc id="desc">A decoder transformer block applies normalization, attention projections, residual addition, another normalization, FFN projections, and another residual addition.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#263746"/></marker><style>.bg{fill:#fbfcfd}.box{fill:#fff;stroke:#2f4050;stroke-width:2;rx:8}.proj{fill:#e8f7f1;stroke:#16845b}.norm{fill:#eef4ff;stroke:#3867b7}.res{fill:#fff7e6;stroke:#b87900}.text{font:600 16px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#1d2b36}.small{font:13px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#455866}.arrow{stroke:#263746;stroke-width:2;fill:none;marker-end:url(#arrow)}</style></defs>
+  <rect class="bg" width="900" height="420"/>
+  <text class="text" x="42" y="42">One decoder block: the repeated unit of LLM inference</text>
+  <rect class="box" x="50" y="92" width="94" height="62"/><text class="text" x="77" y="128">x</text><text class="small" x="66" y="146">hidden</text>
+  <rect class="norm" x="184" y="92" width="110" height="62"/><text class="text" x="205" y="128">RMSNorm</text>
+  <rect class="proj" x="334" y="70" width="150" height="106"/><text class="text" x="365" y="106">Attention</text><text class="small" x="358" y="130">Q, K, V, O</text><text class="small" x="358" y="150">linear projections</text>
+  <rect class="res" x="524" y="92" width="100" height="62"/><text class="text" x="550" y="128">+ x</text><text class="small" x="542" y="146">residual</text>
+  <rect class="norm" x="664" y="92" width="110" height="62"/><text class="text" x="685" y="128">RMSNorm</text>
+  <path class="arrow" d="M144 123 H178"/><path class="arrow" d="M294 123 H328"/><path class="arrow" d="M484 123 H518"/><path class="arrow" d="M624 123 H658"/>
+  <rect class="proj" x="212" y="254" width="180" height="92"/><text class="text" x="269" y="291">FFN</text><text class="small" x="246" y="316">gate, up, down</text><text class="small" x="246" y="334">linear projections</text>
+  <rect class="res" x="438" y="270" width="100" height="62"/><text class="text" x="464" y="306">+ x</text><text class="small" x="456" y="324">residual</text>
+  <rect class="box" x="586" y="270" width="116" height="62"/><text class="text" x="616" y="306">out</text><text class="small" x="602" y="324">next layer</text>
+  <path class="arrow" d="M719 154 C719 230 302 214 302 248"/><path class="arrow" d="M392 300 H432"/><path class="arrow" d="M538 301 H580"/>
+  <text class="small" x="62" y="388">ANE porting focuses on making the projection boxes compile as 1x1 convolutions.</text>
+</svg>

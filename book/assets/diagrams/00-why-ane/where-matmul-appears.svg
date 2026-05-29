@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-labelledby="title desc">
+  <title id="title">Where matrix multiplication appears in a transformer</title>
+  <desc id="desc">The attention projections, FFN projections, and LM head are all large linear maps that dominate inference.</desc>
+  <style>.bg{fill:#fbfcfd}.panel{fill:#fff;stroke:#d7dee6;stroke-width:2;rx:10}.hot{fill:#e8f7f1;stroke:#16845b;stroke-width:2;rx:7}.head{fill:#fff7e6;stroke:#b87900;stroke-width:2;rx:7}.text{font:700 18px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#1d2b36}.small{font:14px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#455866}.eq{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#263746}</style>
+  <rect class="bg" width="900" height="360"/>
+  <text class="text" x="42" y="42">Most inference time is repeated linear algebra</text>
+  <rect class="panel" x="48" y="78" width="250" height="220"/>
+  <text class="text" x="86" y="112">Attention</text>
+  <rect class="hot" x="82" y="138" width="64" height="46"/><text class="eq" x="103" y="166">Q</text>
+  <rect class="hot" x="154" y="138" width="64" height="46"/><text class="eq" x="175" y="166">K</text>
+  <rect class="hot" x="226" y="138" width="64" height="46"/><text class="eq" x="247" y="166">V</text>
+  <rect class="hot" x="118" y="206" width="132" height="46"/><text class="eq" x="161" y="234">O</text>
+  <text class="small" x="82" y="278">4 projection matrices</text>
+  <rect class="panel" x="326" y="78" width="250" height="220"/>
+  <text class="text" x="390" y="112">FFN</text>
+  <rect class="hot" x="360" y="138" width="72" height="46"/><text class="eq" x="373" y="166">gate</text>
+  <rect class="hot" x="440" y="138" width="72" height="46"/><text class="eq" x="460" y="166">up</text>
+  <rect class="hot" x="400" y="206" width="86" height="46"/><text class="eq" x="420" y="234">down</text>
+  <text class="small" x="360" y="278">largest weights in many models</text>
+  <rect class="panel" x="604" y="78" width="250" height="220"/>
+  <text class="text" x="664" y="112">LM Head</text>
+  <rect class="head" x="646" y="148" width="166" height="80"/><text class="eq" x="674" y="184">vocab x d_model</text><text class="eq" x="693" y="206">logits = Wx</text>
+  <text class="small" x="646" y="278">often too large for one shard</text>
+  <text class="small" x="286" y="334">ANE work is mostly: make these maps legal, resident, and validated.</text>
+</svg>

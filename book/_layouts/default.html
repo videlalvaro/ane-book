@@ -25,6 +25,7 @@
       <nav class="site-nav" aria-label="Book navigation">
         <a href="{{ '/' | relative_url }}">Cover</a>
         <a href="{{ '/README.html' | relative_url }}">README</a>
+        <a href="{{ '/glossary.html' | relative_url }}">Glossary</a>
         <a href="https://github.com/videlalvaro/ane-models">Repository</a>
       </nav>
     </header>
@@ -33,10 +34,15 @@
         <nav class="toc-nav">
           <div class="toc-heading">Contents</div>
           <a class="toc-root{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}" href="{{ '/' | relative_url }}">Cover</a>
+          <a class="toc-root{% if page.url == '/glossary.html' %} active{% endif %}" href="{{ '/glossary.html' | relative_url }}">Glossary</a>
           <details class="toc-section{% if page.url == '/00-why-ane.html' %} active{% endif %}"{% if page.url == '/00-why-ane.html' %} open{% endif %}>
-            <summary>00 - Why ANE</summary>
+            <summary>00 - Modern Inference</summary>
             <div class="toc-subnav">
               <a href="{{ '/00-why-ane.html' | relative_url }}">Chapter start</a>
+              <a href="{{ '/00-why-ane.html#what-modern-llm-inference-is' | relative_url }}">Modern inference</a>
+              <a href="{{ '/00-why-ane.html#prefill-vs-decode' | relative_url }}">Prefill vs decode</a>
+              <a href="{{ '/00-why-ane.html#why-kv-cache-exists' | relative_url }}">KV cache</a>
+              <a href="{{ '/00-why-ane.html#the-hardware-problem' | relative_url }}">Hardware problem</a>
               <a href="{{ '/00-why-ane.html#the-hardware-youre-not-using' | relative_url }}">The hardware you're not using</a>
               <a href="{{ '/00-why-ane.html#ane-vs-gpu-vs-cpu--the-real-tradeoffs' | relative_url }}">ANE vs GPU vs CPU</a>
               <a href="{{ '/00-why-ane.html#what-coreml-actually-does' | relative_url }}">What CoreML does</a>

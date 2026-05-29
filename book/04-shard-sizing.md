@@ -5,6 +5,19 @@ title: "Chapter 4 - Shard Sizing"
 
 # Chapter 4 — Shard Sizing
 
+A shard is a separately compiled piece of the model. Sharding is not a model
+architecture feature; it is a packaging strategy forced by compiler limits,
+memory layout, and runtime load costs.
+
+In a desktop GPU runtime, a whole model can often live behind one inference
+engine object. On ANE, large transformer models usually have to be split into
+layer groups, LM-head slices, and sometimes separate embedding assets. The host
+runtime then calls those pieces in order while preserving the same hidden state
+flow the original model used.
+
+The central sizing question is: how much model can one CoreML package contain
+while still compiling reliably and staying ANE-resident?
+
 ## The 250 MB Wall
 
 The ANE compiler (ANEF) imposes a hard limit: compiled model weights ≥ ~1 GB produce

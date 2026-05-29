@@ -5,6 +5,16 @@ title: "Chapter 7 - Mixture of Experts on ANE"
 
 # Chapter 7 — Mixture of Experts on ANE
 
+A dense transformer layer runs the same feed-forward network for every token. A
+Mixture of Experts layer replaces that single FFN with multiple expert FFNs and a
+router that decides which experts should handle each token.
+
+The attraction is scale: a model can have many expert parameters without running
+all of them for every token. The difficulty is dispatch: sparse MoE wants dynamic
+control flow, while CoreML wants a static graph that can be compiled ahead of
+time. This chapter is about turning a conditional model design into something
+the ANE compiler can place and the runtime can call efficiently.
+
 ## Why MoE on ANE Is Hard
 
 A Mixture of Experts layer replaces the standard FFN block with N expert FFNs

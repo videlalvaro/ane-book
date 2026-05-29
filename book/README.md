@@ -21,7 +21,7 @@ When Pages is enabled for the repository, the rendered book is available at:
 
 | Chapter | Topic |
 |---------|-------|
-| [00 - Why ANE?](00-why-ane.md) | ANE vs GPU vs CPU; why CoreML; the Conv2d trick |
+| [00 - Modern Inference](00-why-ane.md) | Tokens, prefill/decode, KV cache, ANE vs GPU vs CPU, the Conv2d trick |
 | [01 - ANE Laws](01-ane-laws.md) | Empirical rules: shard limits, quantization, residency |
 | [02 - Porting Recipe](02-porting-recipe.md) | GGUF to CoreML, step by step |
 | [03 - Quantization](03-quantization.md) | INT8 production, INT4 tradeoffs, the silent CPU fallback |
@@ -31,10 +31,12 @@ When Pages is enabled for the repository, the rendered book is available at:
 | [07 - MoE on ANE](07-moe-on-ane.md) | Soft routing, expert shards, ZAYA and Privacy Filter |
 | [08 - Experiment Index](08-experiments.md) | Searchable index of experiment writeups |
 | [09 - Decision Journal](09-journal.md) | Design decisions and the reasoning behind them |
+| [Glossary](glossary.md) | Definitions for inference, CoreML, ANE, and validation terms |
 
 ## What This Book Covers
 
 - CoreML graph shapes that keep transformer compute on the Apple Neural Engine.
+- The modern inference loop: tokens, prefill, decode, logits, sampling, and KV cache.
 - Quantization choices that preserve quality without triggering CPU fallback.
 - Shard sizing rules for compiler reliability and ANE residency.
 - Stateful KV-cache runtimes using public `MLState` APIs.
