@@ -61,37 +61,6 @@ to search, link, and scan.
 
 ---
 
-### Additional Ideas (Lower Priority, for Future Work)
-
-#### Weighted Automaton Scheduling
-**Source**: Sakarovitch, *Elements of Automata Theory* — weighted automata over semirings
-
-Model EML evaluation as a weighted transducer over the (min,+) semiring:
-- States = sets of live register values
-- Transitions = EML operations
-- Weights = operation latency (exp/ln ≈ 10 cycles, add ≈ 1 cycle)
-
-Minimum-weight path = optimal instruction schedule. More principled than manual 
-reordering experiments.
-
-#### Forth-Style Factoring
-**Source**: Brodie, *Thinking Forth*
-
-Factor the monolithic kernel into small composable "words": `eml_dot_word`, 
-`eml_acc_word`, `eml_sign_word`. The composition boundaries become optimization 
-boundaries where the Rust compiler can make independent inlining/vectorization 
-decisions.
-
-#### TAPL-Inspired Phantom Types
-**Source**: Pierce, *TAPL* — type inference, System F
-
-Encode EML value domains (`EmlReal(f64)`, `EmlComplex(Complex64)`, 
-`EmlPositiveReal(f64)`) as Rust phantom types. The type system then enforces 
-and optimizes domain transitions at compile time — the type-theoretic version 
-of Experiment 18, resolved statically.
-
----
-
 ## Experiment Execution Order
 
 | Order | Exp | Rationale |
