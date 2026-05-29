@@ -204,23 +204,21 @@ of Experiment 18, resolved statically.
 
 ---
 
-## Citation Notes for ACM Paper
+## References
 
-When writing up these experiments, cite:
+These are the sources behind the first experiment set:
 
-- **LSE identity**: Standard numerical computing, but frame as peephole optimization 
-  per Aho et al. [Dragon Book, §8.7]
-- **Fused inner product**: Iverson, K.E. "A Programming Language" (1962). 
-  The inner product operator `+.×` as a first-class fused operation.
-- **Constraint propagation**: Dechter, R. "Constraint Processing" (2003), Ch. 3 
-  (Arc Consistency). Also Mackworth, A.K. "Consistency in Networks of Relations" 
-  (1977) for AC-3.
-- **Semigroup tree reduction**: Stepanov, A. and McJones, P. "Elements of Programming" 
-  (2009), Ch. 4 (Linear Orderings) and Ch. 5 (Ordered Algebraic Structures). 
-  Also Blelloch, G. "Prefix Sums and Their Applications" (1990) for parallel 
-  tree reduction.
-- **EML operator itself**: Odrzywołek, A. "All elementary functions from a single 
-  binary operator" (2026), arXiv:2603.21852.
+- Aho, Lam, Sethi, and Ullman, *Compilers: Principles, Techniques, and Tools*,
+  section 8.7, for the peephole-optimization framing of the log-sum-exp rewrite.
+- Iverson, K. E., *A Programming Language* (1962), for the inner product operator
+  `+.×` as a first-class fused array operation.
+- Dechter, R., *Constraint Processing* (2003), chapter 3, and Mackworth, A. K.,
+  "Consistency in Networks of Relations" (1977), for arc consistency and AC-3.
+- Stepanov, A. and McJones, P., *Elements of Programming* (2009), chapters 4 and
+  5, and Blelloch, G., "Prefix Sums and Their Applications" (1990), for
+  associative reductions and balanced tree evaluation.
+- Odrzywołek, A., "All elementary functions from a single binary operator"
+  (2026), arXiv:2603.21852, for the EML operator itself.
 
 ---
 
