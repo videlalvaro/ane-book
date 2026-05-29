@@ -38,7 +38,7 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WEIGHTS = REPO_ROOT / "python" / "privacy" / "_vendor_src" / "weights" / "model.safetensors"
 MOE_GOLDEN = REPO_ROOT / "python" / "privacy" / "out" / "pf_layer0_moe.npz"
-ART_DIR = REPO_ROOT / "emilio" / "conv-ane"
+ART_DIR = REPO_ROOT / "models" / "privacy-filter" / "ane"
 TMP_DIR = ART_DIR / "_pf_packed_v2_tmp"
 
 D_MODEL = 640

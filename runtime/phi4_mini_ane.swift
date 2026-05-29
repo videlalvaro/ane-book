@@ -464,7 +464,7 @@ func validateLayerCoverage(_ layers: [LayerSpec], nLayers: Int) {
 }
 
 func main() throws {
-    var metaPath = "local-artifacts/phi4_mini_ane/phi4mini_runtime_meta_rope96_fast_20_4_6_2.json"
+    var metaPath = "models/phi4-mini/phi4mini_runtime_meta.json"
     var promptIds = [199999]
     var promptIdsFile: String? = nil
     var maxNew = 1
@@ -497,7 +497,7 @@ func main() throws {
         case "--speculative": speculative = true; i += 1
         case "--ngram-min": ngramMin = Int(args[i + 1])!; i += 2
         case "--ngram-max": ngramMax = Int(args[i + 1])!; i += 2
-        case "--structured-cot": structuredCoTManifestPath = "local-artifacts/phi4_mini_ane/phi4mini_structured_cot_plan.json"; i += 1
+        case "--structured-cot": structuredCoTManifestPath = "models/phi4-mini/phi4mini_structured_cot_plan.json"; i += 1
         case "--structured-cot-manifest": structuredCoTManifestPath = args[i + 1]; i += 2
         default: i += 1
         }

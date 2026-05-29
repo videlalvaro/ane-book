@@ -11,42 +11,42 @@
   "rope_freq_base": 11158840.0,
   "eos_token_id": 120020,
   "bos_token_id": 120000,
-  "embed_bin": "local-artifacts/hymt_ane/hymt_token_embd_fp16.bin",
+  "embed_bin": "ane/hymt_token_embd_fp16.bin",
   "layers": [
     {
       "start": 0,
       "end": 5,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s0_5.mlmodelc"
+      "path": "ane/hymt_q8_s0_5.mlmodelc"
     },
     {
       "start": 5,
       "end": 10,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s5_10.mlmodelc"
+      "path": "ane/hymt_q8_s5_10.mlmodelc"
     },
     {
       "start": 10,
       "end": 15,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s10_15.mlmodelc"
+      "path": "ane/hymt_q8_s10_15.mlmodelc"
     },
     {
       "start": 15,
       "end": 20,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s15_20.mlmodelc"
+      "path": "ane/hymt_q8_s15_20.mlmodelc"
     },
     {
       "start": 20,
       "end": 25,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s20_25.mlmodelc"
+      "path": "ane/hymt_q8_s20_25.mlmodelc"
     },
     {
       "start": 25,
       "end": 30,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s25_30.mlmodelc"
+      "path": "ane/hymt_q8_s25_30.mlmodelc"
     },
     {
       "start": 30,
       "end": 32,
-      "path": "local-artifacts/tmp/hymt_shards/hymt_q8_s30_32.mlmodelc"
+      "path": "ane/hymt_q8_s30_32.mlmodelc"
     }
   ],
   "lm_head_shards": [
@@ -54,13 +54,13 @@
       "shard_idx": 0,
       "vocab_start": 0,
       "vocab_end": 60409,
-      "mlmodelc": "local-artifacts/tmp/hymt_shards/lm_head/HymtLMHead_s0_q8.mlmodelc"
+      "mlmodelc": "ane/lm_head/HymtLMHead_s0_q8.mlmodelc"
     },
     {
       "shard_idx": 1,
       "vocab_start": 60409,
       "vocab_end": 120818,
-      "mlmodelc": "local-artifacts/tmp/hymt_shards/lm_head/HymtLMHead_s1_q8.mlmodelc"
+      "mlmodelc": "ane/lm_head/HymtLMHead_s1_q8.mlmodelc"
     }
   ]
 }

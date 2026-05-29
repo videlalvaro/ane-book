@@ -5,12 +5,12 @@
 // RoPE/mask bookkeeping, argmax sampling.
 //
 // Compile:
-//   swiftc -O local-artifacts/hymt_ane.swift \
+//   swiftc -O runtime/hymt_ane.swift \
 //     -framework CoreML -framework Foundation \
-//     -o local-artifacts/hymt_ane_runtime
+//     -o runtime/hymt_ane_runtime
 //
 // Run:
-//   ./hymt_ane_runtime --meta local-artifacts/hymt_ane/hymt_runtime_meta.json \
+//   ./hymt_ane_runtime --meta models/hymt/hymt_runtime_meta.json \
 //     --prompt-ids 120000 --max-new 50
 //
 //   ./hymt_ane_runtime --meta <path> --serve
@@ -1122,7 +1122,7 @@ func runSocketServer(socketPath: String, runtime: HymtRuntime,
 // ---------------------------------------------------------------------------
 
 func main() throws {
-    var metaPath   = "local-artifacts/hymt_ane/hymt_runtime_meta.json"
+    var metaPath   = "models/hymt/hymt_runtime_meta.json"
     var promptIds  = [120000]
     var maxNew     = 1
     var warmupCalls = 0

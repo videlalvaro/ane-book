@@ -30,7 +30,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-sys.path.insert(0, str(ROOT / "emilio" / "conv-ane"))
+sys.path.insert(0, str(ROOT / "converters"))
 from gguf_to_ane import GGUFModel  # noqa: E402
 
 import numpy as np
@@ -42,10 +42,10 @@ from coremltools.optimize.coreml import (
     OpLinearQuantizerConfig, OptimizationConfig, linear_quantize_weights,
 )
 
-GGUF_PATH   = ROOT / "models" / "Hy-MT1.5-1.8B-2bit.gguf"
-OUTPUT_DIR  = ROOT / "emilio" / "conv-ane" / "hymt_ane_rangedim"
-BASE_META   = ROOT / "emilio" / "conv-ane" / "hymt_ane" / "hymt_runtime_meta.json"
-OUT_META    = ROOT / "emilio" / "conv-ane" / "hymt_ane" / \
+GGUF_PATH   = ROOT / "models" / "hymt" / "Hy-MT1.5-1.8B-2bit.gguf"
+OUTPUT_DIR  = ROOT / "models" / "hymt" / "ane" / "rangedim"
+BASE_META   = ROOT / "models" / "hymt" / "hymt_runtime_meta.json"
+OUT_META    = ROOT / "models" / "hymt" / \
               "hymt_runtime_meta_rangedim.json"
 
 TRACE_T     = 1       # trace at T=1 (greedy default)
@@ -453,14 +453,14 @@ def main():
         mlmc_paths.append(mlmc)
 
     if len(mlmc_paths) == len(SHARD_RANGES) and args.layer_start is None:
-        lm_head_dir = ROOT / "emilio" / "conv-ane" / "hymt_ane" / "lm_head_shards"
+        lm_head_dir = ROOT / "models" / "hymt" / "ane" / "lm_head_shards"
         make_rangedim_manifest(BASE_META, mlmc_paths, lm_head_dir, OUT_META)
         print("\n✓ All HyMT RangeDim shards built and manifest written.")
         print(f"  Manifest: {OUT_META.name}")
         print("  Next: build T=4 LM head shards:")
         print("    /usr/bin/python3 python/phi4_mini_lm_head_shards.py \\")
         print("      --model models/Hy-MT1.5-1.8B-2bit.gguf \\")
-        print("      --output-dir local-artifacts/hymt_ane/lm_head_shards \\")
+        print("      --output-dir models/hymt/ane/lm_head_shards \\")
         print("      --artifact-prefix HymtLMHead --num-shards 2 --batch-tokens 4 --force")
     else:
         print(f"\n✓ Built {len(mlmc_paths)} pilot shard(s).")

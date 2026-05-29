@@ -1,6 +1,6 @@
 """Extract all weights + golden test data needed for the pure-Swift PF driver.
 
-Outputs one directory `local-artifacts/PF_swift/` with fp16/int32 .bin files.
+Outputs one directory `models/privacy-filter/ane/PF_swift/` with fp16/int32 .bin files.
 Accompanied by a small JSON manifest describing shapes and dtypes.
 
 Run with .venv313 (has opf installed):
@@ -15,7 +15,7 @@ import torch
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WEIGHTS_DIR = REPO_ROOT / "python" / "privacy" / "_vendor_src" / "weights"
 GOLDEN = REPO_ROOT / "python" / "privacy" / "out" / "pf_golden.npz"
-OUT = REPO_ROOT / "emilio" / "conv-ane" / "PF_swift"
+OUT = REPO_ROOT / "models" / "privacy-filter" / "ane" / "PF_swift"
 OUT.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(REPO_ROOT / "python" / "privacy" / "_vendor_src" / "opf_src"))

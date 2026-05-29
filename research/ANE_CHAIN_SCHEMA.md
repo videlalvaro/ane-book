@@ -1846,7 +1846,7 @@ Single-layer (L0) FFN, all 8 partials exported with `--quant-bits 4 --quant-mode
 | ANE residency (MLComputePlan) | ✓ ANE: 34/34 real ops, GPU: 0, CPU: 0. UNK=48 are `const` (44) + `ios18.constexpr_lut_to_dense` (4) — compile-time, no runtime device |
 | Quality cosine p0of8 (5 unit-norm seeds) | ✓ 0.9845–0.9859 for non-trivial seeds (both-zero seeds: expected routing behaviour, FP16 also returns zero) |
 
-**Decision: GATES PASS → scale-out to all 30 layers is unblocked.** Full 30-layer palettize: 240 partials × ~35 s/shard ≈ 2.3 h. Run with `TMPDIR=<external-scratch> GEMMA_OUT_DIR=...` to avoid local disk full (the local scratch volume was nearly full).  
+**Decision: GATES PASS → scale-out to all 30 layers is unblocked.** Full 30-layer palettize: 240 partials × ~35 s/shard ≈ 2.3 h. Run with `TMPDIR=<external-scratch> GEMMA_OUT_DIR=...` to avoid local disk full (the local scratch volume was nearly full).
 Constraint: `constexpr_lut_to_dense` replaces the runtime `linear_quantize_weights` path — weight LUTs are baked at export time, which means the `.mlpackage` is the dequantization artifact (larger than INT8 `.mlpackage` but same 46 MB compiled size).
 
 ### Updated empirical laws

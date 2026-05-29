@@ -1199,7 +1199,7 @@ so the T=vbt verifier runs a single ANE MoE dispatch instead of `t × T=1` seria
 
 ### Shard build
 
-Script: `local-artifacts/zaya_full_convert.py`  
+Script: `local-artifacts/zaya_full_convert.py`
 Architecture: soft-routing (all 16 experts computed, weighted by softmax), all Conv2d 1×1,
 INT8 per-tensor, trace at T=1, RangeDim T∈[1..4].
 
@@ -1218,7 +1218,7 @@ Added `moeRangedim: Bool?` to `ZayaRuntimeMeta` and `verifierMoeProvider` to
 ANE dispatch replaces the serial `t × T=1` loop for each MoE layer. Falls back to T=1
 serial when `moe_rangedim` is absent (backward compatible with old manifests).
 
-Manifest: `local-artifacts/zaya_ane/zaya_runtime_meta_stateful_cca_rangedim.json`  
+Manifest: `local-artifacts/zaya_ane/zaya_runtime_meta_stateful_cca_rangedim.json`
 Binary: `local-artifacts/zaya_ane_runtime` (recompiled clean, 2 pre-existing warnings only).
 
 ### Benchmark results

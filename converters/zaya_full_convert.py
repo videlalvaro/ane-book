@@ -45,12 +45,12 @@ Compiler env: Xcode python3 (coremltools 9)
 
 Run (gate-test one shard first):
   /Applications/Xcode.app/Contents/Developer/usr/bin/python3 \\
-  local-artifacts/zaya_full_convert.py --gate-only
+    converters/zaya_full_convert.py --gate-only
 
 Run all 40 shards:
-  TMPDIR=$PWD/local-artifacts/zaya_ane/cml_tmp \\
+    TMPDIR=$PWD/models/zaya/ane/cml_tmp \
   /Applications/Xcode.app/Contents/Developer/usr/bin/python3 \\
-  local-artifacts/zaya_full_convert.py
+    converters/zaya_full_convert.py
 
 Book refs:
   [Iverson APL §2] RangeDim as APL dynamic array semantics: one compiled
@@ -71,8 +71,8 @@ from pathlib import Path
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Script lives at local-artifacts/zaya_full_convert.py — go up 3 levels to repo root.
-ROOT = Path(__file__).resolve().parent.parent.parent
+# Script lives in converters/; go up one level to repo root.
+ROOT = Path(__file__).resolve().parents[1]
 
 import numpy as np
 import torch
@@ -97,21 +97,17 @@ TRACE_T    = 1
 T_MAX      = 4
 
 MOE_LAYERS  = list(range(1, 80, 2))   # 1,3,5,...,79
-SHARD_DIR   = ROOT / "emilio" / "conv-ane" / "zaya_ane" / "moe_rangedim"
-META_IN     = ROOT / "emilio" / "conv-ane" / "zaya_ane" / "zaya_runtime_meta_stateful_cca.json"
-META_OUT    = ROOT / "emilio" / "conv-ane" / "zaya_ane" / "zaya_runtime_meta_stateful_cca_rangedim.json"
+SHARD_DIR   = ROOT / "models" / "zaya" / "ane" / "moe_rangedim"
+META_IN     = ROOT / "models" / "zaya" / "zaya_runtime_meta_stateful_cca.json"
+META_OUT    = ROOT / "models" / "zaya" / "zaya_runtime_meta_stateful_cca_rangedim.json"
 
 
 # ── Path discovery ───────────────────────────────────────────────────────────
 
 def find_weights_dir() -> Path:
     candidates = [
-        ROOT / "models" / "ZAYA1-8B",
+        ROOT / "models" / "zaya" / "ZAYA1-8B",
     ]
-    # Also search any external volumes (e.g. an external SSD under <external-volume>/)
-    import glob
-    for vol in glob.glob("models/zaya/ZAYA1-8B"):
-        candidates.append(Path(vol))
     for c in candidates:
         if (c / "model-00001-of-00004.safetensors").exists():
             return c
@@ -500,8 +496,7 @@ def main():
     if weights_dir is None:
         print("ERROR: ZAYA1-8B weights not found. Checked:")
         print(f"  {ROOT / 'models' / 'ZAYA1-8B'}")
-        print("  models/zaya/ZAYA1-8B")
-        print("Provide --weights-dir or download weights to models/ZAYA1-8B.")
+        print("Provide --weights-dir or download weights to models/zaya/ZAYA1-8B.")
         sys.exit(1)
     print(f"Weights: {weights_dir}")
 

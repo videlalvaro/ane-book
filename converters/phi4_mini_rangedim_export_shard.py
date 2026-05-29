@@ -29,7 +29,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-sys.path.insert(0, str(ROOT / "emilio" / "conv-ane"))
+sys.path.insert(0, str(ROOT / "converters"))
 from gguf_to_ane import GGUFModel  # noqa: E402
 
 import numpy as np
@@ -41,11 +41,11 @@ from coremltools.optimize.coreml import (
     OpLinearQuantizerConfig, OptimizationConfig, linear_quantize_weights,
 )
 
-GGUF_PATH   = ROOT / "models" / "Phi-4-mini-instruct.Q8_0.gguf"
-OUTPUT_DIR  = ROOT / "emilio" / "conv-ane" / "phi4_mini_ane_rangedim"
-BASE_META   = ROOT / "emilio" / "conv-ane" / "phi4_mini_ane" / \
-              "phi4mini_runtime_meta_rope96_fast_20_4_6_2.json"
-OUT_META    = ROOT / "emilio" / "conv-ane" / "phi4_mini_ane" / \
+GGUF_PATH   = ROOT / "models" / "phi4-mini" / "Phi-4-mini-instruct.Q8_0.gguf"
+OUTPUT_DIR  = ROOT / "models" / "phi4-mini" / "ane" / "rangedim"
+BASE_META   = ROOT / "models" / "phi4-mini" / \
+              "phi4mini_runtime_meta.json"
+OUT_META    = ROOT / "models" / "phi4-mini" / \
               "phi4mini_runtime_meta_rope96_rangedim_20_4_6_2.json"
 
 TRACE_T     = 1       # trace at T=1 (greedy default)

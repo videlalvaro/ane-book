@@ -2,7 +2,7 @@
 """Export Hunyuan runtime: embedding binary + JSON manifest.
 
 Run with:
-  /usr/bin/python3 local-artifacts/hymt_export_runtime.py
+    /usr/bin/python3 converters/hymt_export_runtime.py
 """
 from __future__ import annotations
 
@@ -12,14 +12,14 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "emilio" / "conv-ane"))
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "converters"))
 from gguf_to_ane import GGUFModel  # noqa: E402
 
-GGUF       = ROOT / "models" / "Hy-MT1.5-1.8B-2bit.gguf"
-SHARD_DIR  = ROOT / "tmp" / "hymt_shards"
+GGUF       = ROOT / "models" / "hymt" / "Hy-MT1.5-1.8B-2bit.gguf"
+SHARD_DIR  = ROOT / "models" / "hymt" / "ane"
 HEAD_DIR   = SHARD_DIR / "lm_head"
-OUT_DIR    = ROOT / "emilio" / "conv-ane" / "hymt_ane"
+OUT_DIR    = ROOT / "models" / "hymt" / "ane"
 MANIFEST   = OUT_DIR / "hymt_runtime_meta.json"
 EMBED_BIN  = OUT_DIR / "hymt_token_embd_fp16.bin"
 

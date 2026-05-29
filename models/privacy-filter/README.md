@@ -110,7 +110,7 @@ PYTHONPATH=python/privacy/_vendor_src/opf_src \
   .venv313/bin/python python/privacy/extract_pf_swift_weights.py
 ```
 
-**Produces**: `local-artifacts/PF_swift/` — binary weight files (fp16 embeddings,
+**Produces**: `models/privacy-filter/ane/PF_swift/` — binary weight files (fp16 embeddings,
 fp32 norms/gates), test fixtures, and `manifest.json`.
 
 ## 6. CoreML Conversion
@@ -153,7 +153,7 @@ Produces `PF_tail_T128.mlpackage`.
 The expert packs (6b) compile inline. For the fused and tail packs:
 
 ```bash
-cd local-artifacts
+cd models/privacy-filter/ane
 for f in PF_fused_L*_T128.mlpackage PF_tail_T128.mlpackage; do
   xcrun coremlcompiler compile "$(pwd)/$f" "$(pwd)"
 done
@@ -165,7 +165,7 @@ cd ../..
 ## 7. Build the Swift Driver
 
 ```bash
-cd local-artifacts
+cd models/privacy-filter/ane
 swiftc -O -framework CoreML -framework Accelerate -o pf_e2e pf_e2e.swift
 cd ../..
 ```

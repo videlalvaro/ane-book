@@ -6,8 +6,8 @@ import coremltools as ct
 import numpy as np
 import sys
 
-OLD  = "tmp/hymt_shards/hymt_q8_s0_5.mlpackage"
-NEW  = "local-artifacts/hymt_ane_rangedim/hymt_rangedim_layer0_5_q8.mlpackage"
+OLD  = "models/hymt/ane/hymt_q8_s0_5.mlpackage"
+NEW  = "models/hymt/ane/hymt_rangedim_layer0_5_q8.mlpackage"
 
 D = 2048
 MAX_SEQ = 512

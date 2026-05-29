@@ -23,7 +23,7 @@ import torch.nn.functional as F
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WEIGHTS_DIR = REPO_ROOT / "python" / "privacy" / "_vendor_src" / "weights"
 GOLDEN = REPO_ROOT / "python" / "privacy" / "out" / "pf_golden.npz"
-PKG_DIR = REPO_ROOT / "emilio" / "conv-ane"
+PKG_DIR = REPO_ROOT / "models" / "privacy-filter" / "ane"
 MOE_FMT = "PF_packed_iverson_L{n}_N4_int8.mlpackage"
 ATTN_FMT = "PF_attn{n}_T128.mlpackage"
 

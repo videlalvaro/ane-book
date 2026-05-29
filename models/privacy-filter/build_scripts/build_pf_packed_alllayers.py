@@ -32,7 +32,7 @@ COS_GATE_INTERMEDIATE = 0.99
 
 WEIGHTS = REPO_ROOT / "python" / "privacy" / "_vendor_src" / "weights" / "model.safetensors"
 ALL_GOLDEN = REPO_ROOT / "python" / "privacy" / "out" / "pf_alllayers_moe.npz"
-ART_DIR = REPO_ROOT / "emilio" / "conv-ane"
+ART_DIR = REPO_ROOT / "models" / "privacy-filter" / "ane"
 TMP_DIR = ART_DIR / "_pf_t4_tmp"
 N_LAYERS = 8
 N_SPLITS = 4

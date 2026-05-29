@@ -28,16 +28,16 @@
 // measure throughput. A future rebuild with stateful shards will add KV cache.
 //
 // Compile:
-//   swiftc -O local-artifacts/zaya_ane.swift \
+//   swiftc -O runtime/zaya_ane.swift \
 //     -framework CoreML -framework Foundation \
-//     -o local-artifacts/zaya_ane_runtime
+//     -o runtime/zaya_ane_runtime
 //
 // Single-shot:
-//   ./zaya_ane_runtime --meta tmp/zaya_shards/zaya_runtime_meta.json \
+//   ./zaya_ane_runtime --meta models/zaya/zaya_runtime_meta.json \
 //     --prompt-ids 2,42 --max-new 20 --profile
 //
 // Serve (stdin JSON lines → stdout JSON lines):
-//   ./zaya_ane_runtime --meta tmp/zaya_shards/zaya_runtime_meta.json --serve
+//   ./zaya_ane_runtime --meta models/zaya/zaya_runtime_meta.json --serve
 //   # stdin:  {"prompt_ids":[2,42],"max_new":50}
 //   # stdout: {"ok":true,"generated_ids":[...],"timing":{...}}
 //

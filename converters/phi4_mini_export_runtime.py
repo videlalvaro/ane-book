@@ -16,15 +16,15 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONV_ANE_DIR = ROOT / "emilio" / "conv-ane"
+CONV_ANE_DIR = ROOT / "converters"
 if str(CONV_ANE_DIR) not in sys.path:
     sys.path.insert(0, str(CONV_ANE_DIR))
 
 from gguf_to_ane import GGUFModel  # noqa: E402
 
 
-DEFAULT_MODEL = ROOT / "models" / "Phi-4-mini-instruct.Q8_0.gguf"
-DEFAULT_OUT_DIR = ROOT / "emilio" / "conv-ane" / "phi4_mini_ane"
+DEFAULT_MODEL = ROOT / "models" / "phi4-mini" / "Phi-4-mini-instruct.Q8_0.gguf"
+DEFAULT_OUT_DIR = ROOT / "models" / "phi4-mini" / "ane"
 DEFAULT_ARTIFACT_PREFIX = "phi4mini"
 DEFAULT_LM_HEAD_PREFIX = "Phi4MiniLMHead"
 
