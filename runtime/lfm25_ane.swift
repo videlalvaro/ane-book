@@ -562,29 +562,35 @@ final class LFM25ANE {
     // MARK: Greedy generation
     // -----------------------------------------------------------------------
     
-    /// Greedy decode: returns generated token IDs (excluding the prompt).
+    /// Greedy decode: returns generated token IDs (excluding the prompt)
+    /// plus prefill and decode wall-clock seconds.
     func generate(
         prompt: [Int],
         maxNewTokens: Int = 128,
         eosTokenId: Int = 2,
         state: inout DecodeState
-    ) throws -> [Int] {
+    ) throws -> (tokens: [Int], prefillSec: Double, decodeSec: Double) {
         var generated: [Int] = []
         
         // Prefill: run through prompt tokens (building KV/conv state)
+        let prefillStart = CFAbsoluteTimeGetCurrent()
         for tokenId in prompt {
             _ = try step(tokenId: tokenId, state: &state)
         }
+        let prefillSec = CFAbsoluteTimeGetCurrent() - prefillStart
         
         // Decode loop
         var lastToken = prompt.last ?? 1
+        let decodeStart = CFAbsoluteTimeGetCurrent()
         for _ in 0..<maxNewTokens {
             let nextToken = try step(tokenId: lastToken, state: &state)
             if nextToken == eosTokenId { break }
             generated.append(nextToken)
             lastToken = nextToken
         }
-        return generated
+        let decodeSec = CFAbsoluteTimeGetCurrent() - decodeStart
+        
+        return (generated, prefillSec, decodeSec)
     }
 }
 
@@ -623,3 +629,76 @@ func smokeLFM25(modelDir: URL, embeddingBin: URL) throws {
     print("Decode step OK → next token: \(token)")
     print("Conv state depth after step 1: position=\(state.position)")
 }
+
+// MARK: - main()
+
+func main() throws {
+    var modelDir     = "models/lfm25/ane"
+    var embeddingBin = "models/lfm25/ane/lfm25_embeddings.bin"
+    var promptIds    = [1]           // <bos>
+    var maxNew       = 100
+    var warmup       = 1
+    var traceTokens  = false
+    var eosId        = 2
+
+    let args = Array(CommandLine.arguments.dropFirst())
+    var i = 0
+    while i < args.count {
+        switch args[i] {
+        case "--model-dir":     modelDir     = args[i + 1]; i += 2
+        case "--embedding-bin": embeddingBin = args[i + 1]; i += 2
+        case "--prompt-ids":    promptIds    = args[i + 1].split(separator: ",")
+                                    .compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+                                i += 2
+        case "--max-new":       maxNew       = Int(args[i + 1])!; i += 2
+        case "--warmup":        warmup       = Int(args[i + 1])!; i += 2
+        case "--eos-id":        eosId        = Int(args[i + 1])!; i += 2
+        case "--trace":         traceTokens  = true; i += 1
+        default:                i += 1
+        }
+    }
+
+    let modelURL = URL(fileURLWithPath: modelDir)
+    let embedURL = URL(fileURLWithPath: embeddingBin)
+
+    print("Loading LFM2.5 ANE runtime from \(modelDir)…")
+    let t0 = CFAbsoluteTimeGetCurrent()
+    let runtime = try LFM25ANE(modelDir: modelURL, embeddingBin: embedURL)
+    let loadSec = CFAbsoluteTimeGetCurrent() - t0
+    print(String(format: "Loaded in %.2fs  (70 shards + embeddings)", loadSec))
+
+    // Warmup pass — ANE daemon needs one forward to reach steady state
+    if warmup > 0 {
+        print("Warming up (\(warmup) pass(es))…")
+        for w in 1...warmup {
+            var warmState = try LFM25ANE.DecodeState.initial(numLayers: LFM25Config.numLayers)
+            let _ = try runtime.generate(prompt: [1], maxNewTokens: 1,
+                                         eosTokenId: eosId, state: &warmState)
+            print("  warmup \(w)/\(warmup) done")
+        }
+        print("Warmup complete.")
+    }
+
+    // Timed run
+    print("Benchmarking: prompt=\(promptIds)  max_new=\(maxNew)")
+    var state = try LFM25ANE.DecodeState.initial(numLayers: LFM25Config.numLayers)
+    let (generated, prefillSec, decodeSec) = try runtime.generate(
+        prompt: promptIds, maxNewTokens: maxNew, eosTokenId: eosId, state: &state)
+
+    if traceTokens {
+        print("Generated IDs: \(generated)")
+    }
+
+    let decodeTokens = generated.count
+    let prefillTokens = promptIds.count
+    let decodeTokS = decodeSec > 0 ? Double(decodeTokens) / decodeSec : 0
+
+    print(String(format: "Prefill: %d tok in %.3fs  (%.1f tok/s)",
+                 prefillTokens, prefillSec,
+                 prefillSec > 0 ? Double(prefillTokens) / prefillSec : 0))
+    print(String(format: "Decode:  %d tok in %.3fs → %.1f tok/s",
+                 decodeTokens, decodeSec, decodeTokS))
+    print(String(format: "Total:   %.3fs wall", prefillSec + decodeSec))
+}
+
+try main()
