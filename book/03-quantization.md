@@ -132,14 +132,16 @@ bug, not inherent quantization cost.
 ## Quantization Decision Tree
 
 ```
-Need to ship?
-  └── Yes → INT8 per-tensor. Validated. Stop here.
-  └── No, want smaller files?
-        └── Model < 1B params, monolithic (not sharded)?
-              └── Yes → Try INT4 palettization (lut_to_dense). Run MLComputePlan.
-              └── No → INT8 per-tensor. INT4 per-block is CPU on shards.
-        └── Want smaller + sharded?
-              └── Wait for INT4 palettization validation on shards.
+Start with the production default:
+  └── INT8 per-tensor. Validated across shard sizes.
+
+Only leave the default for a measured compression experiment:
+  └── Model < 1B params, monolithic (not sharded)?
+    └── Try INT4 palettization (lut_to_dense). Run MLComputePlan.
+  └── Sharded model?
+    └── Stay on INT8 until INT4 palettization passes shard-level gates.
+  └── INT4 per-block?
+    └── Do not use for shards. It silently falls to CPU.
 ```
 
 ---

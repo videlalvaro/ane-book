@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
   <title id="title">Quantization choices on ANE</title>
-  <desc id="desc">INT8 per tensor is the production path. INT4 per block risks CPU fallback on shards. INT4 palettization is promising but must be gated. W8A8 remains future work.</desc>
+  <desc id="desc">INT8 per tensor is the default production baseline. Other quantization formats are experimental compression paths that require placement and quality gates.</desc>
   <defs>
     <style>
       text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #142033; }
@@ -17,8 +17,9 @@
   </defs>
   <rect width="960" height="360" fill="#f8fafc" />
   <text x="480" y="36" text-anchor="middle" class="label">Quantization choices are also placement choices</text>
-  <rect x="380" y="72" width="200" height="58" class="root" />
-  <text x="480" y="106" text-anchor="middle" class="label">Need to ship?</text>
+  <rect x="350" y="72" width="260" height="58" class="root" />
+  <text x="480" y="97" text-anchor="middle" class="label">Default production path</text>
+  <text x="480" y="119" text-anchor="middle" class="small">leave only for measured experiments</text>
   <path d="M480 130 V166" class="arrow" />
   <rect x="80" y="190" width="180" height="92" class="good" />
   <text x="170" y="221" text-anchor="middle" class="label">INT8 per-tensor</text>
