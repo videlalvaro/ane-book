@@ -74,7 +74,7 @@ practitioners who want to port their own models to ANE:
 | [05 — Stateful KV Cache](book/05-stateful-kv-cache.md) | MLState, Swift daemon design, decode loop |
 | [06 — RangeDim + Speculative](book/06-rangedim-speculative.md) | Variable T, n-gram acceptance |
 | [07 — MoE on ANE](book/07-moe-on-ane.md) | Soft routing, per-expert dispatch, ZAYA & Privacy Filter |
-| [08 — Experiment Log](book/08-experiments.md) | All 35+ experiments: what worked and why |
+| [08 — Experiment Index](book/08-experiments.md) | Searchable index of experiment writeups |
 | [09 — Decision Journal](book/09-journal.md) | The thinking behind the hard calls |
 
 ---

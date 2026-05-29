@@ -23,7 +23,7 @@ By Alvaro Videla - [@old_sound](https://x.com/old_sound)
 | [05 - Stateful KV Cache](05-stateful-kv-cache.html) | MLState, Swift daemon design, decode loop |
 | [06 - RangeDim + Speculative](06-rangedim-speculative.html) | Variable T, n-gram acceptance |
 | [07 - MoE on ANE](07-moe-on-ane.html) | Soft routing, per-expert dispatch, ZAYA and Privacy Filter |
-| [08 - Experiment Log](08-experiments.html) | Experiments, results, and lessons learned |
+| [08 - Experiment Index](08-experiments.html) | Searchable index of experiment writeups |
 | [09 - Decision Journal](09-journal.html) | The thinking behind the hard calls |
 
 ## Repository

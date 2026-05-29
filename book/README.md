@@ -29,7 +29,7 @@ When Pages is enabled for the repository, the rendered book is available at:
 | [05 - Stateful KV Cache](05-stateful-kv-cache.md) | MLState, Swift daemon design, decode loop |
 | [06 - RangeDim + Speculative](06-rangedim-speculative.md) | Variable token axes, prefill batching, n-gram speculation |
 | [07 - MoE on ANE](07-moe-on-ane.md) | Soft routing, expert shards, ZAYA and Privacy Filter |
-| [08 - Experiment Log](08-experiments.md) | Experiments, results, failures, and lessons learned |
+| [08 - Experiment Index](08-experiments.md) | Searchable index of experiment writeups |
 | [09 - Decision Journal](09-journal.md) | Design decisions and the reasoning behind them |
 
 ## What This Book Covers

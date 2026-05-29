@@ -87,6 +87,21 @@ img[src*="assets/diagrams/"] {
   background: #f8fafc;
 }
 
+.experiment-nav {
+  margin: 1rem 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f8fafc;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.experiment-nav a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

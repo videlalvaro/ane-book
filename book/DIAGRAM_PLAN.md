@@ -402,7 +402,7 @@ Format: static SVG.
 
 Priority: medium. It lightens the chapter with a practical non-chat example.
 
-## Chapter 8: Experiment Log
+## Chapter 8: Experiment Index
 
 Chapter 8 is long and should not get a diagram for every experiment. Add section
 breakers that summarize clusters of experiments visually.
