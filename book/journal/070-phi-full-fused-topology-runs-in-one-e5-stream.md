@@ -19,7 +19,7 @@ title: "Journal 070 - Phi Full Fused Topology Runs in One E5 Stream"
 
 **Next**: Turn the validated probe into a profiled decode path, then compare latency/energy against the current public `17.143 tok/s` runtime before deciding whether the private path is worth productizing.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

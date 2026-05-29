@@ -19,7 +19,7 @@ title: "Journal 002 - Phi-4-mini-instruct ANE Support Scaffolding Intent"
 
 **Next**: Implement the analyzer/preflight and orchestration scripts; require MLComputePlan residency validation plus golden quality validation before any benchmark or scale-out conversion.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

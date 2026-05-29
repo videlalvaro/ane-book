@@ -9,7 +9,7 @@ title: "Journal 022 - Phi-4-mini Runtime Scaffolding Smoke Passed"
 
 **Intent**: Continue from completed layer shards and LM-head shards into prompt-ID runtime scaffolding while preserving the ANE-only boundary and validation-before-performance discipline.
 
-**Setup**: Added [converters/phi4_mini_export_runtime.py](https://github.com/videlalvaro/ane-models/blob/main/converters/phi4_mini_export_runtime.py) to export the permitted host embedding lookup bin plus runtime manifest. Added [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift), a prompt-ID smoke runtime chaining 32 stateful layer shards and 4 ANE LM-head shards, with host work limited to embedding lookup, RoPE/mask bookkeeping, and argmax. Compiled with a local Swift/CoreML compile command.
+**Setup**: Added [converters/phi4_mini_export_runtime.py](https://github.com/videlalvaro/ane-book/blob/main/converters/phi4_mini_export_runtime.py) to export the permitted host embedding lookup bin plus runtime manifest. Added [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift), a prompt-ID smoke runtime chaining 32 stateful layer shards and 4 ANE LM-head shards, with host work limited to embedding lookup, RoPE/mask bookkeeping, and argmax. Compiled with a local Swift/CoreML compile command.
 
 **Result**: Wrote local embedding weights (1.1G), the runtime metadata (4.1K), and the runtime binary (148K). The full-chain smoke command loaded all 32 layers plus 4 LM-head shards and generated next token ID 6360.
 
@@ -19,7 +19,7 @@ title: "Journal 022 - Phi-4-mini Runtime Scaffolding Smoke Passed"
 
 **Next**: No perf/energy benchmarking, tokenizer integration, HF full-logit golden validation, cleanup, or deletion was performed; those remain separate gated steps.
 
-**Refs**: [converters/phi4_mini_export_runtime.py](https://github.com/videlalvaro/ane-models/blob/main/converters/phi4_mini_export_runtime.py); [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [converters/phi4_mini_export_runtime.py](https://github.com/videlalvaro/ane-book/blob/main/converters/phi4_mini_export_runtime.py); [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -9,7 +9,7 @@ title: "Journal 091 - Phi N-Gram Force Mode Tried"
 
 **Intent**: Try the public n-gram idea as an actual runtime speed experiment, not just an acceptance probe.
 
-**Setup**: First checked public CoreML state access. Python `MLState` exposes `read_state`/`write_state`; Swift exposes `withMultiArray(for:)`. State copy is therefore possible, but copying the full Phi KV cache plus single-token verification would not reduce ANE target passes. Added experimental `--ngram-force` to [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift) instead.
+**Setup**: First checked public CoreML state access. Python `MLState` exposes `read_state`/`write_state`; Swift exposes `withMultiArray(for:)`. State copy is therefore possible, but copying the full Phi KV cache plus single-token verification would not reduce ANE target passes. Added experimental `--ngram-force` to [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift) instead.
 
 **Result**: `--ngram-force` trusts prompt-lookup proposals, forces those token IDs, and skips LM-head prediction/reduction for forced steps while still running the ANE layer stack. This is approximate and changes generation, unlike `--ngram-probe`.
 
@@ -21,7 +21,7 @@ title: "Journal 091 - Phi N-Gram Force Mode Tried"
 
 **Next**: Keep `--ngram-force` experimental and off by default. Do not ship it as a correctness path until coding-task quality says approximate prompt lookup is acceptable.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

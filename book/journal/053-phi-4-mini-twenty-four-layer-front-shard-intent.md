@@ -19,7 +19,7 @@ title: "Journal 053 - Phi-4-mini Twenty-Four-Layer Front Shard Intent"
 
 **Next**: Build/compile [0,24), run strict residency, then run golden; test 24+6+2 only if all gates pass. Do not use [24,32) as one shard, do not accept NaN/non-ANE results, and do not clean up/delete artifacts for this intent note.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

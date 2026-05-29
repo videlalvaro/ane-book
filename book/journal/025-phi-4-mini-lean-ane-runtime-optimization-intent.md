@@ -19,7 +19,7 @@ title: "Journal 025 - Phi-4-mini Lean ANE Runtime Optimization Intent"
 
 **Next**: Implement the provider reuse, reusable x-buffer copy, concurrent LM-head shard dispatch, and four-way argmax reduction; then run correctness/residency checks before any powermetrics benchmark.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

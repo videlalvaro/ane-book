@@ -19,7 +19,7 @@ title: "Journal 003 - Phi-4-mini-instruct Layer-0 Gate Residency Passed"
 
 **Next**: Perf, energy, full conversion, and cleanup were not run; proceed only through the normal gated scale-out flow.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

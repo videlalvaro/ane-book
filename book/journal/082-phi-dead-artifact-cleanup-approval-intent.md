@@ -19,7 +19,7 @@ title: "Journal 082 - Phi Dead Artifact Cleanup Approval Intent"
 
 **Next**: Delete only the approved dead artifacts if cleanup proceeds; do not delete the current baseline artifacts or any batch-4 LM-head artifacts.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

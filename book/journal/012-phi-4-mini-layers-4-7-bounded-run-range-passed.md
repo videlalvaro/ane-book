@@ -19,7 +19,7 @@ title: "Journal 012 - Phi-4-mini Layers 4–7 Bounded Run-Range Passed"
 
 **Next**: No full 32-layer conversion, performance run, energy run, cleanup, or deletion was run; continue only through gated bounded ranges.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

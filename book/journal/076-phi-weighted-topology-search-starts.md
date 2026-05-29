@@ -19,7 +19,7 @@ title: "Journal 076 - Phi Weighted Topology Search Starts"
 
 **Next**: Use the searcher to choose candidate missing gates and future compiled ranges around the 20-layer cliff, then add a separate batch/token-shape probe for Iverson-style array work.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

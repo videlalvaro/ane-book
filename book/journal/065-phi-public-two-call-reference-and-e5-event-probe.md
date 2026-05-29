@@ -19,7 +19,7 @@ title: "Journal 065 - Phi Public Two-Call Reference and E5 Event Probe"
 
 **Next**: Reproduce CoreML's ObjC event lifecycle around `_bindNewCompletionEventsDirectlyWithCompletionSyncPoint:`, `_bindNewWaitEventsDirectlyWithWaitSyncPoints:`, `_updateCompletionEventFutureValuesWithCompletionSyncPoint:`, and `_updateWaitEventFutureValuesWithWaitSyncPoints:` before any correctness or performance claim.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

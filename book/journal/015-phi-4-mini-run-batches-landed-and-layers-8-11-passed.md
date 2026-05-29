@@ -19,7 +19,7 @@ title: "Journal 015 - Phi-4-mini Run-Batches Landed and Layers 8–11 Passed"
 
 **Next**: No full 32-layer conversion, performance run, energy run, cleanup, or deletion was run; continue only through explicit gated bounded batches.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

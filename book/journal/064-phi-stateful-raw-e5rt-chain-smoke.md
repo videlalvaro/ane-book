@@ -7,7 +7,7 @@ title: "Journal 064 - Phi Stateful Raw E5RT Chain Smoke"
 
 # 2026-04-28 - Phi Stateful Raw E5RT Chain Smoke
 
-**Intent**: Extend the raw E5RT two-operation stream breakthrough from toy controls to real Phi stateful shards, following call-hoisting/strength-reduction discipline and the [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md) stream-level execution focus.
+**Intent**: Extend the raw E5RT two-operation stream breakthrough from toy controls to real Phi stateful shards, following call-hoisting/strength-reduction discipline and the [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md) stream-level execution focus.
 
 **Setup**: Extended `e5_two_op_stream_probe` with `--phi-input` for real Phi shapes and state handling. Target chain: local artifacts -> local artifacts. Direct `MLState` did not work; `MLFeatureValue.internalFeatureValueWithState` requires a one-buffer `MLState`, so the probe uses `MLState.backings` and `MLState initWithBackings` per state port, then wraps each state with `internalFeatureValueWithState`. Stage B uses a provider overriding `x` with stage A hidden while CoreML's `_bindInputFeaturesAndWaitEvents` binds ordinary inputs and state.
 
@@ -19,7 +19,7 @@ title: "Journal 064 - Phi Stateful Raw E5RT Chain Smoke"
 
 **Next**: Build a separate-process public reference and investigate output backing/state backing behavior for the all-zero stage B result before any performance claim or scale-out.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

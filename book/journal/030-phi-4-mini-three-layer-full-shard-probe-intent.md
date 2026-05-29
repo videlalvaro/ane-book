@@ -19,7 +19,7 @@ title: "Journal 030 - Phi-4-mini Three-Layer Full-Shard Probe Intent"
 
 **Next**: Build the separate 3-layer probe, compile it, then run strict residency and multi-layer golden quality if compilation stays under the limit.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

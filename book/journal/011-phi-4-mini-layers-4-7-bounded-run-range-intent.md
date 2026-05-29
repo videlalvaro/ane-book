@@ -19,7 +19,7 @@ title: "Journal 011 - Phi-4-mini Layers 4–7 Bounded Run-Range Intent"
 
 **Next**: Run only layers 4–7 through the guarded flow; do not run perf/energy and do not clean up or delete artifacts.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -19,7 +19,7 @@ title: "Journal 041 - Phi-4-mini Full 4-Layer Fused Strategy Completed"
 
 **Next**: No energy benchmark was run; future work should target layer compute/call total and LM-head prediction/reduction while preserving ANE residency and golden quality gates.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

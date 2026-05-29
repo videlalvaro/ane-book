@@ -19,7 +19,7 @@ title: "Journal 038 - Phi-4-mini Four-Layer Fused Shard Residency Passed"
 
 **Next**: Run golden validation for [0,4), then validate representative/all 4-layer ranges before any runtime migration. No cleanup/deletion and no energy benchmark were performed.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

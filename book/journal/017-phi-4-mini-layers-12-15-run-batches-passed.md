@@ -19,7 +19,7 @@ title: "Journal 017 - Phi-4-mini Layers 12–15 Run-Batches Passed"
 
 **Next**: No performance run, energy run, cleanup, or deletion was run; continue only through explicit guarded four-layer batches.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

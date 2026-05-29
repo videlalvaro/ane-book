@@ -19,7 +19,7 @@ title: "Journal 052 - Phi-4-mini Sixteen-Layer Front Shard Intent"
 
 **Next**: Gate order is unchanged: build, compile, MLComputePlan residency, then golden. Use the 16+8+6+2 topology only if residency and golden pass; do not use any NaN or non-ANE result, and do not clean up/delete artifacts or run energy benchmarking for this intent note.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

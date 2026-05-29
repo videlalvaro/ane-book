@@ -19,7 +19,7 @@ title: "Journal 094 - Phi-4-mini Real-Weight T=4 Verifier Intent"
 
 **Next**: Implement the one-layer real-weight `T=4` verifier shard, compare against four sequential single-token Phi calls, run strict MLComputePlan residency, and stop there unless both parity and ANE residency pass. Do not scale to all layers, do not benchmark performance/energy, and do not introduce private API or CPU/GPU compute fallback for this experiment.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

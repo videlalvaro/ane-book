@@ -21,7 +21,7 @@ title: "Journal 095 - Phi-4-mini Real-Weight T=4 Verifier Layer Passed"
 
 **Next**: Add `T=4` export plumbing for the production `20+4+6+2` topology, connect existing batch-4 LM-head shards, implement Swift speculative accept/reject, and prove exact token equality before any performance or energy claim.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

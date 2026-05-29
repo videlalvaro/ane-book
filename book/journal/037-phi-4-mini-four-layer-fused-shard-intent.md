@@ -19,7 +19,7 @@ title: "Journal 037 - Phi-4-mini Four-Layer Fused Shard Intent"
 
 **Next**: Build and compile only the layers [0,4) probe shard, then record strict residency results before considering golden validation or larger fused ranges.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

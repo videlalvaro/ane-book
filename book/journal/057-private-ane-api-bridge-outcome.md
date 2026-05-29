@@ -19,7 +19,7 @@ title: "Journal 057 - Private ANE API Bridge Outcome"
 
 **Next**: Follow the E5RT program-library handle toward operation/chaining surfaces for already-loaded CoreML models; keep public MLComputePlan residency and golden validation as acceptance gates before any performance claim.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

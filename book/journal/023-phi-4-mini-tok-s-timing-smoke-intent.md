@@ -9,7 +9,7 @@ title: "Journal 023 - Phi-4-mini Tok/s Timing Smoke Intent"
 
 **Intent**: Answer the user's “what's our current tok/s?” question by adding lightweight timing to the Swift prompt-ID runtime and running a bounded throughput smoke, following measurement-before-optimization discipline.
 
-**Setup**: Planned scope: instrument [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift) around the existing full-chain prompt-ID decode path; run a small bounded `--max-new` tok/s smoke using completed Phi-4-mini layer shards and 4 LM-head shards. Constraints: no tokenizer integration, no HF full-logit golden validation, no powermetrics/energy run, and no cleanup or deletion.
+**Setup**: Planned scope: instrument [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift) around the existing full-chain prompt-ID decode path; run a small bounded `--max-new` tok/s smoke using completed Phi-4-mini layer shards and 4 LM-head shards. Constraints: no tokenizer integration, no HF full-logit golden validation, no powermetrics/energy run, and no cleanup or deletion.
 
 **Result**: Intent recorded before implementation; tok/s, latency, energy, and validation numbers are pending.
 
@@ -19,7 +19,7 @@ title: "Journal 023 - Phi-4-mini Tok/s Timing Smoke Intent"
 
 **Next**: Add minimal timing, compile the Swift runtime, run the bounded tok/s smoke, and record the provisional throughput with caveats.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

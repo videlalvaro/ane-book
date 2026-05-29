@@ -19,7 +19,7 @@ title: "Journal 078 - Phi-4-mini Next Public Optimization Direction Intent"
 
 **Next**: Design the smallest representative gate for either `T>1` layer-shard inputs or hierarchical LM-head reduction; run strict ANE residency and golden quality before any broader build, runtime migration, performance claim, energy benchmark, cleanup, or deletion.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

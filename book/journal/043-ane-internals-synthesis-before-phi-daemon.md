@@ -7,7 +7,7 @@ title: "Journal 043 - ANE Internals Synthesis Before Phi Daemon"
 
 # 2026-04-28 - ANE Internals Synthesis Before Phi Daemon
 
-**Intent**: Analyze [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md) before starting Phi daemon work, to ground the next runtime direction in observed ANE compile/load/store/runtime architecture rather than process-name inference alone.
+**Intent**: Analyze [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md) before starting Phi daemon work, to ground the next runtime direction in observed ANE compile/load/store/runtime architecture rather than process-name inference alone.
 
 **Setup**: Planning/synthesis only. Source reviewed: external `ane-internals` README. Findings were saved to session/repo memory. No CoreML conversion, residency validation, golden validation, performance run, cleanup, deletion, or energy benchmark was performed.
 
@@ -19,7 +19,7 @@ title: "Journal 043 - ANE Internals Synthesis Before Phi Daemon"
 
 **Next**: Build a resident warm Phi daemon first, then probe ANE-side LM-head top-k/argmax because TopK/Reduction validators exist; keep private `_ANEClient`/XPC exploration separate as research.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

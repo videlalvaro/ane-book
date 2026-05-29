@@ -19,7 +19,7 @@ title: "Journal 093 - Phi T=4 Verifier Op-Pattern Probe Passed"
 
 **Next**: Add real Phi `--batch-tokens 4` layer conversion for a one-layer block verifier, then compare against four sequential single-token calls before scaling to the `20+4+6+2` verifier topology.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

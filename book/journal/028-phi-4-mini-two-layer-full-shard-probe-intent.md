@@ -19,7 +19,7 @@ title: "Journal 028 - Phi-4-mini Two-Layer Full-Shard Probe Intent"
 
 **Next**: Build the layers 0–2 INT8 full-shard probe in a separate output directory, run ANE residency and quality gates, and defer energy/powermetrics until those pass.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

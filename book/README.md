@@ -15,7 +15,7 @@ while porting real LLMs.
 This folder is configured as the source for the repository's GitHub Pages site.
 When Pages is enabled for the repository, the rendered book is available at:
 
-<https://videlalvaro.github.io/ane-models/>
+<https://videlalvaro.github.io/ane-book/>
 
 ## Chapters
 

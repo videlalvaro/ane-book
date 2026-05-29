@@ -19,7 +19,7 @@ title: "Journal 106 - Exp 35: ZAYA1-8B MoE INT4 Per-Grouped-Channel Palettizatio
 
 **Next**: Run ane-validator on L01 palettized shard; if 100% ANE, run golden-validator; if cosine ≥ 0.97, build all 40 MoE shards and benchmark decode tok/s vs. 8.59 tok/s INT8 baseline. If ANE residency fails, diagnose which ops fall back and decide between shape-tuning or abandoning this quant path.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

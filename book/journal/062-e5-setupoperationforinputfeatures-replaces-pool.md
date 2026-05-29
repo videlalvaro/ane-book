@@ -19,7 +19,7 @@ title: "Journal 062 - E5 setupOperationForInputFeatures Replaces Pool"
 
 **Next**: Remaining paths are raw E5RT below the ObjC wrapper or building one CoreML program/function containing fused ranges; do not spend more Phi chaining work on this ObjC setup surface.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

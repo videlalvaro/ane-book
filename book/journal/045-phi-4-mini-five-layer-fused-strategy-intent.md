@@ -19,7 +19,7 @@ title: "Journal 045 - Phi-4-mini Five-Layer Fused Strategy Intent"
 
 **Next**: Build/compile the remaining 5-layer ranges under local artifacts, then run strict residency and range golden for all ranges; do not delete/clean up artifacts and do not run energy benchmarking.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -7,7 +7,7 @@ title: "Journal 063 - Raw E5RT Two-Model Chain Breakthrough"
 
 # 2026-04-28 - Raw E5RT Two-Model Chain Breakthrough
 
-**Intent**: Prove true cross-model chaining inside one E5 execution stream by using raw E5RT encode hooks instead of public host roundtrips, following the validation-first notes measurement/validation discipline and the [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md) focus on stream-level ANE behavior.
+**Intent**: Prove true cross-model chaining inside one E5 execution stream by using raw E5RT encode hooks instead of public host roundtrips, following the validation-first notes measurement/validation discipline and the [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md) focus on stream-level ANE behavior.
 
 **Setup**: CoreML imports raw E5RT symbols from Espresso, including `e5rt_execution_stream_operation_prepare_op_for_encode` and `e5rt_execution_stream_encode_operation`. `e5_two_op_stream_probe` now `dlsym`s those symbols. Successful sequence: bind stage A input/output via ObjC operation private methods; bind stage A output feature/memory object into stage B input binder; bind stage B output; call raw E5RT prepare+encode for stage A and stage B operation handles into one stream; then call `MLE5ExecutionStream _executeStream:error`.
 
@@ -19,7 +19,7 @@ title: "Journal 063 - Raw E5RT Two-Model Chain Breakthrough"
 
 **Next**: Validate the same path on two Phi layer-range shards against the public host-roundtrip output, then profile hidden-state copy removal.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

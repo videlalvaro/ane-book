@@ -19,7 +19,7 @@ title: "Journal 018 - Phi-4-mini Remaining Layers 16–31 Run-Batches Intent"
 
 **Next**: Run the guarded remaining-layer command; do not run performance or energy benchmarking, and do not perform cleanup or deletion.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -19,7 +19,7 @@ title: "Journal 067 - Phi E5 Direct ObjC Event Bind Outcome"
 
 **Next**: Trace `prepareAsyncSubmissionForInputFeatures:options:error:` or the normal async path to see when future values are updated and when E5RT encode consumes event dependencies.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

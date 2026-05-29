@@ -19,7 +19,7 @@ title: "Journal 020 - Phi-4-mini LM Head Shard Builder Intent"
 
 **Next**: Implement the builder, compile and validate shard 0 residency first, then build and validate shards 1–3 only if shard 0 passes; do not run perf/energy benchmarking and do not clean up or delete artifacts.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

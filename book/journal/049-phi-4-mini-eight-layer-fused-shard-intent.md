@@ -19,7 +19,7 @@ title: "Journal 049 - Phi-4-mini Eight-Layer Fused Shard Intent"
 
 **Next**: Build/compile only [0,8) under local artifacts; run strict MLComputePlan residency and range golden; do not scale out, profile, benchmark energy, clean up, or delete artifacts until those gates pass.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

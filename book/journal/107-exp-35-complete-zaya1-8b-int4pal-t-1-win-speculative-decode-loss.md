@@ -19,7 +19,7 @@ title: "Journal 107 - Exp 35 COMPLETE: ZAYA1-8B INT4pal T=1 Win, Speculative Dec
 
 **Next**: INT4pal T=1 at 9.25 tok/s is the new ZAYA production baseline. Speculative decode on ZAYA requires sparse top-K routing or a different draft architecture — not pursued further on this model. Pivot to Gemma 4 T4.3 full-stack quality failure (Exp 36).
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

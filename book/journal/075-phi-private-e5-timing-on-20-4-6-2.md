@@ -19,7 +19,7 @@ title: "Journal 075 - Phi Private E5 Timing on 20+4+6+2"
 
 **Next**: Productize private E5 only if that extra `~0.4 tok/s` matters enough to justify private API complexity; otherwise keep optimizing public ANE topology and LM-head strategy.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

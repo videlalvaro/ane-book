@@ -19,7 +19,7 @@ title: "Journal 035 - Phi-4-mini Fused Runtime Migration Intent"
 
 **Next**: Implement fused manifest export and range-aware Swift runtime loading, compile, then run a bounded tok/s profile only; do not delete artifacts or run powermetrics.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

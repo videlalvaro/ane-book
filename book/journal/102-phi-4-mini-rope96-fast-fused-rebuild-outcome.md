@@ -19,7 +19,7 @@ title: "Journal 102 - Phi-4-mini Rope96 Fast Fused Rebuild Outcome"
 
 **Next**: Treat `phi4mini_runtime_meta_rope96_fast_20_4_6_2.json` and `phi4_mini_ane_runtime_rope96` as the current Rope96 fast public runtime baseline; future comparisons should use the default one-call warmup, preserve ANE residency and range-golden gates, and separate cold-start activation from warmed prefill/decode throughput.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md); [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md); [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift)
 
 ---
 

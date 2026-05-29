@@ -19,7 +19,7 @@ title: "Journal 068 - Phi E5 Second-Operation Boundary Narrowed"
 
 **Next**: Trace normal `prepareAsyncSubmissionForInputFeatures:options:error:` / `prepareForInputFeatures:options:error:` around a real Phi shard and compare operation state/handles before raw encode, especially state/inout memory object binding and dependency counts.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -19,7 +19,7 @@ title: "Journal 034 - Phi-4-mini Full 3-Layer Shard Strategy Validated"
 
 **Next**: Proceed to fused-shard manifest/runtime migration if desired; do not run energy benchmarking unless explicitly requested.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

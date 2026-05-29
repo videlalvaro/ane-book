@@ -19,7 +19,7 @@ title: "Journal 032 - Phi-4-mini Full 3-Layer Shard Strategy Validation Intent"
 
 **Next**: Run the full range validation only in the non-destructive probe directory; do not clean up/delete artifacts and do not run performance or energy benchmarking.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -19,7 +19,7 @@ title: "Journal 047 - Phi-4-mini Five- and Six-Layer Fusion Outcome"
 
 **Next**: Move the LM-head top-k/argmax path onto ANE to reduce the remaining ~5.1 ms/token head path; no deletion/cleanup and no energy benchmark were run.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

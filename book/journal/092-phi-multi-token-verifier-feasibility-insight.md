@@ -19,7 +19,7 @@ title: "Journal 092 - Phi Multi-Token Verifier Feasibility Insight"
 
 **Next**: Build the smallest representative `T=4` block layer shard and run strict ANE residency before scale; then run golden equivalence against four single-token steps and connect it to the already gated batch-4 LM head only if residency and quality pass.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

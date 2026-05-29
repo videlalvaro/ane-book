@@ -19,7 +19,7 @@ title: "Journal 110 - T4.1.5 CLOSED: Full 16-token decode exact match on all-FP1
 
 **Next**: T4 correctness is closed. The ANE chain primitive work (Rounds 2–3 in ANE_CHAIN_SCHEMA.md) — eliminating per-token shard reload overhead — is now the primary performance path. The 28.9 s/tok figure is the unoptimised correctness baseline to beat.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -19,7 +19,7 @@ title: "Journal 099 - Phi Full-Stack GGUF Reference Gate Blocks Q8 Chat"
 
 **Next**: Run an ANE-vs-reference layer trace on the real prompt to localize the drift; consider targeted FP16 or mixed rebuild only after localization, ANE residency, and full-stack quality gates pass. Do not run long conversions from this finding alone.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

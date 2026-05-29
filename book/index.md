@@ -31,4 +31,4 @@ By Alvaro Videla - [@old_sound](https://x.com/old_sound)
 ## Repository
 
 The source code, converters, Swift runtimes, validators, and model manifests live
-in the [ane-models repository](https://github.com/videlalvaro/ane-models).
+in the [ane-book repository](https://github.com/videlalvaro/ane-book).

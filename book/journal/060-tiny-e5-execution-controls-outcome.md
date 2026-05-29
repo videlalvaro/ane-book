@@ -19,7 +19,7 @@ title: "Journal 060 - Tiny E5 Execution Controls Outcome"
 
 **Next**: Search for the lower E5RT port-linking primitive before applying E5 chaining to Phi shards; keep broad dyld extraction deferred until disk headroom improves.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

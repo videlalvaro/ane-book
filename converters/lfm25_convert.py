@@ -49,7 +49,7 @@ Requirements:
   safetensors, torch, numpy
 
 Run:
-  TMPDIR=$PWD/ane-models/lfm25_ane/cml_tmp \\
+    TMPDIR=$PWD/ane-book/lfm25_ane/cml_tmp \\
   /Applications/Xcode.app/Contents/Developer/usr/bin/python3 \\
   converters/lfm25_convert.py \\
     --weights LiquidAI/LFM2.5-8B-A1B/model.safetensors \\

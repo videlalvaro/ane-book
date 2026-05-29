@@ -19,7 +19,7 @@ title: "Journal 079 - Phi LM-Head Top-K Shard Residency Failed"
 
 **Next**: Pivot to a batched LM-head projection shape probe instead of scaling this top-k artifact.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

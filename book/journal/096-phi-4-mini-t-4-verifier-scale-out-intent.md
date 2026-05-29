@@ -19,7 +19,7 @@ title: "Journal 096 - Phi-4-mini T=4 Verifier Scale-Out Intent"
 
 **Next**: Add the `T=4` multi-layer shard exporter and runtime manifest references; build/compile the smallest tail shard first; validate block-vs-sequential parity and strict MLComputePlan residency before any larger shard or full scale-out. Keep the path public CoreML only, with no private API and no CPU/GPU compute fallback.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

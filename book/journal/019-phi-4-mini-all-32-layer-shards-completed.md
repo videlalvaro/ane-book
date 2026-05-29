@@ -19,7 +19,7 @@ title: "Journal 019 - Phi-4-mini All 32 Layer Shards Completed"
 
 **Next**: No perf/energy benchmarking, no full-model runtime/golden logits, no LM head conversion, and no cleanup/deletion were performed; those remain separate gated steps.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

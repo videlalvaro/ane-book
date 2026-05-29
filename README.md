@@ -1,4 +1,4 @@
-# ane-models
+# ane-book
 
 **Production LLM inference on the Apple Neural Engine** — a practitioner's guide,
 complete with converters, Swift runtimes, and validated model manifests.
@@ -84,7 +84,7 @@ practitioners who want to port their own models to ANE:
 ## Repository Structure
 
 ```
-ane-models/
+ane-book/
 ├── book/           ← the porting guide (chapters 00–10)
 ├── converters/     ← Python scripts for GGUF → CoreML (Xcode python3)
 ├── runtime/        ← Swift inference runtimes

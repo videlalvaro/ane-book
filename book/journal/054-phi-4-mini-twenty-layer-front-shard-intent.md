@@ -19,7 +19,7 @@ title: "Journal 054 - Phi-4-mini Twenty-Layer Front Shard Intent"
 
 **Next**: Build/compile [0,20), run strict MLComputePlan residency, then run golden only if residency passes. If gates pass, consider profiling 20+4+6+2 using existing [20,24), [24,30), and [30,32) shards; do not clean up/delete artifacts or modify code for this note.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

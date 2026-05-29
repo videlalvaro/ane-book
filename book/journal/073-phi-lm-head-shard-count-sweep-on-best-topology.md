@@ -19,7 +19,7 @@ title: "Journal 073 - Phi LM-Head Shard Count Sweep on Best Topology"
 
 **Next**: Look for algorithmic LM-head reductions that preserve ANE-only heavy compute, such as hierarchical shortlist/projection schemes with golden quality gates, rather than more shard-count reshuffling.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

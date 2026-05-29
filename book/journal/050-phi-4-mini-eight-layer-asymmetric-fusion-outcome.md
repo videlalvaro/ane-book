@@ -19,7 +19,7 @@ title: "Journal 050 - Phi-4-mini Eight-Layer Asymmetric Fusion Outcome"
 
 **Next**: Probe larger front or middle ranges only behind strict residency and golden gates; keep the tail split because [24,32) cannot be used as an 8-layer fused shard due to NaN.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -19,7 +19,7 @@ title: "Journal 097 - Phi-4-mini T=4 Verifier Scale-Out Outcome"
 
 **Next**: Solve full-stack verifier parity or add an exactness guard before shipping any speculative runtime; do not treat the current `--speculative` path as final exact decode despite its measured suite speedup.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

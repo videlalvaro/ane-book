@@ -19,7 +19,7 @@ title: "Journal 084 - Phi Public Algorithmic Perf Direction Intent"
 
 **Next**: Implement only an opt-in proposal/accounting probe first: estimate n-gram/speculative/prompt-lookup acceptance potential and accounting overhead while leaving baseline greedy generation unchanged. The cleanup journal changes are currently uncommitted and should be committed with this work or separately.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

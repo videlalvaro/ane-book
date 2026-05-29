@@ -7,7 +7,7 @@ title: "Journal 026 - Phi-4-mini Lean ANE Runtime Optimization Outcome"
 
 # 2026-04-27 - Phi-4-mini Lean ANE Runtime Optimization Outcome
 
-**Intent**: Optimize [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift) for a leaner Phi-4-mini ANE runtime while preserving ANE-only heavy compute. Techniques followed the validation-first notes: Dragon Book allocation/strength reduction by hoisting and reusing `MLDictionaryFeatureProvider` and `MLFeatureValue` allocations outside the per-layer hot loop; Iverson/APL whole-array partitioning by treating the 4 LM-head shards as independent vocab slices; and Stepanov-style reduction by reducing 4 local argmaxes to one global argmax.
+**Intent**: Optimize [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift) for a leaner Phi-4-mini ANE runtime while preserving ANE-only heavy compute. Techniques followed the validation-first notes: Dragon Book allocation/strength reduction by hoisting and reusing `MLDictionaryFeatureProvider` and `MLFeatureValue` allocations outside the per-layer hot loop; Iverson/APL whole-array partitioning by treating the 4 LM-head shards as independent vocab slices; and Stepanov-style reduction by reducing 4 local argmaxes to one global argmax.
 
 **Setup**: Swift prompt-ID runtime with 32 ANE layer shards and 4 ANE LM-head shards. Host work remained limited to embedding lookup, RoPE/mask bookkeeping, and argmax/reduction. Per-token stdout was removed from the default hot path behind `--trace`. Compiled optimized runtime successfully with no diagnostics.
 
@@ -19,7 +19,7 @@ title: "Journal 026 - Phi-4-mini Lean ANE Runtime Optimization Outcome"
 
 **Next**: No powermetrics/energy benchmark, cleanup, or deletion was run; next step is a separate energy measurement and any further runtime changes should keep layer and LM-head compute on ANE.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

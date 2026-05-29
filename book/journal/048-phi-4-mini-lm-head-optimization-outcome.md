@@ -19,7 +19,7 @@ title: "Journal 048 - Phi-4-mini LM-Head Optimization Outcome"
 
 **Next**: True ANE-resident reduction/top-k needs a different CoreML op pattern because `torch.topk` lowers to CPU here; otherwise the next likely avenues are reducing LM-head projection size or avoiding a full head on every token via vocabulary, routing, or speculative approaches, all behind residency and golden quality gates.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

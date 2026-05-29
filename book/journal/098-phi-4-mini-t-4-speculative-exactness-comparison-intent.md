@@ -19,7 +19,7 @@ title: "Journal 098 - Phi-4-mini T=4 Speculative Exactness Comparison Intent"
 
 **Next**: Run side-by-side prompt-suite comparisons for `T=4`-only versus hybrid exact-prefill plus `T=4` decode, add the exact-check diagnostic if needed, and record exact-match rates, first-divergence positions, and throughput deltas without deleting artifacts.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

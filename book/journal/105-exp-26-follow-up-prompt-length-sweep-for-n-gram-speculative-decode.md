@@ -28,7 +28,7 @@ Prefill stable at ~70 tok/s across all lengths (T=4 chunked path scales cleanly)
 
 **Next**: Extend the sweep to 1200–2048 tokens to find the saturation knee; instrument per-call draft acceptance count to close the measured-vs-simulated ceiling gap; if the curve has not flattened by 2048 tokens, revisit the Exp 23 upper-bound simulation assumptions.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

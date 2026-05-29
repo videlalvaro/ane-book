@@ -19,7 +19,7 @@ title: "Journal 016 - Phi-4-mini Layers 12–15 Run-Batches Intent"
 
 **Next**: Run only layers 12–15 through the guarded batch; do not run performance or energy tests, and do not clean up or delete artifacts.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

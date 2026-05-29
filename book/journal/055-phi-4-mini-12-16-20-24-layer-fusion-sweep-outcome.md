@@ -19,7 +19,7 @@ title: "Journal 055 - Phi-4-mini 12/16/20/24-Layer Fusion Sweep Outcome"
 
 **Next**: Treat 16+8+6+2 as the current runtime baseline for future comparisons; do not use [0,24) or any CPU-placed fused shard, and keep subsequent optimization behind strict residency plus golden validation.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

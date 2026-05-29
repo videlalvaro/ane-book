@@ -19,7 +19,7 @@ title: "Journal 033 - LLM.int8() ANE Conv2D Adaptation Review Intent"
 
 **Next**: Read arXiv:2208.07339, map its vector-wise and outlier decomposition steps onto the repository's Conv2D(1x1) conversion constraints, identify a smallest representative ANE residency probe if promising, and keep the work analysis-only until a separate gated implementation intent is approved.
 
-**Refs**: [arXiv:2208.07339](https://arxiv.org/abs/2208.07339); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [arXiv:2208.07339](https://arxiv.org/abs/2208.07339); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

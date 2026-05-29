@@ -7,7 +7,7 @@ title: "Journal 112 - INT4 Palettize L0 FFN Probe: All Gates Pass"
 
 # 2026-05-14 - INT4 Palettize L0 FFN Probe: All Gates Pass
 
-**Intent**: Test whether INT4 per-grouped-channel palettization (`constexpr_lut_to_dense`, nbits=4, k-means, group_size=32) lands on ANE and meets the 0.97 cosine quality gate. This path is explicitly distinct from the previously-failed linear INT4 per-block path (`constexpr_blockwise_shift_scale`), which causes GPU fallback. The distinction is critical: LUT palettization bakes cluster centroids into the model at export time; block-wise shift-scale relies on runtime dequant that the ANE compiler cannot fuse. Prior failure documented in docs/INT4_SHARD_ANE_BUG.md; new path documented in [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md). Motivation: 75% compression vs FP16 baseline would cut the ~250 MB shard limit impact and reduce external scratch storage storage for the 30-layer × 8-shard matrix. Reference: the validation-first notes (validate representative sample before scale-out).
+**Intent**: Test whether INT4 per-grouped-channel palettization (`constexpr_lut_to_dense`, nbits=4, k-means, group_size=32) lands on ANE and meets the 0.97 cosine quality gate. This path is explicitly distinct from the previously-failed linear INT4 per-block path (`constexpr_blockwise_shift_scale`), which causes GPU fallback. The distinction is critical: LUT palettization bakes cluster centroids into the model at export time; block-wise shift-scale relies on runtime dequant that the ANE compiler cannot fuse. Prior failure documented in docs/INT4_SHARD_ANE_BUG.md; new path documented in [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md). Motivation: 75% compression vs FP16 baseline would cut the ~250 MB shard limit impact and reduce external scratch storage storage for the 30-layer × 8-shard matrix. Reference: the validation-first notes (validate representative sample before scale-out).
 
 **Setup**: Scope: L0 FFN only (8 shards: p0–p6 + p7/last+combiner). Quant: `constexpr_lut_to_dense`, nbits=4, k-means, group_size=32 (`coremltools.optimize.coreml.palettize_weights`). Residency check: `MLComputePlan.load_from_path`, `CPU_AND_NE` target. Quality check: 5 unit-norm random seeds vs FP16 reference, shard p0of8, cosine similarity. Env: Xcode `python3` (coremltools 9 only — not `.venv` or `.venv313`). Artifacts: `external scratch storage:<external-scratch>/local model weights` with suffix `_q4_pal`.
 
@@ -19,7 +19,7 @@ title: "Journal 112 - INT4 Palettize L0 FFN Probe: All Gates Pass"
 
 **Next**: Await scale-out completion (~30 layers × 8 shards). Then run full-stack end-to-end quality gate vs helper script (cosine ≥ 0.97 at model level). If end-to-end gate passes, INT4pal becomes the new production baseline for Gemma shards, replacing FP16 and INT8 per-tensor.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

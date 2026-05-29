@@ -19,7 +19,7 @@ title: "Journal 103 - Hy-MT1.5 2-bit GGUF ANE Conversion Intent"
 
 **Next**: Inspect repo converter support for `hunyuan-dense`; download or identify the GGUF only if the path is plausible; run analyze/plan on the smallest representative shape if supported; then convert through strict ANE residency and golden gates before any scale-out or performance claim.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

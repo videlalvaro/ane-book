@@ -19,7 +19,7 @@ title: "Journal 089 - Structured CoT Phi/ANE Applicability Decision"
 
 **Next**: Prototype a tokenizer-aware grammar manifest plus constrained argmax in `phi4_mini_ane.swift`; measure unconstrained vs grammar-constrained on the code-shaped prompt suite before building any larger harness.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

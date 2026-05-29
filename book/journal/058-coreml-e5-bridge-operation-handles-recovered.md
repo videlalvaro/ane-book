@@ -19,7 +19,7 @@ title: "Journal 058 - CoreML E5 Bridge Operation Handles Recovered"
 
 **Next**: Construct or borrow an `MLE5ExecutionStream` containing two operations and bind stage A `hidden` output directly to stage B `x` input without `MLMultiArray` host materialization; keep public residency and golden gates as acceptance checks before any performance claim.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

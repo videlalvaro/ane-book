@@ -19,7 +19,7 @@ title: "Journal 074 - Phi Long-Decode Topology Baseline Moves to 20+4+6+2"
 
 **Next**: Use `phi4mini_runtime_meta_20_4_6_2.json` for further public-runtime comparisons, and keep `[0,24)` rejected unless compiler behavior changes.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

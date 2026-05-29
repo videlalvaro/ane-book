@@ -19,7 +19,7 @@ title: "Journal 059 - CoreML E5 Two-Operation Stream Binder Outcome"
 
 **Next**: Run an execution test on a tiny two-model graph with the forced binder state before any full Phi chaining, performance claim, cleanup, deletion, or scale-out.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

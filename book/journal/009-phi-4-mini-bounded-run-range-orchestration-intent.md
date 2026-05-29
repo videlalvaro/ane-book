@@ -19,7 +19,7 @@ title: "Journal 009 - Phi-4-mini Bounded Run-Range Orchestration Intent"
 
 **Next**: Implement the `run-range` stage in the Phi orchestration script without changing other files or running heavyweight stages.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

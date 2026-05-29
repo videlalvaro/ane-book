@@ -19,7 +19,7 @@ title: "Journal 069 - Phi E5 Raw Memory Bridge Breakthrough"
 
 **Next**: Generalize the two-op probe to an N-op private Phi chain for the full `16+8+6+2` topology, then profile latency/energy against the public CoreML runtime. Keep public CoreML as the correctness reference.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

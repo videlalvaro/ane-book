@@ -34,7 +34,7 @@ title: "Journal 109 - T4.3 CLOSED: All-FP16 ANE inference passes golden gate"
 
 **Next:** ANE residency probe on one rebuilt FFN shard (project policy: `ane-validator` gate before scale-out). Then INT4 palettization investigation as next compression path.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

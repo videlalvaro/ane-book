@@ -19,7 +19,7 @@ title: "Journal 039 - Phi-4-mini Four-Layer Fused Shard Golden Passed"
 
 **Next**: Validate representative or all 4-layer ranges before migrating the runtime; do not run energy benchmarking until residency and quality gates hold across that broader set.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

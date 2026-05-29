@@ -19,7 +19,7 @@ title: "Journal 031 - Phi-4-mini Three-Layer Full-Shard Probe Passed"
 
 **Next**: Validate 3-layer shards across all layer ranges before any scale-out/perf/energy claim; keep cleanup/deletion out of this probe path.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

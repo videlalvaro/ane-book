@@ -19,7 +19,7 @@ title: "Journal 072 - Phi-4-mini Partial-RoPE Root Cause Intent"
 
 **Next**: Run only the approved layer-0 rebuild probe in a a new temporary directory, then compile and run golden plus strict residency gates before considering broader rebuilds; do not clean up or delete existing artifacts as part of this note.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

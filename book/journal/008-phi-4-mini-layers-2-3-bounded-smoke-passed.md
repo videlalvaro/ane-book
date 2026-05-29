@@ -19,7 +19,7 @@ title: "Journal 008 - Phi-4-mini Layers 2–3 Bounded Smoke Passed"
 
 **Next**: No full conversion, perf, energy, or cleanup was run; proceed only through the gated scale-out flow.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

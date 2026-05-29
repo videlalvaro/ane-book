@@ -19,7 +19,7 @@ title: "Journal 061 - E5 Binder Timing Controls Outcome"
 
 **Next**: Search below the prepared stream boundary for an E5RT setup or port-link primitive that can connect output and input ports before encoding; do not apply the post-hoc binder path to Phi shards.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

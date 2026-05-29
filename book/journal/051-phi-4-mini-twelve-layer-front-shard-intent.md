@@ -19,7 +19,7 @@ title: "Journal 051 - Phi-4-mini Twelve-Layer Front Shard Intent"
 
 **Next**: Gate order is build/compile [0,12), run strict MLComputePlan residency, then run range golden; only if those pass consider [12,24) and an asymmetric 12+12+6+2 manifest. Do not run profiling, energy benchmarking, cleanup, deletion, or code changes before the gates pass.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

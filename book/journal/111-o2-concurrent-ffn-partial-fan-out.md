@@ -19,7 +19,7 @@ title: "Journal 111 - O2: Concurrent FFN Partial Fan-Out"
 
 **Next**: Confirm correctness (cosine vs FP16 reference) once disk headroom is cleared. If ANE does not internally parallelise concurrent `MLModel.prediction()` calls, the next step is to measure wall-clock delta vs sequential baseline to quantify the actual scheduling gain.
 
-**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 

@@ -9,11 +9,11 @@ title: "Journal 090 - Phi Structured CoT Runtime Slice Implemented"
 
 **Intent**: Ship a minimal public Phi-4-mini structured-decoding feature quickly, without touching model artifacts or the default greedy path.
 
-**Setup**: Added helper script, generated local artifacts, and wired `--structured-cot` / `--structured-cot-manifest` into [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift).
+**Setup**: Added helper script, generated local artifacts, and wired `--structured-cot` / `--structured-cot-manifest` into [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift).
 
 **Result**: Runtime now supports a tokenizer-aware FSM with literal, field, and open stages. Literal stages force exact token IDs and skip LM-head prediction while still running the ANE layer stack for KV correctness. Field stages use constrained argmax and block stop tokens until newline is allowed or forced by budget. JSONL serve can also request `structured_cot` when a manifest is loaded.
 
-**Validation**: `swiftc -O -c [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift) -o temporary output -framework CoreML -framework Foundation` passed; `.venv/bin/python -m py_compile helper script` passed. Built local artifacts and ran `--meta local artifacts --max-new 16 --structured-cot --profile` successfully.
+**Validation**: `swiftc -O -c [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift) -o temporary output -framework CoreML -framework Foundation` passed; `.venv/bin/python -m py_compile helper script` passed. Built local artifacts and ran `--meta local artifacts --max-new 16 --structured-cot --profile` successfully.
 
 **Smoke numbers**: `decode_tok_s=16.609`, `layers_ms=56.151`, `head_predict_reduce_ms=4.049`, `forced_tokens=6`, `field_content_tokens=10`, `fields_completed=0` in the short budget.
 
@@ -21,7 +21,7 @@ title: "Journal 090 - Phi Structured CoT Runtime Slice Implemented"
 
 **Next**: Run a longer coding-prompt suite that reaches `CODE:` and compare unconstrained vs structured mode on total tokens, code extraction, syntax/pass proxies, and energy per solved task.
 
-**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-models/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-models/blob/main/research/ANE_CHAIN_SCHEMA.md)
+**Refs**: [runtime/phi4_mini_ane.swift](https://github.com/videlalvaro/ane-book/blob/main/runtime/phi4_mini_ane.swift); [research/ANE_CHAIN_SCHEMA.md](https://github.com/videlalvaro/ane-book/blob/main/research/ANE_CHAIN_SCHEMA.md)
 
 ---
 
